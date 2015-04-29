@@ -4,6 +4,15 @@ $config = [
     'id' => 'app',
     'defaultRoute' => 'base/default/index',
     'components' => [
+        'user' => [
+            'identityClass' => 'app\modules\user\models\User',
+            'loginUrl' => ['user/default/login'],
+            'enableAutoLogin' => true,
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'cache' => 'cache',
+        ],
         'errorHandler' => [
             'errorAction' => 'base/default/error',
         ],

@@ -24,15 +24,6 @@ return [
             'class' => 'yii\db\Connection',
             'charset' => 'utf8',
         ],
-        'user' => [
-            'identityClass' => 'app\modules\user\models\User',
-            'loginUrl' => ['user/default/login'],
-            'enableAutoLogin' => true,
-        ],
-        'authManager' => [
-            'class' => 'yii\rbac\DbManager',
-            'cache' => 'cache',
-        ],
         'cache' => [
             'class' => 'yii\caching\DummyCache',
         ],
