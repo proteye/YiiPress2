@@ -36,12 +36,12 @@ AppAsset::register($this);
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
                     ['label' => 'Home', 'url' => ['/']],
-                    ['label' => 'About', 'url' => ['/base/default/about']],
-                    ['label' => 'Contact', 'url' => ['/base/contact/index']],
+                    ['label' => 'About', 'url' => ['/core/core/about']],
+                    ['label' => 'Contact', 'url' => ['/core/contact/index']],
                     Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/user/default/login']] :
+                        ['label' => 'Login', 'url' => ['/user/user/login']] :
                         ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                            'url' => ['/user/default/logout'],
+                            'url' => ['/user/user/logout'],
                             'linkOptions' => ['data-method' => 'post']],
                 ],
             ]);

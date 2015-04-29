@@ -2,15 +2,15 @@
 
 $config = [
     'id' => 'app',
-    'defaultRoute' => 'base/default/index',
+    'defaultRoute' => 'core/core/index',
     'components' => [
         'user' => [
             'identityClass' => 'app\modules\user\models\User',
-            'loginUrl' => ['user/default/login'],
+            'loginUrl' => ['user/user/login'],
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
-            'errorAction' => 'base/default/error',
+            'errorAction' => 'core/core/error',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

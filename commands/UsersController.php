@@ -7,7 +7,7 @@ use yii\console\Controller;
 use yii\console\Exception;
 use yii\helpers\Console;
  
-class UserController extends Controller
+class UsersController extends Controller
 {
     public function actionIndex()
     {

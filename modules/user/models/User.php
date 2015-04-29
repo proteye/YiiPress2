@@ -3,7 +3,7 @@
 namespace app\modules\user\models;
 
 use Yii;
-use app\modules\base\models\BaseModel;
+use app\modules\core\models\CoreModel;
 use yii\web\IdentityInterface;
 use yii\behaviors\TimestampBehavior;
 use yii\base\NotSupportedException;
@@ -22,7 +22,7 @@ use yii\base\NotSupportedException;
  * @property integer $updated_at
  * @property string $password write-only password
  */
-class User extends BaseModel implements IdentityInterface
+class User extends CoreModel implements IdentityInterface
 {
     const STATUS_BLOCKED = 0;
     const STATUS_ACTIVE = 1;
