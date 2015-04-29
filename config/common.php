@@ -24,6 +24,10 @@ return [
             'class' => 'yii\db\Connection',
             'charset' => 'utf8',
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'cache' => 'cache',
+        ],
         'cache' => [
             'class' => 'yii\caching\DummyCache',
         ],

@@ -9,10 +9,6 @@ $config = [
             'loginUrl' => ['user/default/login'],
             'enableAutoLogin' => true,
         ],
-        'authManager' => [
-            'class' => 'yii\rbac\DbManager',
-            'cache' => 'cache',
-        ],
         'errorHandler' => [
             'errorAction' => 'base/default/error',
         ],
