@@ -17,6 +17,9 @@ return [
         'user' => [
             'class' => 'app\modules\user\Module',
         ],
+        'blog' => [
+            'class' => 'app\modules\blog\Module',
+        ],
     ],
     'components' => [
         'db' => [

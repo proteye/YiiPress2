@@ -41,7 +41,7 @@ class m150424_114707_user_init extends Migration
         ], $tableOptions);
 
         $this->addPrimaryKey('pk_user_meta', '{{%user_meta}}', ['user_id', 'meta_key']);
-        $this->addForeignKey('fk_user_meta_user', '{{%user_meta}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_user_meta_user_id', '{{%user_meta}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
         $this->createIndex('idx_user_meta_user_id_meta_key', '{{%user_meta}}', ['user_id', 'meta_key'], true);
     }
 
