@@ -63,19 +63,19 @@ class Category extends \app\modules\core\models\CoreModel
     {
         return [
             'id' => 'ID',
-            'parent_id' => 'Parent ID',
-            'lang' => 'Lang',
-            'alias' => 'Alias',
-            'name' => 'Name',
-            'short_description' => 'Short Description',
-            'description' => 'Description',
-            'image' => 'Image',
+            'parent_id' => 'Родитель',
+            'lang' => 'Язые',
+            'alias' => 'Алиас',
+            'name' => 'Название',
+            'short_description' => 'Короткое описание',
+            'description' => 'Описание',
+            'image' => 'Изображение',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'meta_title' => 'Meta Title',
-            'meta_keywords' => 'Meta Keywords',
-            'meta_description' => 'Meta Description',
-            'status' => 'Status',
+            'meta_title' => 'SEO Title',
+            'meta_keywords' => 'SEO Keywords',
+            'meta_description' => 'SEO Description',
+            'status' => 'Статус',
         ];
     }
 
