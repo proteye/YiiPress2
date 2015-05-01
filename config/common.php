@@ -11,14 +11,29 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'modules' => [
-        'core' => [
-            'class' => 'app\modules\core\Module',
-        ],
         'user' => [
             'class' => 'app\modules\user\Module',
         ],
+        'core' => [
+            'class' => 'app\modules\core\Module',
+        ],
+        'category' => [
+            'class' => 'app\modules\category\Module',
+        ],
+        'menu' => [
+            'class' => 'app\modules\menu\Module',
+        ],
+        'image' => [
+            'class' => 'app\modules\image\Module',
+        ],
+        'page' => [
+            'class' => 'app\modules\page\Module',
+        ],
         'blog' => [
             'class' => 'app\modules\blog\Module',
+        ],
+        'comment' => [
+            'class' => 'app\modules\comment\Module',
         ],
     ],
     'components' => [

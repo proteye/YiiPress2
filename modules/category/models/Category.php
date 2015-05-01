@@ -64,7 +64,7 @@ class Category extends \app\modules\core\models\CoreModel
         return [
             'id' => 'ID',
             'parent_id' => 'Родитель',
-            'lang' => 'Язые',
+            'lang' => 'Язык',
             'alias' => 'Алиас',
             'name' => 'Название',
             'short_description' => 'Короткое описание',

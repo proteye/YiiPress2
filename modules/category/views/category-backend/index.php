@@ -1,12 +1,47 @@
-<div class="category-default-index">
-    <h1><?= $this->context->action->uniqueId ?></h1>
+<?php
+
+use yii\helpers\Html;
+use yii\grid\GridView;
+
+/* @var $this yii\web\View */
+/* @var $searchModel app\modules\category\models\CategorySearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = 'Categories';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="category-index">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
     <p>
-        This is the view content for action "<?= $this->context->action->id ?>".
-        The action belongs to the controller "<?= get_class($this->context) ?>"
-        in the "<?= $this->context->module->id ?>" module.
+        <?= Html::a('Create Category', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <p>
-        You may customize this page by editing the following file:<br>
-        <code><?= __FILE__ ?></code>
-    </p>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'id',
+            'parent_id',
+            'lang',
+            'alias',
+            'name',
+            // 'short_description',
+            // 'description:ntext',
+            // 'image',
+            // 'created_at',
+            // 'updated_at',
+            // 'meta_title',
+            // 'meta_keywords',
+            // 'meta_description',
+            // 'status',
+
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
+
 </div>
