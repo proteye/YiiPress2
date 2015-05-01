@@ -40,6 +40,7 @@ class m150501_141825_page_init extends Migration
         $this->createIndex('idx_page_category_id', '{{%page}}', 'category_id');
         $this->createIndex('idx_page_sort', '{{%page}}', 'sort');
         $this->addForeignKey('fk_page_category_id', '{{%page}}', 'category_id', '{{%category}}', 'id', 'SET NULL', 'NO ACTION');
+        $this->addForeignKey('fk_page_parent_id', '{{%page}}', 'parent_id', '{{%page}}', 'id', 'SET NULL', 'NO ACTION');
         $this->addForeignKey('fk_page_create_user_id', '{{%page}}', 'create_user_id', '{{%user}}', 'id', 'SET NULL', 'NO ACTION');
         $this->addForeignKey('fk_page_update_user_id', '{{%page}}', 'update_user_id', '{{%user}}', 'id', 'SET NULL', 'NO ACTION');
     }
