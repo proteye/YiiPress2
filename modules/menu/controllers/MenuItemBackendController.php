@@ -3,16 +3,16 @@
 namespace app\modules\menu\controllers;
 
 use Yii;
-use app\modules\menu\models\Menu;
-use app\modules\menu\models\MenuSearch;
+use app\modules\menu\models\MenuItem;
+use app\modules\menu\models\MenuItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * MenuBackendController implements the CRUD actions for Menu model.
+ * MenuItemBackendController implements the CRUD actions for MenuItem model.
  */
-class MenuBackendController extends Controller
+class MenuItemBackendController extends Controller
 {
     public function behaviors()
     {
@@ -27,12 +27,12 @@ class MenuBackendController extends Controller
     }
 
     /**
-     * Lists all Menu models.
+     * Lists all MenuItem models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new MenuSearch();
+        $searchModel = new MenuItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,7 +42,7 @@ class MenuBackendController extends Controller
     }
 
     /**
-     * Displays a single Menu model.
+     * Displays a single MenuItem model.
      * @param integer $id
      * @return mixed
      */
@@ -54,13 +54,13 @@ class MenuBackendController extends Controller
     }
 
     /**
-     * Creates a new Menu model.
+     * Creates a new MenuItem model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Menu();
+        $model = new MenuItem();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -72,7 +72,7 @@ class MenuBackendController extends Controller
     }
 
     /**
-     * Updates an existing Menu model.
+     * Updates an existing MenuItem model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -91,7 +91,7 @@ class MenuBackendController extends Controller
     }
 
     /**
-     * Deletes an existing Menu model.
+     * Deletes an existing MenuItem model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -104,15 +104,15 @@ class MenuBackendController extends Controller
     }
 
     /**
-     * Finds the Menu model based on its primary key value.
+     * Finds the MenuItem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Menu the loaded model
+     * @return MenuItem the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Menu::findOne($id)) !== null) {
+        if (($model = MenuItem::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
