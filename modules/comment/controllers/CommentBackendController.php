@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\blog\controllers;
+namespace app\modules\comment\controllers;
 
 use yii\web\Controller;
 
-class BlogBackendController extends Controller
+class CommentBackendController extends Controller
 {
     public function actionIndex()
     {

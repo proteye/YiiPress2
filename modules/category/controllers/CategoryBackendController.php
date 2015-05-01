@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\blog\controllers;
+namespace app\modules\category\controllers;
 
 use yii\web\Controller;
 
-class BlogBackendController extends Controller
+class CategoryBackendController extends Controller
 {
     public function actionIndex()
     {

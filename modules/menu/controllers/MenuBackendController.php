@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\blog\controllers;
+namespace app\modules\menu\controllers;
 
 use yii\web\Controller;
 
-class BlogBackendController extends Controller
+class MenuBackendController extends Controller
 {
     public function actionIndex()
     {
