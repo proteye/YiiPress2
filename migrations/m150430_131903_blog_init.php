@@ -12,7 +12,7 @@ class m150430_131903_blog_init extends Migration
         /* Post */
         $this->createTable('{{%post}}', [
             'id' => Schema::TYPE_PK,
-            'category_id' => Schema::TYPE_INTEGER,
+            'category_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'lang' => Schema::TYPE_STRING . '(2)',
             'url' => Schema::TYPE_STRING . '(160) NOT NULL',
             'title' => Schema::TYPE_STRING . '(255) NOT NULL',
@@ -43,6 +43,7 @@ class m150430_131903_blog_init extends Migration
         $this->createIndex('idx_post_access_type', '{{%post}}', 'access_type');
         $this->createIndex('idx_post_comment_status', '{{%post}}', 'comment_status');
         $this->createIndex('idx_post_status', '{{%post}}', 'status');
+        $this->addForeignKey('fk_post_category_id', '{{%post}}', 'category_id', '{{%category}}', 'id', 'SET NULL', 'NO ACTION');
 
         /* Tag */
         $this->createTable('{{%tag}}', [
