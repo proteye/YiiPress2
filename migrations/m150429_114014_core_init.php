@@ -22,6 +22,9 @@ class m150429_114014_core_init extends Migration
 
         $this->addPrimaryKey('pk_setting', '{{%setting}}', ['module_id', 'param_key']);
         $this->createIndex('idx_setting_module_id_param_key', '{{%setting}}', ['module_id', 'param_key'], true);
+        $this->createIndex('idx_setting_module_id', '{{%setting}}', 'module_id');
+        $this->createIndex('idx_setting_param_key', '{{%setting}}', 'param_key');
+        $this->addForeignKey('fk_setting_user_id', '{{%setting}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'NO ACTION');
     }
 
     public function down()
