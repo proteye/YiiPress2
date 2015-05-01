@@ -45,10 +45,10 @@ class Menu extends \app\modules\core\models\CoreModel
     {
         return [
             'id' => 'ID',
-            'alias' => 'Alias',
-            'name' => 'Name',
-            'description' => 'Description',
-            'status' => 'Status',
+            'alias' => 'Алиас',
+            'name' => 'Название',
+            'description' => 'Описание',
+            'status' => 'Статус',
         ];
     }
 
