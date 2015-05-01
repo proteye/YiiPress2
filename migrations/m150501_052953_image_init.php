@@ -21,7 +21,8 @@ class m150501_052953_image_init extends Migration
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'user_id' => Schema::TYPE_INTEGER,
-            'type' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+            'sort' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 1',
+            'type' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 0',
             'status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 1',
         ], $tableOptions);
 
