@@ -3,6 +3,7 @@
 namespace app\modules\blog\models;
 
 use Yii;
+use app\modules\category\models\Category;
 
 /**
  * This is the model class for table "{{%post}}".
@@ -69,26 +70,26 @@ class Post extends \app\modules\core\models\CoreModel
     {
         return [
             'id' => 'ID',
-            'category_id' => 'Category ID',
-            'lang' => 'Lang',
-            'url' => 'Url',
-            'title' => 'Title',
-            'quote' => 'Quote',
-            'content' => 'Content',
-            'image' => 'Image',
-            'create_user_id' => 'Create User ID',
-            'update_user_id' => 'Update User ID',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'published_at' => 'Published At',
-            'create_user_ip' => 'Create User Ip',
-            'link' => 'Link',
-            'meta_title' => 'Meta Title',
-            'meta_keywords' => 'Meta Keywords',
-            'meta_description' => 'Meta Description',
-            'access_type' => 'Access Type',
-            'comment_status' => 'Comment Status',
-            'status' => 'Status',
+            'category_id' => 'Категория',
+            'lang' => 'Язык',
+            'url' => 'URL',
+            'title' => 'Заголовок',
+            'quote' => 'Цитата',
+            'content' => 'Текст',
+            'image' => 'Изображение',
+            'create_user_id' => 'Создал',
+            'update_user_id' => 'Обновил',
+            'created_at' => 'Дата создания',
+            'updated_at' => 'Дата обновления',
+            'published_at' => 'Дата',
+            'create_user_ip' => 'Create User IP',
+            'link' => 'Ссылка',
+            'meta_title' => 'SEO Title',
+            'meta_keywords' => 'SEO Keywords',
+            'meta_description' => 'SEO Description',
+            'access_type' => 'Доступ',
+            'comment_status' => 'Комментарии',
+            'status' => 'Статус',
         ];
     }
 

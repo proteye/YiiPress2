@@ -44,8 +44,8 @@ class Tag extends \app\modules\core\models\CoreModel
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'url' => 'Url',
+            'title' => 'Тег',
+            'url' => 'URL',
         ];
     }
 

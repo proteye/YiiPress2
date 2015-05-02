@@ -40,8 +40,8 @@ class PostTag extends \app\modules\core\models\CoreModel
     public function attributeLabels()
     {
         return [
-            'post_id' => 'Post ID',
-            'tag_id' => 'Tag ID',
+            'post_id' => 'Запись',
+            'tag_id' => 'Тег',
         ];
     }
 
