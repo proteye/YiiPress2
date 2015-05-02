@@ -3,6 +3,9 @@
 namespace app\modules\category\models;
 
 use Yii;
+use app\modules\image\models\Image;
+use app\modules\page\models\Page;
+use app\modules\blog\models\Post;
 
 /**
  * This is the model class for table "{{%category}}".
