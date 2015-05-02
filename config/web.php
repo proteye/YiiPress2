@@ -2,7 +2,7 @@
 
 $config = [
     'id' => 'app',
-    'defaultRoute' => 'core/core/index',
+    'defaultRoute' => 'core/core-frontend/index',
     'components' => [
         'user' => [
             'identityClass' => 'app\modules\user\models\User',
@@ -10,7 +10,7 @@ $config = [
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
-            'errorAction' => 'core/core/error',
+            'errorAction' => 'core/core-frontend/error',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

@@ -60,9 +60,9 @@ return [
             'showScriptName' => false,
             'enableStrictParsing' => true,
             'rules' => [
-                ''                                                                                   => 'core/core/index',
+                ''                                                                                   => 'core/core-frontend/index',
                 'contact'                                                                            => 'core/contact/index',
-                '<action:(about)>'                                                                   => 'core/core/<action>',
+                '<action:(about)>'                                                                   => 'core/core-frontend/<action>',
                 '<action:(login|logout|signup|confirm-email|request-password-reset|reset-password)>' => 'user/user/<action>',
                 '<module:\w+>/<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>'                        => '<module>/<controller>/<action>',
                 '<module:\w+>/<controller:[\w\-]+>/<action:[\w\-]+>'                                 => '<module>/<controller>/<action>',

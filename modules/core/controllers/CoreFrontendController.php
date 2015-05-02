@@ -7,7 +7,7 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
-class CoreController extends Controller
+class CoreFrontendController extends Controller
 {
     public function behaviors()
     {
