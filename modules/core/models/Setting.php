@@ -61,13 +61,13 @@ class Setting extends CoreModel
     public function attributeLabels()
     {
         return [
-            'module_id' => 'Module ID',
-            'param_key' => 'Param Key',
-            'param_value' => 'Param Value',
-            'user_id' => 'User ID',
+            'module_id' => 'Модуль',
+            'param_key' => 'Параметр',
+            'param_value' => 'Значение',
+            'user_id' => 'Пользователь',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'type' => 'Type',
+            'type' => 'Тип',
         ];
     }
 }
