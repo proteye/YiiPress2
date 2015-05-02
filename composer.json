@@ -20,7 +20,8 @@
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-jui": "*",
         "yiisoft/yii2-imagine": "*",
-	"creocoder/yii2-nested-sets": "*"
+	"creocoder/yii2-nested-sets": "*",
+	"kartik-v/yii2-icons": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
