@@ -3,6 +3,7 @@
 namespace app\modules\comment\models;
 
 use Yii;
+use app\modules\user\models\User;
 
 /**
  * This is the model class for table "{{%comment}}".
@@ -59,17 +60,17 @@ class Comment extends \app\modules\core\models\CoreModel
     {
         return [
             'id' => 'ID',
-            'parent_id' => 'Parent ID',
-            'user_id' => 'User ID',
-            'model' => 'Model',
-            'model_id' => 'Model ID',
-            'url' => 'Url',
-            'name' => 'Name',
+            'parent_id' => 'Родитель',
+            'user_id' => 'Пользователь',
+            'model' => 'Модель',
+            'model_id' => 'ID модели',
+            'url' => 'URL',
+            'name' => 'Имя',
             'email' => 'Email',
-            'text' => 'Text',
-            'created_at' => 'Created At',
-            'user_ip' => 'User Ip',
-            'status' => 'Status',
+            'text' => 'Комментарий',
+            'created_at' => 'Дата создания',
+            'user_ip' => 'User IP',
+            'status' => 'Статус',
             'tree' => 'Tree',
             'lft' => 'Lft',
             'rgt' => 'Rgt',
