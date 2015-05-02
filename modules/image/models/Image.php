@@ -3,6 +3,8 @@
 namespace app\modules\image\models;
 
 use Yii;
+use app\modules\category\models\Category;
+use app\modules\user\models\User;
 
 /**
  * This is the model class for table "{{%image}}".
@@ -56,18 +58,18 @@ class Image extends \app\modules\core\models\CoreModel
     {
         return [
             'id' => 'ID',
-            'category_id' => 'Category ID',
-            'parent_id' => 'Parent ID',
-            'name' => 'Name',
-            'file' => 'File',
-            'alt' => 'Alt',
-            'description' => 'Description',
+            'category_id' => 'Категория',
+            'parent_id' => 'Родитель',
+            'name' => 'Название',
+            'file' => 'Файл',
+            'alt' => 'Атрибут alt',
+            'description' => 'Описание',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'user_id' => 'User ID',
-            'sort' => 'Sort',
-            'type' => 'Type',
-            'status' => 'Status',
+            'user_id' => 'Пользователь',
+            'sort' => 'Сортировка',
+            'type' => 'Тип',
+            'status' => 'Статус',
         ];
     }
 
