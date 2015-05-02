@@ -65,8 +65,8 @@ class Setting extends CoreModel
             'param_key' => 'Параметр',
             'param_value' => 'Значение',
             'user_id' => 'Пользователь',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Дата создания',
+            'updated_at' => 'Дата обновления',
             'type' => 'Тип',
         ];
     }

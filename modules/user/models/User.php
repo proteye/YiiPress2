@@ -79,15 +79,15 @@ class User extends CoreModel implements IdentityInterface
     {
         return [
             'id' => 'ID',
-            'username' => 'Username',
+            'username' => 'Логин',
             'auth_key' => 'Auth Key',
             'password_hash' => 'Password Hash',
             'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
-            'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'password' => 'Password',
+            'status' => 'Статус',
+            'created_at' => 'Дата создания',
+            'updated_at' => 'Дата обновления',
+            'password' => 'Пароль',
         ];
     }
 
