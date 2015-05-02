@@ -3,6 +3,8 @@
 namespace app\modules\page\models;
 
 use Yii;
+use app\modules\category\models\Category;
+use app\modules\user\models\User;
 
 /**
  * This is the model class for table "{{%page}}".
@@ -68,25 +70,25 @@ class Page extends \app\modules\core\models\CoreModel
     {
         return [
             'id' => 'ID',
-            'parent_id' => 'Parent ID',
-            'category_id' => 'Category ID',
-            'lang' => 'Lang',
-            'url' => 'Url',
-            'alias' => 'Alias',
-            'title' => 'Title',
-            'content' => 'Content',
+            'parent_id' => 'Родитель',
+            'category_id' => 'Категория',
+            'lang' => 'Язык',
+            'url' => 'URL',
+            'alias' => 'Алиас',
+            'title' => 'Заголовок',
+            'content' => 'Текст',
             'create_user_id' => 'Create User ID',
             'update_user_id' => 'Update User ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'layout' => 'Layout',
-            'view' => 'View',
-            'meta_title' => 'Meta Title',
-            'meta_keywords' => 'Meta Keywords',
-            'meta_description' => 'Meta Description',
-            'sort' => 'Sort',
-            'access_type' => 'Access Type',
-            'status' => 'Status',
+            'layout' => 'Шаблон (layout)',
+            'view' => 'Представление (view)',
+            'meta_title' => 'SEO Title',
+            'meta_keywords' => 'SEO Keywords',
+            'meta_description' => 'SEO Description',
+            'sort' => 'Сортировка',
+            'access_type' => 'Доступ',
+            'status' => 'Статус',
         ];
     }
 
