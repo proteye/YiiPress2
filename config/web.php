@@ -39,7 +39,7 @@ $config = [
                 'basePath' => '@theme',
                 'baseUrl' => '@web/themes/default',
                 'pathMap' => [
-                    '@app/views' => '@theme/views',
+                    '@app/views' => '@theme',
                     '@app/modules' => '@theme/modules',
                 ],
             ],

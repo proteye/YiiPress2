@@ -34,7 +34,7 @@ class CoreBootstrap implements BootstrapInterface
                     'basePath' => '@theme',
                     'baseUrl' => '@web/themes/' . $theme,
                     'pathMap' => [
-                        '@app/views' => '@theme/views',
+                        '@app/views' => '@theme',
                         '@app/modules' => '@theme/modules',
                     ],
                 ]);
