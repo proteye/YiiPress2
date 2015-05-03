@@ -27,15 +27,16 @@ class CoreBootstrap implements BootstrapInterface
                     return false;
             }
 
-            if (file_exists('@app/themes/' . $theme)) {
+            if (file_exists(Yii::getAlias('@app') . '/themes/' . $theme)) {
                 Yii::setAlias('theme', '@app/themes/' . $theme);
                 Yii::$app->view->theme = Yii::createObject([
                     'class' => '\yii\base\Theme',
+                    'basePath' => '@theme',
+                    'baseUrl' => '@web/themes/' . $theme,
                     'pathMap' => [
                         '@app/views' => '@theme/views',
-                        '@app/modules' => '@theme/views/modules',
+                        '@app/modules' => '@theme/modules',
                     ],
-                    'baseUrl' => '@web/themes/' . $theme,
                 ]);
             }
         });
