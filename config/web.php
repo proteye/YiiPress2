@@ -3,6 +3,16 @@
 $config = [
     'id' => 'app',
     'defaultRoute' => 'core/core-frontend/index',
+    'aliases' => [
+        '@theme' => '@app/themes/default', // default path to Theme
+    ],
+    'bootstrap' => [
+        /* Set current Theme */
+        [
+            'class' => 'app\modules\core\components\CoreBootstrap',
+            'theme' => '', // if empty then get Theme from database
+        ],
+    ],
     'components' => [
         'user' => [
             'identityClass' => 'app\modules\user\models\User',
@@ -21,6 +31,13 @@ $config = [
                     'css' => ['css/bootstrap.min.css'],
                     'js' => ['js/bootstrap.min.js'],
                 ],
+            ],
+        ],
+        'view' => [
+            /* default Theme */
+            'theme' => [
+                'pathMap' => ['@app/views' => '@theme'],
+                'baseUrl' => '@web/themes/default',
             ],
         ],
     ],
