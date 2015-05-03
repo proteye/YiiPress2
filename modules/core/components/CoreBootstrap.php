@@ -4,7 +4,9 @@ namespace app\modules\core\components;
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\Application;
+use yii\base\Exception;
 use yii\caching\DbDependency;
+use yii\helpers\FileHelper;
 
 class CoreBootstrap implements BootstrapInterface
 {
@@ -13,7 +15,7 @@ class CoreBootstrap implements BootstrapInterface
     public function bootstrap($app)
     {
         $app->on(Application::EVENT_BEFORE_REQUEST, function () {
-            /* THEME from database */
+            /* Set current THEME */
             $theme = $this->theme;
 
             if (!$theme) {
@@ -23,14 +25,18 @@ class CoreBootstrap implements BootstrapInterface
                     return Yii::$app->db->createCommand("SELECT param_value FROM {{%setting}} WHERE module_id='core' AND param_key = 'theme'")->queryOne();
                 }, $duration, $dependency);
                 $theme = $result['param_value'];
+                if (!$theme)
+                    return false;
             }
 
-            Yii::setAlias('theme', '@app/themes/' . $theme);
-            Yii::$app->view->theme = Yii::createObject([
-                'class' => '\yii\base\Theme',
-                'pathMap' => ['@app/views' => '@app/themes/' . $theme],
-                'baseUrl' => '@web/themes/' . $theme,
-            ]);
+            if (file_exists('@app/themes/' . $theme)) {
+                Yii::setAlias('theme', '@app/themes/' . $theme);
+                Yii::$app->view->theme = Yii::createObject([
+                    'class' => '\yii\base\Theme',
+                    'pathMap' => ['@app/views' => '@app/themes/' . $theme],
+                    'baseUrl' => '@web/themes/' . $theme,
+                ]);
+            }
         });
     }
 }
