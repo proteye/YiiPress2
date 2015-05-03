@@ -4,9 +4,7 @@ namespace app\modules\core\components;
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\Application;
-use yii\base\Exception;
 use yii\caching\DbDependency;
-use yii\helpers\FileHelper;
 
 class CoreBootstrap implements BootstrapInterface
 {
