@@ -31,7 +31,10 @@ class CoreBootstrap implements BootstrapInterface
                 Yii::setAlias('theme', '@app/themes/' . $theme);
                 Yii::$app->view->theme = Yii::createObject([
                     'class' => '\yii\base\Theme',
-                    'pathMap' => ['@app/views' => '@app/themes/' . $theme],
+                    'pathMap' => [
+                        '@app/views' => '@theme/views',
+                        '@app/modules' => '@theme/views/modules',
+                    ],
                     'baseUrl' => '@web/themes/' . $theme,
                 ]);
             }

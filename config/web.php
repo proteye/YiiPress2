@@ -36,7 +36,10 @@ $config = [
         'view' => [
             /* default Theme */
             'theme' => [
-                'pathMap' => ['@app/views' => '@theme'],
+                'pathMap' => [
+                    '@app/views' => '@theme/views',
+                    '@app/modules' => '@theme/views/modules',
+                ],
                 'baseUrl' => '@web/themes/default',
             ],
         ],
