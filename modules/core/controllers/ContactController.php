@@ -2,7 +2,7 @@
 namespace app\modules\core\controllers;
 
 use Yii;
-use app\modules\core\components\FrontendController;
+use app\modules\core\components\controllers\FrontendController;
 use app\modules\core\models\ContactForm;
 
 class ContactController extends FrontendController

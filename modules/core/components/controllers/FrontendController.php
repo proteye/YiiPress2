@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\core\components;
+namespace app\modules\core\components\controllers;
 
 class FrontendController extends Controller
 {

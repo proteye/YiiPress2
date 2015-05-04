@@ -3,7 +3,7 @@
 namespace app\modules\core\controllers;
 
 use Yii;
-use app\modules\core\components\BackendController;
+use app\modules\core\components\controllers\BackendController;
 
 class CoreBackendController extends BackendController
 {

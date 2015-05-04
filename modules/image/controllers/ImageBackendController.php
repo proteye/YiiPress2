@@ -3,7 +3,7 @@
 namespace app\modules\image\controllers;
 
 use Yii;
-use app\modules\core\components\BackendController;
+use app\modules\core\components\controllers\BackendController;
 use app\modules\image\models\Image;
 use app\modules\image\models\ImageSearch;
 use yii\web\NotFoundHttpException;

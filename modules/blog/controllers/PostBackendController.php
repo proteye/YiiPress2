@@ -3,7 +3,7 @@
 namespace app\modules\blog\controllers;
 
 use Yii;
-use app\modules\core\components\BackendController;
+use app\modules\core\components\controllers\BackendController;
 use app\modules\blog\models\Post;
 use app\modules\blog\models\PostSearch;
 use yii\web\NotFoundHttpException;

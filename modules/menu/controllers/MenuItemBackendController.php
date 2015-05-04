@@ -3,7 +3,7 @@
 namespace app\modules\menu\controllers;
 
 use Yii;
-use app\modules\core\components\BackendController;
+use app\modules\core\components\controllers\BackendController;
 use app\modules\menu\models\MenuItem;
 use app\modules\menu\models\MenuItemSearch;
 use yii\web\NotFoundHttpException;

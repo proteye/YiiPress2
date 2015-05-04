@@ -3,7 +3,7 @@
 namespace app\modules\page\controllers;
 
 use Yii;
-use app\modules\core\components\BackendController;
+use app\modules\core\components\controllers\BackendController;
 use app\modules\page\models\Page;
 use app\modules\page\models\PageSearch;
 use yii\web\NotFoundHttpException;
