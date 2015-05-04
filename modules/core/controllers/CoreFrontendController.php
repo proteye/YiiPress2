@@ -3,11 +3,11 @@
 namespace app\modules\core\controllers;
 
 use Yii;
-use yii\web\Controller;
+use app\modules\core\components\FrontendController;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
-class CoreFrontendController extends Controller
+class CoreFrontendController extends FrontendController
 {
     public function behaviors()
     {

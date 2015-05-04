@@ -2,10 +2,10 @@
 namespace app\modules\core\controllers;
 
 use Yii;
-use yii\web\Controller;
+use app\modules\core\components\FrontendController;
 use app\modules\core\models\ContactForm;
 
-class ContactController extends Controller
+class ContactController extends FrontendController
 {
     public function actions()
     {

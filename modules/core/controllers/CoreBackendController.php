@@ -2,7 +2,10 @@
 
 namespace app\modules\core\controllers;
 
-class CoreBackendController extends \yii\web\Controller
+use Yii;
+use app\modules\core\components\BackendController;
+
+class CoreBackendController extends BackendController
 {
     public function actionIndex()
     {

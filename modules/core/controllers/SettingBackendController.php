@@ -3,16 +3,16 @@
 namespace app\modules\core\controllers;
 
 use Yii;
+use app\modules\core\components\BackendController;
 use app\modules\core\models\Setting;
 use app\modules\core\models\SettingSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * SettingBackendController implements the CRUD actions for Setting model.
  */
-class SettingBackendController extends Controller
+class SettingBackendController extends BackendController
 {
     public function behaviors()
     {
