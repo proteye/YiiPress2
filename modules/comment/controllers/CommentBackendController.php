@@ -7,25 +7,12 @@ use app\modules\core\components\BackendController;
 use app\modules\comment\models\Comment;
 use app\modules\comment\models\CommentSearch;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * CommentBackendController implements the CRUD actions for Comment model.
  */
 class CommentBackendController extends BackendController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all Comment models.
      * @return mixed

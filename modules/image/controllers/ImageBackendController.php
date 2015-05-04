@@ -7,25 +7,12 @@ use app\modules\core\components\BackendController;
 use app\modules\image\models\Image;
 use app\modules\image\models\ImageSearch;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * ImageBackendController implements the CRUD actions for Image model.
  */
 class ImageBackendController extends BackendController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all Image models.
      * @return mixed

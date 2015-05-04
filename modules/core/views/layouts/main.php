@@ -35,7 +35,7 @@ AppAsset::register($this);
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
-                    ['label' => 'Дашборд', 'url' => ['/core/core-backend']],
+                    ['label' => 'Главная', 'url' => ['/core/core-backend']],
                     ['label' => 'Категории', 'url' => ['/category/category-backend']],
                     ['label' => 'Страницы', 'url' => ['/page/page-backend']],
                     ['label' => 'Блог', 'url' => ['/blog/post-backend']],

@@ -7,25 +7,12 @@ use app\modules\core\components\BackendController;
 use app\modules\core\models\Setting;
 use app\modules\core\models\SettingSearch;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * SettingBackendController implements the CRUD actions for Setting model.
  */
 class SettingBackendController extends BackendController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all Setting models.
      * @return mixed

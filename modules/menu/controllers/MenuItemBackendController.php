@@ -7,25 +7,12 @@ use app\modules\core\components\BackendController;
 use app\modules\menu\models\MenuItem;
 use app\modules\menu\models\MenuItemSearch;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * MenuItemBackendController implements the CRUD actions for MenuItem model.
  */
 class MenuItemBackendController extends BackendController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all MenuItem models.
      * @return mixed
