@@ -17,11 +17,14 @@ class CoreBootstrap implements BootstrapInterface
             $theme = $this->theme;
 
             if (!$theme) {
+                /*
                 $duration = 60*60*24;
-                $dependency = null; // new DbDependency(['sql' => 'SELECT MAX(updated_at) FROM {{%setting}}']);
+                $dependency = new DbDependency(['sql' => 'SELECT MAX(updated_at) FROM {{%setting}}']);
                 $result = Yii::$app->db->cache(function ($db) {
                     return Yii::$app->db->createCommand("SELECT param_value FROM {{%setting}} WHERE module_id='core' AND param_key = 'theme'")->queryOne();
                 }, $duration, $dependency);
+                */
+                $result = Yii::$app->db->createCommand("SELECT param_value FROM {{%setting}} WHERE module_id='core' AND param_key = 'theme'")->queryOne();
                 $theme = $result['param_value'];
                 if (!$theme)
                     return false;
