@@ -42,10 +42,11 @@ AppAsset::register($this);
                     ['label' => 'Комментарии', 'url' => ['/comment/comment-backend']],
                     ['label' => 'Меню', 'url' => ['/menu/menu-backend']],
                     ['label' => 'Изображения', 'url' => ['/image/image-backend']],
+                    ['label' => 'Пользователи', 'url' => ['/user/user-backend']],
                     ['label' => 'Настройки', 'url' => ['/core/setting-backend']],
                     Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/user/user/login']] :
-                        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                        ['label' => 'Войти', 'url' => ['/user/user/login']] :
+                        ['label' => 'Выйти (' . Yii::$app->user->identity->username . ')',
                             'url' => ['/user/user/logout'],
                             'linkOptions' => ['data-method' => 'post']],
                 ],
