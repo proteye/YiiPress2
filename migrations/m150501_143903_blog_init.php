@@ -19,6 +19,7 @@ class m150501_143903_blog_init extends Migration
             'quote' => Schema::TYPE_STRING . '(512)',
             'content' => Schema::TYPE_TEXT,
             'image' => Schema::TYPE_STRING . '(255)',
+            'image_alt' => Schema::TYPE_STRING . '(255)',
             'create_user_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'update_user_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',

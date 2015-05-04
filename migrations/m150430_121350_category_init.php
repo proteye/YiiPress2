@@ -19,6 +19,7 @@ class m150430_121350_category_init extends Migration
             'short_description' => Schema::TYPE_STRING . '(512)',
             'description' => Schema::TYPE_TEXT,
             'image' => Schema::TYPE_STRING . '(255)',
+            'image_alt' => Schema::TYPE_STRING . '(255)',
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'meta_title' => Schema::TYPE_STRING . '(250)',
