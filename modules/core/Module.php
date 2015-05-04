@@ -8,6 +8,10 @@ class Module extends \yii\base\Module
 
     public $controllerNamespace = 'app\modules\core\controllers';
 
+    public $coreCacheTime = 3600;
+
+    public $uploadPath = 'uploads';
+
     public function init()
     {
         parent::init();

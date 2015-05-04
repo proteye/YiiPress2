@@ -8,6 +8,8 @@ class Module extends \yii\base\Module
 
     public $controllerNamespace = 'app\modules\category\controllers';
 
+    public $uploadPath = 'category';
+
     public function init()
     {
         parent::init();
