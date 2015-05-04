@@ -4,6 +4,7 @@ $config = [
     'id' => 'app',
     'defaultRoute' => 'core/core-frontend/index',
     'aliases' => [
+        '@core' => '@app/modules/core', // Core path
         '@theme' => '@app/themes/default', // default path to Theme
     ],
     'bootstrap' => [

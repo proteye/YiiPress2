@@ -3,5 +3,5 @@ namespace app\modules\core\components;
 
 class BackendController extends Controller
 {
-    public $layout = 'main';
+    public $layout = '@core/views/layouts/main';
 }
