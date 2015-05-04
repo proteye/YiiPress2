@@ -3,16 +3,16 @@
 namespace app\modules\image\controllers;
 
 use Yii;
+use app\modules\core\components\BackendController;
 use app\modules\image\models\Image;
 use app\modules\image\models\ImageSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * ImageBackendController implements the CRUD actions for Image model.
  */
-class ImageBackendController extends Controller
+class ImageBackendController extends BackendController
 {
     public function behaviors()
     {

@@ -3,16 +3,16 @@
 namespace app\modules\blog\controllers;
 
 use Yii;
+use app\modules\core\components\BackendController;
 use app\modules\blog\models\Post;
 use app\modules\blog\models\PostSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * PostBackendController implements the CRUD actions for Post model.
  */
-class PostBackendController extends Controller
+class PostBackendController extends BackendController
 {
     public function behaviors()
     {

@@ -3,14 +3,14 @@
 namespace app\modules\user\controllers;
 
 use Yii;
-use yii\web\Controller;
+use app\modules\core\components\FrontendController;
 use yii\filters\VerbFilter;
 use app\modules\user\models\LoginForm;
 
 /**
  * DefaultController implements the CRUD actions for User model.
  */
-class UserController extends Controller
+class UserController extends FrontendController
 {
     public function behaviors()
     {

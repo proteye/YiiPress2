@@ -3,16 +3,16 @@
 namespace app\modules\comment\controllers;
 
 use Yii;
+use app\modules\core\components\BackendController;
 use app\modules\comment\models\Comment;
 use app\modules\comment\models\CommentSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * CommentBackendController implements the CRUD actions for Comment model.
  */
-class CommentBackendController extends Controller
+class CommentBackendController extends BackendController
 {
     public function behaviors()
     {

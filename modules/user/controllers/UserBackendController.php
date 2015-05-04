@@ -3,7 +3,7 @@
 namespace app\modules\user\controllers;
 
 use Yii;
-use yii\web\Controller;
+use app\modules\core\components\BackendController;
 use app\modules\user\models\User;
 use app\modules\user\models\UserSearch;
 use yii\web\NotFoundHttpException;
@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * DefaultController implements the CRUD actions for User model.
  */
-class UserBackendController extends Controller
+class UserBackendController extends BackendController
 {
     public function behaviors()
     {

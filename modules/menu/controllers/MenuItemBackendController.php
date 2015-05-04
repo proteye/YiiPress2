@@ -3,16 +3,16 @@
 namespace app\modules\menu\controllers;
 
 use Yii;
+use app\modules\core\components\BackendController;
 use app\modules\menu\models\MenuItem;
 use app\modules\menu\models\MenuItemSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * MenuItemBackendController implements the CRUD actions for MenuItem model.
  */
-class MenuItemBackendController extends Controller
+class MenuItemBackendController extends BackendController
 {
     public function behaviors()
     {

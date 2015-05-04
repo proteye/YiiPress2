@@ -3,16 +3,16 @@
 namespace app\modules\page\controllers;
 
 use Yii;
+use app\modules\core\components\BackendController;
 use app\modules\page\models\Page;
 use app\modules\page\models\PageSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * PageBackendController implements the CRUD actions for Page model.
  */
-class PageBackendController extends Controller
+class PageBackendController extends BackendController
 {
     public function behaviors()
     {
