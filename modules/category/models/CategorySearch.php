@@ -19,7 +19,7 @@ class CategorySearch extends Category
     {
         return [
             [['id', 'parent_id', 'created_at', 'updated_at', 'status'], 'integer'],
-            [['lang', 'alias', 'name', 'short_description', 'description', 'image', 'meta_title', 'meta_keywords', 'meta_description'], 'safe'],
+            [['lang', 'alias', 'name', 'short_description', 'description', 'image', 'image_alt', 'meta_title', 'meta_keywords', 'meta_description'], 'safe'],
         ];
     }
 
@@ -69,6 +69,7 @@ class CategorySearch extends Category
             ->andFilterWhere(['like', 'short_description', $this->short_description])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'image', $this->image])
+            ->andFilterWhere(['like', 'image_alt', $this->image_alt])
             ->andFilterWhere(['like', 'meta_title', $this->meta_title])
             ->andFilterWhere(['like', 'meta_keywords', $this->meta_keywords])
             ->andFilterWhere(['like', 'meta_description', $this->meta_description]);

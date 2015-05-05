@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\modules\core\widgets\FlashMessage;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\category\models\Category */
@@ -9,8 +10,15 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="category-form">
+    <?= $model->hasErrors() ?
+        FlashMessage::widget([
+            'type' => FlashMessage::ERROR_MESSAGE,
+            'message' => Html::errorSummary($model),
+        ]) :
+        null
+    ?>
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'parent_id')->textInput() ?>
 
@@ -24,11 +32,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'image')->textInput(['maxlength' => 255]) ?>
+    <?= $form->field($model, 'image')->fileInput() ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+    <?= $form->field($model, 'image_alt')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'meta_title')->textInput(['maxlength' => 250]) ?>
 
