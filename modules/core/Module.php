@@ -10,7 +10,7 @@ class Module extends \yii\base\Module
 
     public $coreCacheTime = 3600;
 
-    public $uploadPath = 'uploads';
+    public $uploadPath = '@webroot/uploads';
 
     public function init()
     {
