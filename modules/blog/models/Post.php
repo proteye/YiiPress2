@@ -3,6 +3,7 @@
 namespace app\modules\blog\models;
 
 use Yii;
+use app\modules\user\models\User;
 use app\modules\category\models\Category;
 
 /**
@@ -31,6 +32,7 @@ use app\modules\category\models\Category;
  * @property integer $status
  *
  * @property Category $category
+ * @property Category $user
  * @property PostTag[] $postTags
  * @property Tag[] $tags
  */
@@ -51,7 +53,7 @@ class Post extends \app\modules\core\models\CoreModel
     {
         return [
             [['category_id', 'create_user_id', 'update_user_id', 'created_at', 'updated_at', 'published_at', 'access_type', 'comment_status', 'status'], 'integer'],
-            [['url', 'title', 'create_user_id', 'update_user_id', 'created_at', 'updated_at', 'published_at'], 'required'],
+            [['url', 'title', 'created_at', 'updated_at', 'published_at'], 'required'],
             [['content'], 'string'],
             [['lang'], 'string', 'max' => 2],
             [['url'], 'string', 'max' => 160],
@@ -99,6 +101,14 @@ class Post extends \app\modules\core\models\CoreModel
     public function getCategory()
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'create_user_id']);
     }
 
     /**
