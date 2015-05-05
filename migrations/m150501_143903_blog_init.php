@@ -20,8 +20,8 @@ class m150501_143903_blog_init extends Migration
             'content' => Schema::TYPE_TEXT,
             'image' => Schema::TYPE_STRING . '(255)',
             'image_alt' => Schema::TYPE_STRING . '(255)',
-            'create_user_id' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'update_user_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'create_user_id' => Schema::TYPE_INTEGER,
+            'update_user_id' => Schema::TYPE_INTEGER,
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'published_at' => Schema::TYPE_INTEGER . ' NOT NULL',
@@ -45,6 +45,7 @@ class m150501_143903_blog_init extends Migration
         $this->createIndex('idx_post_comment_status', '{{%post}}', 'comment_status');
         $this->createIndex('idx_post_status', '{{%post}}', 'status');
         $this->addForeignKey('fk_post_category_id', '{{%post}}', 'category_id', '{{%category}}', 'id', 'SET NULL', 'NO ACTION');
+        $this->addForeignKey('fk_post_create_user_id', '{{%post}}', 'create_user_id', '{{%user}}', 'id', 'SET NULL', 'NO ACTION');
 
         /* Tag */
         $this->createTable('{{%tag}}', [
