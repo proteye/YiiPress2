@@ -101,13 +101,9 @@ class FileUploadBehavior extends Behavior
             mkdir($this->uploadPath, 0755, true);
         }
 
-        /* Save file or generate new name as filename_1,2,3..n */
-        $i = 1;
-        while(file_exists($this->filePath) || is_dir($this->filePath))
-        {
-            $this->filename = $file->baseName . '_' . $i++ . '.' . $file->extension;
-        }
-        $file->saveAs($this->filePath);
+        /* Save current file or generate new name as filename_1,2,3..n */
+        $this->filename = $this->generateFilename();
+        $file->saveAs($this->getFilePath($this->filename));
 
         /* Set new filename to model->attribute */
         $model->{$this->attributeName} = $this->filename;
@@ -132,6 +128,21 @@ class FileUploadBehavior extends Behavior
     /**
      * @return string
      */
+    protected function generateFilename()
+    {
+        $i = 1;
+        $filename = $this->filename;
+        while(file_exists($this->getFilePath($filename)) || is_dir($this->getFilePath($filename)))
+        {
+            $filename = $this->file->baseName . '_' . $i++ . '.' . $this->file->extension;
+        }
+
+        return $filename;
+    }
+
+    /**
+     * @return string
+     */
     protected function getBasePath()
     {
         $module = Yii::$app->getModule('core');
@@ -149,9 +160,9 @@ class FileUploadBehavior extends Behavior
     /**
      * @return string
      */
-    protected function getFilePath($filename = null)
+    public function getFilePath($filename = null)
     {
-        $filename = ($filename === null) ? $this->filename : $filename;
+        $filename = ($filename === null) ? $this->owner->{$this->attributeName} : $filename;
 
         return $this->getUploadPath() . DIRECTORY_SEPARATOR . $filename;
     }
