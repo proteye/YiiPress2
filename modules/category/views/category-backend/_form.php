@@ -7,6 +7,7 @@ use app\modules\core\widgets\FlashMessage;
 /* @var $this yii\web\View */
 /* @var $model app\modules\category\models\Category */
 /* @var $form yii\widgets\ActiveForm */
+$core = Yii::$app->getModule('core');
 ?>
 
 <div class="category-form">
@@ -22,7 +23,7 @@ use app\modules\core\widgets\FlashMessage;
 
     <?= $form->field($model, 'parent_id')->textInput() ?>
 
-    <?= $form->field($model, 'lang')->textInput(['maxlength' => 2]) ?>
+    <?= $form->field($model, 'lang')->dropDownList($core->getLanguagesList()) ?>
 
     <?= $form->field($model, 'alias')->textInput(['maxlength' => 160]) ?>
 
