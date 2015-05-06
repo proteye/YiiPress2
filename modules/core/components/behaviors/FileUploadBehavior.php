@@ -134,7 +134,8 @@ class FileUploadBehavior extends Behavior
      */
     protected function getBasePath()
     {
-        return Yii::getAlias(Yii::$app->getModule('core')->uploadPath);
+        $module = Yii::$app->getModule('core');
+        return Yii::getAlias('@webroot' . DIRECTORY_SEPARATOR . $module->uploadPath);
     }
 
     /**
@@ -153,5 +154,22 @@ class FileUploadBehavior extends Behavior
         $filename = ($filename === null) ? $this->filename : $filename;
 
         return $this->getUploadPath() . DIRECTORY_SEPARATOR . $filename;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getUploadUrl()
+    {
+        $module = Yii::$app->getModule('core');
+        return Yii::$app->request->baseUrl . '/' . $module->uploadPath . '/' . $this->path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileUrl()
+    {
+        return $this->getUploadUrl() . '/' . $this->owner->{$this->attributeName};
     }
 }

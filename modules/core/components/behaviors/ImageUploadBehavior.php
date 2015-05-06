@@ -7,4 +7,11 @@ class ImageUploadBehavior extends FileUploadBehavior
 
     public $path = 'image';
 
+    /**
+     * @return string
+     */
+    public function getImageUrl()
+    {
+        return $this->getUploadUrl() . '/' . $this->owner->{$this->attributeName};
+    }
 }

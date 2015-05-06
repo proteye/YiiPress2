@@ -32,6 +32,10 @@ use app\modules\core\widgets\FlashMessage;
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
+    <div class="form-group">
+        <?= Html::img($model->image ? $model->getImageUrl() : '#', ['alt' => $model->image_alt, 'title' => $model->image_alt, 'class' => 'image-preview']) ?>
+    </div>
+
     <?= $form->field($model, 'image')->fileInput() ?>
 
     <?= $form->field($model, 'image_alt')->textInput(['maxlength' => 255]) ?>

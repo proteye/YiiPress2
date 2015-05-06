@@ -98,6 +98,8 @@ class Category extends \app\modules\core\models\CoreModel
      */
     public function behaviors()
     {
+        $module = Yii::$app->getModule('category');
+
         return [
             'timestamp' => [
                 'class' => TimestampBehavior::className(),
@@ -109,7 +111,7 @@ class Category extends \app\modules\core\models\CoreModel
             'file' => [
                 'class' => ImageUploadBehavior::className(),
                 'attributeName' => 'image',
-                'path' => Yii::$app->controller->module->uploadPath,
+                'path' => $module->uploadPath,
             ],
         ];
     }
