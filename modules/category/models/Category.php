@@ -38,8 +38,8 @@ use app\modules\core\components\behaviors\ImageUploadBehavior;
 class Category extends \app\modules\core\models\CoreModel
 {
     const STATUS_DRAFT = 0;
-    const STATUS_ACTIVE = 1;
-    const STATUS_DELETE = 2;
+    const STATUS_PUBLISHED = 1;
+    const STATUS_DELETED = 2;
 
     /**
      * @inheritdoc
@@ -55,7 +55,7 @@ class Category extends \app\modules\core\models\CoreModel
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'default', 'value' => self::STATUS_PUBLISHED],
             [['parent_id', 'created_at', 'updated_at', 'status'], 'integer'],
             [['alias', 'name'], 'required'],
             [['description'], 'string'],

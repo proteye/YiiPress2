@@ -8,6 +8,8 @@ class Module extends \yii\base\Module
 
     public $controllerNamespace = 'app\modules\blog\controllers';
 
+    public $uploadPath = 'blog';
+
     public function init()
     {
         parent::init();
