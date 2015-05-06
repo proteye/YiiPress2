@@ -16,7 +16,7 @@ class FileUploadBehavior extends Behavior
 
     public $maxSize = 5368709120; /* 5 Mb */
 
-    public $types = 'jpg, jpeg, png, gif';
+    public $types = 'jpg, jpeg, gif, png';
 
     public $file;
 
@@ -49,8 +49,6 @@ class FileUploadBehavior extends Behavior
         elseif ($this->file = UploadedFile::getInstance($model, $this->attributeName)) {
             $this->filename = $this->file->name;
         }
-
-        $model->{$this->attributeName} = $this->filename;
     }
 
     /**
@@ -66,8 +64,11 @@ class FileUploadBehavior extends Behavior
      */
     public function beforeUpdate()
     {
+        /* If not change then set old attribute filename */
         $model = $this->owner;
-        if ($this->filename !== '') {
+        $model->{$this->attributeName} = $model->getOldAttribute($this->attributeName);
+
+        if ($this->file !== null) {
             $this->saveFile();
         }
     }
@@ -85,15 +86,15 @@ class FileUploadBehavior extends Behavior
      */
     protected function saveFile()
     {
-        /* Delete old file */
-        $this->deleteFile();
-
         $model = $this->owner;
         $file = $this->file;
 
         if (!$file instanceof UploadedFile) {
             return;
         }
+
+        /* Delete old file */
+        $this->deleteFile();
 
         /* Check and create target directory */
         if (!is_dir($this->uploadPath)) {
