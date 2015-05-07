@@ -21,13 +21,13 @@ $core = Yii::$app->getModule('core');
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'parent_id')->dropDownList($model->getParentsList($model->id), ['prompt' => '-- корень --']) ?>
+    <?= $form->field($model, 'parent_id')->dropDownList($model->getParentsList($model->id), ['prompt' => '-- нет --']) ?>
 
     <?= $form->field($model, 'lang')->dropDownList($core->getLanguagesList()) ?>
 
-    <?= $form->field($model, 'alias')->textInput(['maxlength' => 160]) ?>
-
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
+
+    <?= $form->field($model, 'alias')->textInput(['maxlength' => 160]) ?>
 
     <?= $form->field($model, 'short_description')->textInput(['maxlength' => 512]) ?>
 
@@ -47,7 +47,7 @@ $core = Yii::$app->getModule('core');
 
     <?= $form->field($model, 'meta_description')->textInput(['maxlength' => 250]) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList($model->getStatusesArray()) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
