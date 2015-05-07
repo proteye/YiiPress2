@@ -9,24 +9,6 @@ use app\modules\category\models\Category;
 /* @var $form yii\widgets\ActiveForm */
 
 $core = Yii::$app->getModule('core');
-
-$js = <<< JS
-var source = $('#post-title');
-var target = $('#post-slug');
-target.focus(function(){
-    if(target.val() == '') {
-        var data = source.val();
-        $.post(
-            '/blog/post-backend/ajax-slug',
-            { data: data },
-            function(data){
-                target.val(data);
-        });
-    }
-});
-JS;
-
-$this->registerJs($js);
 ?>
 
 <div class="post-form">

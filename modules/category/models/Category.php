@@ -18,7 +18,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $id
  * @property integer $parent_id
  * @property string $lang
- * @property string $alias
+ * @property string $slug
  * @property string $name
  * @property string $short_description
  * @property string $description
@@ -59,15 +59,15 @@ class Category extends \app\modules\core\models\CoreModel
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             [['parent_id', 'created_at', 'updated_at', 'status'], 'integer'],
-            [['alias', 'name'], 'required'],
+            [['slug', 'name'], 'required'],
             [['description'], 'string'],
             [['lang'], 'string', 'max' => 2],
-            [['alias'], 'string', 'max' => 160],
+            [['slug'], 'string', 'max' => 160],
             ['image', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'skipOnEmpty' => true],
             [['name', 'image', 'image_alt'], 'string', 'max' => 255],
             [['short_description'], 'string', 'max' => 512],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
-            [['alias', 'lang'], 'unique', 'targetAttribute' => ['alias', 'lang'], 'message' => 'The combination of Lang and Alias has already been taken.'],
+            [['slug', 'lang'], 'unique', 'targetAttribute' => ['slug', 'lang'], 'message' => 'Такая комбинация Языка и Алиас уже существует..'],
             ['status', 'in', 'range' => array_keys(self::getStatusesArray())],
         ];
     }
@@ -81,7 +81,7 @@ class Category extends \app\modules\core\models\CoreModel
             'id' => 'ID',
             'parent_id' => 'Родитель',
             'lang' => 'Язык',
-            'alias' => 'Алиас',
+            'slug' => 'Алиас',
             'name' => 'Название',
             'short_description' => 'Короткое описание',
             'description' => 'Описание',

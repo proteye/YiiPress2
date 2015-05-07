@@ -7,6 +7,7 @@ use app\modules\core\widgets\FlashMessage;
 /* @var $this yii\web\View */
 /* @var $model app\modules\category\models\Category */
 /* @var $form yii\widgets\ActiveForm */
+
 $core = Yii::$app->getModule('core');
 ?>
 
@@ -27,7 +28,7 @@ $core = Yii::$app->getModule('core');
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
 
-    <?= $form->field($model, 'alias')->textInput(['maxlength' => 160]) ?>
+    <?= $form->field($model, 'slug')->textInput(['maxlength' => 160]) ?>
 
     <?= $form->field($model, 'short_description')->textInput(['maxlength' => 512]) ?>
 
