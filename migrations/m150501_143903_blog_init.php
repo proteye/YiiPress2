@@ -39,13 +39,14 @@ class m150501_143903_blog_init extends Migration
         $this->createIndex('idx_post_category_id', '{{%post}}', 'category_id');
         $this->createIndex('idx_post_url', '{{%post}}', 'url');
         $this->createIndex('idx_post_lang', '{{%post}}', 'lang');
-        $this->createIndex('idx_post_create_user_id', '{{%post}}', 'create_user_id');
+        $this->createIndex('idx_post_created_by', '{{%post}}', 'created_by');
         $this->createIndex('idx_post_published_at', '{{%post}}', 'published_at');
         $this->createIndex('idx_post_access_type', '{{%post}}', 'access_type');
         $this->createIndex('idx_post_comment_status', '{{%post}}', 'comment_status');
         $this->createIndex('idx_post_status', '{{%post}}', 'status');
         $this->addForeignKey('fk_post_category_id', '{{%post}}', 'category_id', '{{%category}}', 'id', 'SET NULL', 'NO ACTION');
-        $this->addForeignKey('fk_post_create_user_id', '{{%post}}', 'create_user_id', '{{%user}}', 'id', 'SET NULL', 'NO ACTION');
+        $this->addForeignKey('fk_post_created_by', '{{%post}}', 'created_by', '{{%user}}', 'id', 'SET NULL', 'NO ACTION');
+        $this->addForeignKey('fk_post_updated_by', '{{%post}}', 'updated_by', '{{%user}}', 'id', 'SET NULL', 'NO ACTION');
 
         /* Tag */
         $this->createTable('{{%tag}}', [
