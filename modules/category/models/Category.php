@@ -190,7 +190,7 @@ class Category extends \app\modules\core\models\CoreModel
      */
     public static function getItemsList()
     {
-        $model = self::find()->where(['status' => self::STATUS_PUBLISHED])->all();
+        $model = self::find()->where(['status' => self::STATUS_ACTIVE])->all();
 
         return ArrayHelper::map($model, 'id', 'name');
     }
