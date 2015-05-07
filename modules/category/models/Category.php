@@ -9,6 +9,7 @@ use app\modules\blog\models\Post;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use app\modules\core\components\behaviors\ImageUploadBehavior;
+use app\modules\core\components\behaviors\ParentTreeBehavior;
 
 /**
  * This is the model class for table "{{%category}}".
@@ -112,6 +113,10 @@ class Category extends \app\modules\core\models\CoreModel
                 'class' => ImageUploadBehavior::className(),
                 'attributeName' => 'image',
                 'path' => $module->uploadPath,
+            ],
+            'tree' => [
+                'class' => ParentTreeBehavior::className(),
+                'displayAttr' => 'name'
             ],
         ];
     }

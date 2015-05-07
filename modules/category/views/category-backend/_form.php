@@ -21,7 +21,7 @@ $core = Yii::$app->getModule('core');
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'parent_id')->textInput() ?>
+    <?= $form->field($model, 'parent_id')->dropDownList($model->getItemsList($model->id), ['prompt' => '-- корень --']) ?>
 
     <?= $form->field($model, 'lang')->dropDownList($core->getLanguagesList()) ?>
 
