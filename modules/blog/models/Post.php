@@ -2,6 +2,7 @@
 
 namespace app\modules\blog\models;
 
+use app\modules\core\components\behaviors\FilterAttributeBehavior;
 use Yii;
 use app\modules\user\models\User;
 use app\modules\category\models\Category;
@@ -42,10 +43,9 @@ use app\modules\core\components\behaviors\ImageUploadBehavior;
 class Post extends \app\modules\core\models\CoreModel
 {
     const STATUS_DRAFT = 0;
-    const STATUS_PUBLISHED = 1;
-    const STATUS_SCHEDULED = 2;
-    const STATUS_MODERATED = 3;
-    const STATUS_DELETED = 4;
+    const STATUS_ACTIVE = 1;
+    const STATUS_WAIT = 2;
+    const STATUS_DELETED = 3;
 
     const ACCESS_PUBLIC = 1;
     const ACCESS_PRIVATE = 2;
@@ -67,10 +67,11 @@ class Post extends \app\modules\core\models\CoreModel
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_PUBLISHED],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['published_at', 'default', 'value' => null],
             ['comment_status', 'default', 'value' => self::COMMENT_YES],
             ['access_type', 'default', 'value' => self::ACCESS_PUBLIC],
-            [['category_id', 'create_user_id', 'update_user_id', 'created_at', 'updated_at', 'published_at', 'access_type', 'comment_status', 'status'], 'integer'],
+            [['category_id', 'create_user_id', 'update_user_id', 'created_at', 'updated_at', 'access_type', 'comment_status', 'status'], 'integer'],
             [['url', 'title', 'published_at'], 'required'],
             [['content'], 'string'],
             [['lang'], 'string', 'max' => 2],
@@ -134,6 +135,73 @@ class Post extends \app\modules\core\models\CoreModel
                 'attributeName' => 'image',
                 'path' => $module->uploadPath,
             ],
+            'filter_attribute' => [
+                'class' => FilterAttributeBehavior::className(),
+                'slugAttribute' => 'url',
+                'dateAttribute' => 'published_at',
+            ],
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusName()
+    {
+        $statuses = self::getStatusesArray();
+        return isset($statuses[$this->status]) ? $statuses[$this->status] : '';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusesArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Опубликован',
+            self::STATUS_DRAFT => 'Черновик',
+            self::STATUS_WAIT => 'В ожидании',
+            self::STATUS_DELETED => 'Удален',
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccessName()
+    {
+        $accesses = self::getAccessesArray();
+        return isset($accesses[$this->access_type]) ? $accesses[$this->access_type] : '';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getAccessesArray()
+    {
+        return [
+            self::ACCESS_PUBLIC => 'Публичный',
+            self::ACCESS_PRIVATE => 'Приватный',
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommentStatusName()
+    {
+        $statuses = self::getCommentStatusesArray();
+        return isset($statuses[$this->access_type]) ? $statuses[$this->access_type] : '';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getCommentStatusesArray()
+    {
+        return [
+            self::COMMENT_YES => 'Разрешены',
+            self::COMMENT_NO => 'Запрещены',
         ];
     }
 
