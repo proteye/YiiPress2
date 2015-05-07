@@ -1,13 +1,18 @@
 <?php
 namespace app\modules\core\components\controllers;
 
+use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Inflector;
 
 class BackendController extends Controller
 {
     public $layout = '@core/views/layouts/main';
 
+    /**
+     * @return array
+     */
     public function behaviors()
     {
         return [
@@ -30,5 +35,15 @@ class BackendController extends Controller
                     },
             ],
         ];
+    }
+
+    /**
+     * Ajax slug action
+     */
+    public function actionAjaxSlug()
+    {
+        $data = Yii::$app->request->get('data') ?: Yii::$app->request->post('data');
+
+        echo Inflector::slug($data);
     }
 }
