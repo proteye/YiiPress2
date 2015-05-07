@@ -10,6 +10,7 @@ use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use app\modules\core\components\behaviors\ImageUploadBehavior;
 use app\modules\core\components\behaviors\ParentTreeBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%category}}".
@@ -116,7 +117,8 @@ class Category extends \app\modules\core\models\CoreModel
             ],
             'tree' => [
                 'class' => ParentTreeBehavior::className(),
-                'displayAttr' => 'name'
+                'displayAttr' => 'name',
+                'status' => self::STATUS_PUBLISHED,
             ],
         ];
     }
@@ -159,5 +161,15 @@ class Category extends \app\modules\core\models\CoreModel
     public function getPosts()
     {
         return $this->hasMany(Post::className(), ['category_id' => 'id']);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getItemsList()
+    {
+        $model = self::find()->where(['status' => self::STATUS_PUBLISHED])->all();
+
+        return ArrayHelper::map($model, 'id', 'name');
     }
 }
