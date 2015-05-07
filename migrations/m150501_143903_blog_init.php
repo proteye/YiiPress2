@@ -14,7 +14,7 @@ class m150501_143903_blog_init extends Migration
             'id' => Schema::TYPE_PK,
             'category_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'lang' => Schema::TYPE_STRING . '(2)',
-            'url' => Schema::TYPE_STRING . '(160) NOT NULL',
+            'slug' => Schema::TYPE_STRING . '(160) NOT NULL',
             'title' => Schema::TYPE_STRING . '(255) NOT NULL',
             'quote' => Schema::TYPE_STRING . '(512)',
             'content' => Schema::TYPE_TEXT,
@@ -35,9 +35,9 @@ class m150501_143903_blog_init extends Migration
             'status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 0',
         ], $tableOptions);
 
-        $this->createIndex('idx_post_url_lang', '{{%post}}', ['url', 'lang'], true);
+        $this->createIndex('idx_post_slug_lang', '{{%post}}', ['slug', 'lang'], true);
         $this->createIndex('idx_post_category_id', '{{%post}}', 'category_id');
-        $this->createIndex('idx_post_url', '{{%post}}', 'url');
+        $this->createIndex('idx_post_slug', '{{%post}}', 'slug');
         $this->createIndex('idx_post_lang', '{{%post}}', 'lang');
         $this->createIndex('idx_post_created_by', '{{%post}}', 'created_by');
         $this->createIndex('idx_post_published_at', '{{%post}}', 'published_at');
@@ -52,10 +52,10 @@ class m150501_143903_blog_init extends Migration
         $this->createTable('{{%tag}}', [
             'id' => Schema::TYPE_PK,
             'title' => Schema::TYPE_STRING . '(255) NOT NULL',
-            'url' => Schema::TYPE_STRING . '(160) NOT NULL',
+            'slug' => Schema::TYPE_STRING . '(160) NOT NULL',
         ], $tableOptions);
 
-        $this->createIndex('idx_tag_url', '{{%tag}}', 'url', true);
+        $this->createIndex('idx_tag_slug', '{{%tag}}', 'slug', true);
 
         /* Post to Tag */
         $this->createTable('{{%post_tag}}', [

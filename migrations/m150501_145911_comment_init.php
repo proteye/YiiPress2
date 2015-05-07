@@ -16,7 +16,6 @@ class m150501_145911_comment_init extends Migration
             'user_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'model' => Schema::TYPE_STRING . '(160) NOT NULL',
             'model_id' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'url' => Schema::TYPE_STRING . '(160)',
             'name' => Schema::TYPE_STRING . '(160) NOT NULL',
             'email' => Schema::TYPE_STRING . '(160) NOT NULL',
             'text' => Schema::TYPE_TEXT . ' NOT NULL',
@@ -24,9 +23,9 @@ class m150501_145911_comment_init extends Migration
             'user_ip' => Schema::TYPE_STRING . '(20)',
             'status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 0',
             'tree' => Schema::TYPE_INTEGER,
-            'lft' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'rgt' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'depth' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'lft' => Schema::TYPE_INTEGER,
+            'rgt' => Schema::TYPE_INTEGER,
+            'depth' => Schema::TYPE_INTEGER,
         ], $tableOptions);
 
         $this->createIndex('idx_comment_model_model_id', '{{%comment}}', ['model', 'model_id']);

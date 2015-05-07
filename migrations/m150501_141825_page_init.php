@@ -15,7 +15,7 @@ class m150501_141825_page_init extends Migration
             'parent_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'category_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'lang' => Schema::TYPE_STRING . '(2)',
-            'url' => Schema::TYPE_STRING . '(160) NOT NULL',
+            'slug' => Schema::TYPE_STRING . '(160) NOT NULL',
             'alias' => Schema::TYPE_STRING . '(160)',
             'title' => Schema::TYPE_STRING . '(255) NOT NULL',
             'content' => Schema::TYPE_TEXT . ' NOT NULL',
@@ -33,7 +33,7 @@ class m150501_141825_page_init extends Migration
             'status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 1',
         ], $tableOptions);
 
-        $this->createIndex('idx_page_url_lang', '{{%page}}', ['url', 'lang'], true);
+        $this->createIndex('idx_page_slug_lang', '{{%page}}', ['slug', 'lang'], true);
         $this->createIndex('idx_page_status', '{{%page}}', 'status');
         $this->createIndex('idx_page_access_type', '{{%page}}', 'access_type');
         $this->createIndex('idx_page_created_by', '{{%page}}', 'created_by');

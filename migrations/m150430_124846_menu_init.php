@@ -12,13 +12,13 @@ class m150430_124846_menu_init extends Migration
         /* Menu */
         $this->createTable('{{%menu}}', [
             'id' => Schema::TYPE_PK,
-            'alias' => Schema::TYPE_STRING . '(160) NOT NULL',
+            'slug' => Schema::TYPE_STRING . '(160) NOT NULL',
             'name' => Schema::TYPE_STRING . '(255) NOT NULL',
             'description' => Schema::TYPE_STRING . '(255)',
             'status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 1',
         ], $tableOptions);
 
-        $this->createIndex('idx_menu_alias', '{{%menu}}', 'alias');
+        $this->createIndex('idx_menu_slug', '{{%menu}}', 'slug');
         $this->createIndex('idx_menu_status', '{{%menu}}', 'status');
 
         /* Menu Item */
