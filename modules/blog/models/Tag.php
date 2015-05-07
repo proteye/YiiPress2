@@ -9,7 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $title
- * @property string $url
+ * @property string $slug
  *
  * @property PostTag[] $postTags
  * @property Post[] $posts
@@ -30,10 +30,10 @@ class Tag extends \app\modules\core\models\CoreModel
     public function rules()
     {
         return [
-            [['title', 'url'], 'required'],
+            [['title', 'slug'], 'required'],
             [['title'], 'string', 'max' => 255],
-            [['url'], 'string', 'max' => 160],
-            [['url'], 'unique']
+            [['slug'], 'string', 'max' => 160],
+            [['slug'], 'unique']
         ];
     }
 
@@ -45,7 +45,7 @@ class Tag extends \app\modules\core\models\CoreModel
         return [
             'id' => 'ID',
             'title' => 'Тег',
-            'url' => 'URL',
+            'slug' => 'URL',
         ];
     }
 

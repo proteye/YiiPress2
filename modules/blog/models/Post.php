@@ -9,6 +9,7 @@ use app\modules\category\models\Category;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
+use yii\behaviors\SluggableBehavior;
 use app\modules\core\components\behaviors\ImageUploadBehavior;
 
 /**
@@ -17,7 +18,7 @@ use app\modules\core\components\behaviors\ImageUploadBehavior;
  * @property integer $id
  * @property integer $category_id
  * @property string $lang
- * @property string $url
+ * @property string $slug
  * @property string $title
  * @property string $quote
  * @property string $content
@@ -73,16 +74,16 @@ class Post extends \app\modules\core\models\CoreModel
             ['comment_status', 'default', 'value' => self::COMMENT_YES],
             ['access_type', 'default', 'value' => self::ACCESS_PUBLIC],
             [['category_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'access_type', 'comment_status', 'status'], 'integer'],
-            [['url', 'title', 'published_at'], 'required'],
+            [['title', 'published_at'], 'required'],
             [['content'], 'string'],
             [['lang'], 'string', 'max' => 2],
-            [['url'], 'string', 'max' => 160],
+            [['slug'], 'string', 'max' => 160],
             ['image', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'skipOnEmpty' => true],
             [['title', 'image', 'link'], 'string', 'max' => 255],
             [['quote'], 'string', 'max' => 512],
             [['user_ip'], 'string', 'max' => 20],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
-            [['url', 'lang'], 'unique', 'targetAttribute' => ['url', 'lang'], 'message' => 'The combination of Lang and Url has already been taken.']
+            [['slug', 'lang'], 'unique', 'targetAttribute' => ['slug', 'lang'], 'message' => 'Такая комбинация Языка и URL уже существует.']
         ];
     }
 
@@ -95,7 +96,7 @@ class Post extends \app\modules\core\models\CoreModel
             'id' => 'ID',
             'category_id' => 'Категория',
             'lang' => 'Язык',
-            'url' => 'URL',
+            'slug' => 'URL',
             'title' => 'Заголовок',
             'quote' => 'Цитата',
             'content' => 'Текст',
@@ -138,16 +139,17 @@ class Post extends \app\modules\core\models\CoreModel
             ],
             'filter_attribute' => [
                 'class' => FilterAttributeBehavior::className(),
-                'slugAttribute' => 'url',
                 'dateAttribute' => 'published_at',
             ],
             [
                 'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'create_user_id',
-                'updatedByAttribute' => 'update_user_id',
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_VALIDATE => 'user_id',
-                ],
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
+            ],
+            [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'title',
+                'slugAttribute' => 'slug',
             ],
         ];
     }

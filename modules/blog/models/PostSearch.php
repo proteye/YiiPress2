@@ -18,8 +18,8 @@ class PostSearch extends Post
     public function rules()
     {
         return [
-            [['id', 'category_id', 'create_user_id', 'update_user_id', 'created_at', 'updated_at', 'published_at', 'access_type', 'comment_status', 'status'], 'integer'],
-            [['lang', 'url', 'title', 'quote', 'content', 'image', 'create_user_ip', 'link', 'meta_title', 'meta_keywords', 'meta_description'], 'safe'],
+            [['id', 'category_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'published_at', 'access_type', 'comment_status', 'status'], 'integer'],
+            [['lang', 'slug', 'title', 'quote', 'content', 'image', 'user_ip', 'link', 'meta_title', 'meta_keywords', 'meta_description'], 'safe'],
         ];
     }
 
@@ -58,8 +58,8 @@ class PostSearch extends Post
         $query->andFilterWhere([
             'id' => $this->id,
             'category_id' => $this->category_id,
-            'create_user_id' => $this->create_user_id,
-            'update_user_id' => $this->update_user_id,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'published_at' => $this->published_at,
@@ -69,12 +69,12 @@ class PostSearch extends Post
         ]);
 
         $query->andFilterWhere(['like', 'lang', $this->lang])
-            ->andFilterWhere(['like', 'url', $this->url])
+            ->andFilterWhere(['like', 'slug', $this->slug])
             ->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'quote', $this->quote])
             ->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'image', $this->image])
-            ->andFilterWhere(['like', 'create_user_ip', $this->create_user_ip])
+            ->andFilterWhere(['like', 'user_ip', $this->user_ip])
             ->andFilterWhere(['like', 'link', $this->link])
             ->andFilterWhere(['like', 'meta_title', $this->meta_title])
             ->andFilterWhere(['like', 'meta_keywords', $this->meta_keywords])

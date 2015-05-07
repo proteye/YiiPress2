@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'lang') ?>
 
-    <?= $form->field($model, 'url') ?>
+    <?= $form->field($model, 'slug') ?>
 
     <?= $form->field($model, 'title') ?>
 
@@ -31,9 +31,9 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'image') ?>
 
-    <?php // echo $form->field($model, 'create_user_id') ?>
+    <?php // echo $form->field($model, 'created_by') ?>
 
-    <?php // echo $form->field($model, 'update_user_id') ?>
+    <?php // echo $form->field($model, 'updated_by') ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 
@@ -41,7 +41,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'published_at') ?>
 
-    <?php // echo $form->field($model, 'create_user_ip') ?>
+    <?php // echo $form->field($model, 'user_ip') ?>
 
     <?php // echo $form->field($model, 'link') ?>
 

@@ -9,6 +9,24 @@ use app\modules\category\models\Category;
 /* @var $form yii\widgets\ActiveForm */
 
 $core = Yii::$app->getModule('core');
+
+$js = <<< JS
+var source = $('#post-title');
+var target = $('#post-slug');
+target.focus(function(){
+    if(target.val() == '') {
+        var data = source.val();
+        $.post(
+            '/blog/post-backend/ajax-slug',
+            { data: data },
+            function(data){
+                target.val(data);
+        });
+    }
+});
+JS;
+
+$this->registerJs($js);
 ?>
 
 <div class="post-form">
@@ -21,7 +39,7 @@ $core = Yii::$app->getModule('core');
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
 
-    <?= $form->field($model, 'url')->textInput(['maxlength' => 160]) ?>
+    <?= $form->field($model, 'slug')->textInput(['maxlength' => 160]) ?>
 
     <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
 
