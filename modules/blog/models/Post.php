@@ -8,6 +8,7 @@ use app\modules\user\models\User;
 use app\modules\category\models\Category;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 use app\modules\core\components\behaviors\ImageUploadBehavior;
 
 /**
@@ -21,12 +22,12 @@ use app\modules\core\components\behaviors\ImageUploadBehavior;
  * @property string $quote
  * @property string $content
  * @property string $image
- * @property integer $create_user_id
- * @property integer $update_user_id
+ * @property integer $created_by
+ * @property integer $updated_by
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $published_at
- * @property string $create_user_ip
+ * @property string $user_ip
  * @property string $link
  * @property string $meta_title
  * @property string $meta_keywords
@@ -67,11 +68,11 @@ class Post extends \app\modules\core\models\CoreModel
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'default', 'value' => self::STATUS_DRAFT],
             ['published_at', 'default', 'value' => null],
             ['comment_status', 'default', 'value' => self::COMMENT_YES],
             ['access_type', 'default', 'value' => self::ACCESS_PUBLIC],
-            [['category_id', 'create_user_id', 'update_user_id', 'created_at', 'updated_at', 'access_type', 'comment_status', 'status'], 'integer'],
+            [['category_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'access_type', 'comment_status', 'status'], 'integer'],
             [['url', 'title', 'published_at'], 'required'],
             [['content'], 'string'],
             [['lang'], 'string', 'max' => 2],
@@ -79,7 +80,7 @@ class Post extends \app\modules\core\models\CoreModel
             ['image', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'skipOnEmpty' => true],
             [['title', 'image', 'link'], 'string', 'max' => 255],
             [['quote'], 'string', 'max' => 512],
-            [['create_user_ip'], 'string', 'max' => 20],
+            [['user_ip'], 'string', 'max' => 20],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
             [['url', 'lang'], 'unique', 'targetAttribute' => ['url', 'lang'], 'message' => 'The combination of Lang and Url has already been taken.']
         ];
@@ -99,12 +100,12 @@ class Post extends \app\modules\core\models\CoreModel
             'quote' => 'Цитата',
             'content' => 'Текст',
             'image' => 'Изображение',
-            'create_user_id' => 'Создал',
-            'update_user_id' => 'Обновил',
+            'created_by' => 'Создал',
+            'updated_by' => 'Обновил',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата обновления',
             'published_at' => 'Дата',
-            'create_user_ip' => 'Create User IP',
+            'user_ip' => 'Create User IP',
             'link' => 'Ссылка',
             'meta_title' => 'SEO Title',
             'meta_keywords' => 'SEO Keywords',
@@ -139,6 +140,14 @@ class Post extends \app\modules\core\models\CoreModel
                 'class' => FilterAttributeBehavior::className(),
                 'slugAttribute' => 'url',
                 'dateAttribute' => 'published_at',
+            ],
+            [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'create_user_id',
+                'updatedByAttribute' => 'update_user_id',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_VALIDATE => 'user_id',
+                ],
             ],
         ];
     }
@@ -218,7 +227,7 @@ class Post extends \app\modules\core\models\CoreModel
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'create_user_id']);
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
     /**

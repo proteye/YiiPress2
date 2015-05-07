@@ -17,8 +17,8 @@ use app\modules\user\models\User;
  * @property string $alias
  * @property string $title
  * @property string $content
- * @property integer $create_user_id
- * @property integer $update_user_id
+ * @property integer $created_by
+ * @property integer $updated_by
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $layout
@@ -31,7 +31,7 @@ use app\modules\user\models\User;
  * @property integer $status
  *
  * @property Category $category
- * @property User $createUser
+ * @property User $user
  * @property Page $parent
  * @property Page[] $pages
  * @property User $updateUser
@@ -52,7 +52,7 @@ class Page extends \app\modules\core\models\CoreModel
     public function rules()
     {
         return [
-            [['parent_id', 'category_id', 'create_user_id', 'update_user_id', 'created_at', 'updated_at', 'sort', 'access_type', 'status'], 'integer'],
+            [['parent_id', 'category_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'sort', 'access_type', 'status'], 'integer'],
             [['url', 'title', 'content', 'created_at', 'updated_at'], 'required'],
             [['content'], 'string'],
             [['lang'], 'string', 'max' => 2],
@@ -77,8 +77,8 @@ class Page extends \app\modules\core\models\CoreModel
             'alias' => 'Алиас',
             'title' => 'Заголовок',
             'content' => 'Текст',
-            'create_user_id' => 'Создал',
-            'update_user_id' => 'Обновил',
+            'created_by' => 'Создал',
+            'updated_by' => 'Обновил',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата обновления',
             'layout' => 'Шаблон (layout)',
@@ -103,9 +103,9 @@ class Page extends \app\modules\core\models\CoreModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCreateUser()
+    public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'create_user_id']);
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
     /**
