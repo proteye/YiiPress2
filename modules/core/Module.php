@@ -31,7 +31,7 @@ class Module extends \yii\base\Module
         $languages = [];
         foreach (explode(',', $this->languages) as $lang) {
             $l = explode('-', $lang);
-            $languages[$l[0]] = $l[1];
+            $languages[$l[0]] = $lang;
         }
 
         return $languages;
