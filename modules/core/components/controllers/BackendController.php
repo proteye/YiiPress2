@@ -20,6 +20,7 @@ class BackendController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'ajax-slug' => ['post'],
                 ],
             ],
             'access' => [
@@ -42,7 +43,7 @@ class BackendController extends Controller
      */
     public function actionAjaxSlug()
     {
-        $data = Yii::$app->request->get('data') ?: Yii::$app->request->post('data');
+        $data = Yii::$app->request->post('data');
 
         echo Inflector::slug($data);
     }
