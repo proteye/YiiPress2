@@ -2,6 +2,8 @@
 
 namespace app\modules\core;
 
+use Yii;
+
 class Module extends \yii\base\Module
 {
     const VERSION = '0.0.1';
@@ -35,5 +37,21 @@ class Module extends \yii\base\Module
         }
 
         return $languages;
+    }
+
+    /**
+     * @return string
+     */
+    public function  getFullUploadPath()
+    {
+        return Yii::getAlias('@webroot') . '/' . $this->uploadPath;
+    }
+
+    /**
+     * @return string
+     */
+    public function  getFullUploadUrl()
+    {
+        return Yii::$app->request->baseUrl . '/' . $this->uploadPath;
     }
 }
