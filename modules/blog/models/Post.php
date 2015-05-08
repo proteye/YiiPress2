@@ -74,7 +74,7 @@ class Post extends \app\modules\core\models\CoreModel
             ['comment_status', 'default', 'value' => self::COMMENT_YES],
             ['access_type', 'default', 'value' => self::ACCESS_PUBLIC],
             [['category_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'access_type', 'comment_status', 'status'], 'integer'],
-            [['title', 'published_at'], 'required'],
+            [['title', 'slug', 'published_at'], 'required'],
             [['content'], 'string'],
             [['lang'], 'string', 'max' => 2],
             [['slug'], 'string', 'max' => 160],

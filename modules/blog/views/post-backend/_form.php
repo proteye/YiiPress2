@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\modules\category\models\Category;
+use vova07\imperavi\Widget as Redactor;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\blog\models\Post */
@@ -23,17 +25,29 @@ $core = Yii::$app->getModule('core');
 
     <?= $form->field($model, 'slug')->textInput(['maxlength' => 160]) ?>
 
-    <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'published_at')->widget(\yii\jui\DatePicker::classname(), ['language' => 'ru', 'dateFormat' => 'dd-MM-yyyy', 'clientOptions' => ['showAnim'=>'slideDown', 'showButtonPanel' => true]]) ?>
 
-    <?= $form->field($model, 'quote')->textInput(['maxlength' => 512]) ?>
+    <?= $form->field($model, 'content')->widget(Redactor::className(), [
+        'settings' => [
+            'lang' => 'ru',
+            'minHeight' => 400,
+            'imageUpload' => '/image/image-backend/upload',
+            'imageManagerJson' => Url::to(['/blog/post-backend/image-get']),
+            'plugins' => [
+                'imagemanager',
+                'clips',
+                'fullscreen',
+            ]
+        ]
+    ]); ?>
+
+    <?= $form->field($model, 'quote')->textarea(['rows' => 3]) ?>
 
     <div class="form-group">
         <?= Html::img($model->image ? $model->getImageUrl() : '#', ['alt' => $model->image_alt, 'title' => $model->image_alt, 'class' => 'image-preview']) ?>
     </div>
 
     <?= $form->field($model, 'image')->fileInput() ?>
-
-    <?= $form->field($model, 'published_at')->widget(\yii\jui\DatePicker::classname(), ['language' => 'ru', 'dateFormat' => 'dd-MM-yyyy', 'clientOptions' => ['showAnim'=>'slideDown', 'showButtonPanel' => true]]) ?>
 
     <?= $form->field($model, 'link')->textInput(['maxlength' => 255]) ?>
 

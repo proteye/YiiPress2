@@ -7,7 +7,6 @@ use app\modules\core\components\controllers\BackendController;
 use app\modules\blog\models\Post;
 use app\modules\blog\models\PostSearch;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * PostBackendController implements the CRUD actions for Post model.
