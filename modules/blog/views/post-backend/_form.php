@@ -35,6 +35,7 @@ $core = Yii::$app->getModule('core');
             'imageManagerJson' => Url::to(['/image/image-backend/image-get']),
             'plugins' => [
                 'imagemanager',
+                'video',
                 'clips',
                 'fullscreen',
             ]
