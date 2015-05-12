@@ -32,7 +32,7 @@ $core = Yii::$app->getModule('core');
             'lang' => 'ru',
             'minHeight' => 400,
             'imageUpload' => '/image/image-backend/upload',
-            'imageManagerJson' => Url::to(['/blog/post-backend/image-get']),
+            'imageManagerJson' => Url::to(['/image/image-backend/image-get']),
             'plugins' => [
                 'imagemanager',
                 'clips',
