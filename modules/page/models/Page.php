@@ -5,6 +5,11 @@ namespace app\modules\page\models;
 use Yii;
 use app\modules\category\models\Category;
 use app\modules\user\models\User;
+use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\SluggableBehavior;
+use app\modules\core\components\behaviors\ParentTreeBehavior;
 
 /**
  * This is the model class for table "{{%page}}".
@@ -13,7 +18,7 @@ use app\modules\user\models\User;
  * @property integer $parent_id
  * @property integer $category_id
  * @property string $lang
- * @property string $url
+ * @property string $slug
  * @property string $alias
  * @property string $title
  * @property string $content
@@ -38,6 +43,14 @@ use app\modules\user\models\User;
  */
 class Page extends \app\modules\core\models\CoreModel
 {
+    const STATUS_DRAFT = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_WAIT = 2;
+    const STATUS_DELETED = 3;
+
+    const ACCESS_PUBLIC = 1;
+    const ACCESS_PRIVATE = 2;
+
     /**
      * @inheritdoc
      */
@@ -52,14 +65,18 @@ class Page extends \app\modules\core\models\CoreModel
     public function rules()
     {
         return [
+            ['status', 'default', 'value' => self::STATUS_DRAFT],
+            ['access_type', 'default', 'value' => self::ACCESS_PUBLIC],
             [['parent_id', 'category_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'sort', 'access_type', 'status'], 'integer'],
-            [['url', 'title', 'content', 'created_at', 'updated_at'], 'required'],
+            [['slug', 'title', 'content'], 'required'],
             [['content'], 'string'],
             [['lang'], 'string', 'max' => 2],
-            [['url', 'alias'], 'string', 'max' => 160],
+            [['slug', 'alias'], 'string', 'max' => 160],
             [['title'], 'string', 'max' => 255],
             [['layout', 'view', 'meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
-            [['url', 'lang'], 'unique', 'targetAttribute' => ['url', 'lang'], 'message' => 'The combination of Lang and Url has already been taken.']
+            [['slug', 'lang'], 'unique', 'targetAttribute' => ['slug', 'lang'], 'message' => 'Такая комбинация Языка и URL уже существует.'],
+            ['access_type', 'in', 'range' => array_keys(self::getAccessesArray())],
+            ['status', 'in', 'range' => array_keys(self::getStatusesArray())],
         ];
     }
 
@@ -73,7 +90,7 @@ class Page extends \app\modules\core\models\CoreModel
             'parent_id' => 'Родитель',
             'category_id' => 'Категория',
             'lang' => 'Язык',
-            'url' => 'URL',
+            'slug' => 'URL',
             'alias' => 'Алиас',
             'title' => 'Заголовок',
             'content' => 'Текст',
@@ -89,6 +106,79 @@ class Page extends \app\modules\core\models\CoreModel
             'sort' => 'Сортировка',
             'access_type' => 'Доступ',
             'status' => 'Статус',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+                ],
+            ],
+            'blame' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
+            ],
+            'slug' => [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'title',
+                'slugAttribute' => 'slug',
+            ],
+            'tree' => [
+                'class' => ParentTreeBehavior::className(),
+                'displayAttr' => 'title',
+                'status' => self::STATUS_ACTIVE,
+            ],
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusName()
+    {
+        $statuses = self::getStatusesArray();
+        return isset($statuses[$this->status]) ? $statuses[$this->status] : '';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusesArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Опубликован',
+            self::STATUS_DRAFT => 'Черновик',
+            self::STATUS_WAIT => 'В ожидании',
+            self::STATUS_DELETED => 'Удален',
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccessName()
+    {
+        $accesses = self::getAccessesArray();
+        return isset($accesses[$this->access_type]) ? $accesses[$this->access_type] : '';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getAccessesArray()
+    {
+        return [
+            self::ACCESS_PUBLIC => 'Публичный',
+            self::ACCESS_PRIVATE => 'Приватный',
         ];
     }
 
@@ -129,6 +219,6 @@ class Page extends \app\modules\core\models\CoreModel
      */
     public function getUpdateUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'update_user_id']);
+        return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
 }

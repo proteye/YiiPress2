@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'lang') ?>
 
-    <?= $form->field($model, 'url') ?>
+    <?= $form->field($model, 'slug') ?>
 
     <?php // echo $form->field($model, 'alias') ?>
 
@@ -31,9 +31,9 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'content') ?>
 
-    <?php // echo $form->field($model, 'create_user_id') ?>
+    <?php // echo $form->field($model, 'created_by') ?>
 
-    <?php // echo $form->field($model, 'update_user_id') ?>
+    <?php // echo $form->field($model, 'updated_by') ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 

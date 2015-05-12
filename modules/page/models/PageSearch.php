@@ -18,8 +18,8 @@ class PageSearch extends Page
     public function rules()
     {
         return [
-            [['id', 'parent_id', 'category_id', 'create_user_id', 'update_user_id', 'created_at', 'updated_at', 'sort', 'access_type', 'status'], 'integer'],
-            [['lang', 'url', 'alias', 'title', 'content', 'layout', 'view', 'meta_title', 'meta_keywords', 'meta_description'], 'safe'],
+            [['id', 'parent_id', 'category_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'sort', 'access_type', 'status'], 'integer'],
+            [['lang', 'slug', 'alias', 'title', 'content', 'layout', 'view', 'meta_title', 'meta_keywords', 'meta_description'], 'safe'],
         ];
     }
 
@@ -59,8 +59,8 @@ class PageSearch extends Page
             'id' => $this->id,
             'parent_id' => $this->parent_id,
             'category_id' => $this->category_id,
-            'create_user_id' => $this->create_user_id,
-            'update_user_id' => $this->update_user_id,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'sort' => $this->sort,
@@ -69,7 +69,7 @@ class PageSearch extends Page
         ]);
 
         $query->andFilterWhere(['like', 'lang', $this->lang])
-            ->andFilterWhere(['like', 'url', $this->url])
+            ->andFilterWhere(['like', 'slug', $this->slug])
             ->andFilterWhere(['like', 'alias', $this->alias])
             ->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'content', $this->content])

@@ -83,7 +83,10 @@ class Post extends \app\modules\core\models\CoreModel
             [['quote'], 'string', 'max' => 512],
             [['user_ip'], 'string', 'max' => 20],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
-            [['slug', 'lang'], 'unique', 'targetAttribute' => ['slug', 'lang'], 'message' => 'Такая комбинация Языка и URL уже существует.']
+            [['slug', 'lang'], 'unique', 'targetAttribute' => ['slug', 'lang'], 'message' => 'Такая комбинация Языка и URL уже существует.'],
+            ['access_type', 'in', 'range' => array_keys(self::getAccessesArray())],
+            ['comment_status', 'in', 'range' => array_keys(self::getCommentStatusesArray())],
+            ['status', 'in', 'range' => array_keys(self::getStatusesArray())],
         ];
     }
 
