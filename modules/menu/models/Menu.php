@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "{{%menu}}".
  *
  * @property integer $id
- * @property string $alias
+ * @property string $slug
  * @property string $name
  * @property string $description
  * @property integer $status
@@ -17,6 +17,9 @@ use Yii;
  */
 class Menu extends \app\modules\core\models\CoreModel
 {
+    const STATUS_BLOCKED = 0;
+    const STATUS_ACTIVE = 1;
+
     /**
      * @inheritdoc
      */
@@ -31,10 +34,11 @@ class Menu extends \app\modules\core\models\CoreModel
     public function rules()
     {
         return [
-            [['alias', 'name'], 'required'],
+            [['slug', 'name'], 'required'],
             [['status'], 'integer'],
-            [['alias'], 'string', 'max' => 160],
-            [['name', 'description'], 'string', 'max' => 255]
+            [['slug'], 'string', 'max' => 160],
+            [['name', 'description'], 'string', 'max' => 255],
+            ['status', 'in', 'range' => array_keys(self::getStatusesArray())],
         ];
     }
 
@@ -45,10 +49,30 @@ class Menu extends \app\modules\core\models\CoreModel
     {
         return [
             'id' => 'ID',
-            'alias' => 'Алиас',
+            'slug' => 'Алиас',
             'name' => 'Название',
             'description' => 'Описание',
             'status' => 'Статус',
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusName()
+    {
+        $statuses = self::getStatusesArray();
+        return isset($statuses[$this->status]) ? $statuses[$this->status] : '';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusesArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Активен',
+            self::STATUS_BLOCKED => 'Заблокирован',
         ];
     }
 

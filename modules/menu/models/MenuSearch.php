@@ -19,7 +19,7 @@ class MenuSearch extends Menu
     {
         return [
             [['id', 'status'], 'integer'],
-            [['alias', 'name', 'description'], 'safe'],
+            [['slug', 'name', 'description'], 'safe'],
         ];
     }
 
@@ -60,7 +60,7 @@ class MenuSearch extends Menu
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'alias', $this->alias])
+        $query->andFilterWhere(['like', 'slug', $this->slug])
             ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description]);
 
