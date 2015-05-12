@@ -14,6 +14,7 @@ $core = Yii::$app->getModule('core');
 ?>
 
 <div class="category-form">
+
     <?= $model->hasErrors() ?
         FlashMessage::widget([
             'type' => FlashMessage::ERROR_MESSAGE,

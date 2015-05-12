@@ -4,6 +4,12 @@ namespace app\modules\comment\models;
 
 use Yii;
 use app\modules\user\models\User;
+use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+use app\modules\core\components\behaviors\ParentTreeBehavior;
+use app\modules\core\components\behaviors\FilterAttributeBehavior;
+
 
 /**
  * This is the model class for table "{{%comment}}".
@@ -13,7 +19,6 @@ use app\modules\user\models\User;
  * @property integer $user_id
  * @property string $model
  * @property integer $model_id
- * @property string $url
  * @property string $name
  * @property string $email
  * @property string $text
@@ -31,6 +36,11 @@ use app\modules\user\models\User;
  */
 class Comment extends \app\modules\core\models\CoreModel
 {
+    const STATUS_WAIT = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_SPAM = 2;
+    const STATUS_DELETED = 3;
+
     /**
      * @inheritdoc
      */
@@ -46,10 +56,11 @@ class Comment extends \app\modules\core\models\CoreModel
     {
         return [
             [['parent_id', 'user_id', 'model_id', 'created_at', 'status', 'tree', 'lft', 'rgt', 'depth'], 'integer'],
-            [['model', 'model_id', 'name', 'email', 'text', 'created_at', 'lft', 'rgt', 'depth'], 'required'],
+            [['model', 'model_id', 'name', 'email', 'text'], 'required'],
             [['text'], 'string'],
-            [['model', 'url', 'name', 'email'], 'string', 'max' => 160],
-            [['user_ip'], 'string', 'max' => 20]
+            [['model', 'name', 'email'], 'string', 'max' => 160],
+            [['user_ip'], 'string', 'max' => 20],
+            ['status', 'in', 'range' => array_keys(self::getStatusesArray())],
         ];
     }
 
@@ -64,7 +75,6 @@ class Comment extends \app\modules\core\models\CoreModel
             'user_id' => 'Пользователь',
             'model' => 'Модель',
             'model_id' => 'ID модели',
-            'url' => 'URL',
             'name' => 'Имя',
             'email' => 'Email',
             'text' => 'Комментарий',
@@ -75,6 +85,58 @@ class Comment extends \app\modules\core\models\CoreModel
             'lft' => 'Lft',
             'rgt' => 'Rgt',
             'depth' => 'Depth',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'created_at',
+                ],
+            ],
+            'tree' => [
+                'class' => ParentTreeBehavior::className(),
+                'displayAttr' => 'id',
+                'status' => self::STATUS_ACTIVE,
+            ],
+            'filter_attribute' => [
+                'class' => FilterAttributeBehavior::className(),
+                'ipAttribute' => 'user_ip',
+            ],
+            'blame' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'user_id',
+                'updatedByAttribute' => 'user_id',
+            ],
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusName()
+    {
+        $statuses = self::getStatusesArray();
+        return isset($statuses[$this->status]) ? $statuses[$this->status] : '';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusesArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Опубликован',
+            self::STATUS_WAIT => 'В ожидании',
+            self::STATUS_SPAM => 'Спам',
+            self::STATUS_DELETED => 'Удален',
         ];
     }
 

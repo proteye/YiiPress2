@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use app\modules\category\models\Category;
 use vova07\imperavi\Widget as Redactor;
 use yii\helpers\Url;
+use app\modules\core\widgets\FlashMessage;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\blog\models\Post */
@@ -14,6 +15,14 @@ $core = Yii::$app->getModule('core');
 ?>
 
 <div class="post-form">
+
+    <?= $model->hasErrors() ?
+        FlashMessage::widget([
+            'type' => FlashMessage::ERROR_MESSAGE,
+            'message' => Html::errorSummary($model),
+        ]) :
+        null
+    ?>
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\modules\core\widgets\FlashMessage;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\comment\models\Comment */
@@ -10,17 +11,21 @@ use yii\widgets\ActiveForm;
 
 <div class="comment-form">
 
+    <?= $model->hasErrors() ?
+        FlashMessage::widget([
+            'type' => FlashMessage::ERROR_MESSAGE,
+            'message' => Html::errorSummary($model),
+        ]) :
+        null
+    ?>
+
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'parent_id')->textInput() ?>
-
-    <?= $form->field($model, 'user_id')->textInput() ?>
+    <?= $form->field($model, 'parent_id')->dropDownList($model->getParentsList($model->id), ['prompt' => '-- нет --']) ?>
 
     <?= $form->field($model, 'model')->textInput(['maxlength' => 160]) ?>
 
     <?= $form->field($model, 'model_id')->textInput() ?>
-
-    <?= $form->field($model, 'url')->textInput(['maxlength' => 160]) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 160]) ?>
 
@@ -28,19 +33,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'user_ip')->textInput(['maxlength' => 20]) ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'tree')->textInput() ?>
-
-    <?= $form->field($model, 'lft')->textInput() ?>
-
-    <?= $form->field($model, 'rgt')->textInput() ?>
-
-    <?= $form->field($model, 'depth')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList($model->getStatusesArray()) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
