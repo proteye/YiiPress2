@@ -150,7 +150,7 @@ class Image extends \app\modules\core\models\CoreModel
      */
     public function getTypeName()
     {
-        $statuses = self::getStatusesArray();
+        $statuses = self::getTypesArray();
         return isset($statuses[$this->status]) ? $statuses[$this->status] : '';
     }
 

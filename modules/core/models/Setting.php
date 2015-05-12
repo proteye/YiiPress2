@@ -3,7 +3,9 @@
 namespace app\modules\core\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "{{%setting}}".
@@ -35,7 +37,18 @@ class Setting extends CoreModel
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+                ],
+            ],
+            'blame' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'user_id',
+                'updatedByAttribute' => 'user_id',
+            ],
         ];
     }
 
@@ -51,7 +64,8 @@ class Setting extends CoreModel
             [['module_id'], 'string', 'max' => 64],
             [['param_key'], 'string', 'max' => 128],
             [['param_value'], 'string', 'max' => 255],
-            [['module_id', 'param_key'], 'unique', 'targetAttribute' => ['module_id', 'param_key'], 'message' => 'The combination of Module ID and Param Key has already been taken.']
+            [['module_id', 'param_key'], 'unique', 'targetAttribute' => ['module_id', 'param_key'], 'message' => 'Такая комбинация Модуля и Параметра уже существует.'],
+            ['type', 'in', 'range' => array_keys(self::getTypesArray())],
         ];
     }
 
@@ -68,6 +82,25 @@ class Setting extends CoreModel
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата обновления',
             'type' => 'Тип',
+        ];
+    }
+    /**
+     * @return string
+     */
+    public function getTypeName()
+    {
+        $statuses = self::getTypesArray();
+        return isset($statuses[$this->status]) ? $statuses[$this->status] : '';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getTypesArray()
+    {
+        return [
+            self::TYPE_CORE => 'Основной',
+            self::TYPE_USER => 'Для пользователя',
         ];
     }
 }

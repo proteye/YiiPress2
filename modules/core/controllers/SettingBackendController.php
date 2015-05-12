@@ -51,7 +51,7 @@ class SettingBackendController extends BackendController
         $model = new Setting();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'module_id' => $model->module_id, 'param_key' => $model->param_key]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -71,7 +71,7 @@ class SettingBackendController extends BackendController
         $model = $this->findModel($module_id, $param_key);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'module_id' => $model->module_id, 'param_key' => $model->param_key]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
