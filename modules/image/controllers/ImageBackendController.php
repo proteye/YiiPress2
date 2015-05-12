@@ -6,13 +6,34 @@ use Yii;
 use app\modules\core\components\controllers\BackendController;
 use app\modules\image\models\Image;
 use app\modules\image\models\ImageSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
+use yii\web\Response;
+use yii\web\UploadedFile;
 
 /**
  * ImageBackendController implements the CRUD actions for Image model.
  */
 class ImageBackendController extends BackendController
 {
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        $behaviors = [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'upload' => ['post'],
+                ],
+            ],
+        ];
+
+        return ArrayHelper::merge(parent::behaviors(), $behaviors);
+    }
+
     /**
      * Lists all Image models.
      * @return mixed
@@ -104,5 +125,25 @@ class ImageBackendController extends BackendController
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionUpload()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($file = UploadedFile::getInstanceByName('file')) {
+            $model = new Image();
+            $model->file = $file;
+            $model->name = 'from_widget';
+            $model->description = 'From Imperavi or CKEditor widget.';
+            if ($model->save())
+                $result = ['filelink' => $model->getImageUrl()];
+            else
+                $result = ['errors' => $model->firstErrors];
+        } else {
+            throw new NotFoundHttpException('The file is null!');
+        }
+
+        return $result;
     }
 }

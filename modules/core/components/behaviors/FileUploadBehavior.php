@@ -45,6 +45,7 @@ class FileUploadBehavior extends Behavior
         if ($model->{$this->attributeName} instanceof UploadedFile) {
             $this->file = $model->{$this->attributeName};
             $this->filename = $this->file->name;
+            $model->{$this->attributeName} = $this->filename;
         }
         elseif ($this->file = UploadedFile::getInstance($model, $this->attributeName)) {
             $this->filename = $this->file->name;
