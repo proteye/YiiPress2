@@ -62,7 +62,9 @@ class Image extends \app\modules\core\models\CoreModel
             [['name'], 'required'],
             [['description'], 'string'],
             ['file', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'skipOnEmpty' => true],
-            [['name', 'file', 'alt'], 'string', 'max' => 255]
+            [['name', 'file', 'alt'], 'string', 'max' => 255],
+            ['status', 'in', 'range' => array_keys(self::getStatusesArray())],
+            ['type', 'in', 'range' => array_keys(self::getTypesArray())],
         ];
     }
 
@@ -113,6 +115,47 @@ class Image extends \app\modules\core\models\CoreModel
                 'createdByAttribute' => 'user_id',
                 'updatedByAttribute' => 'user_id',
             ],
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusName()
+    {
+        $statuses = self::getStatusesArray();
+        return isset($statuses[$this->status]) ? $statuses[$this->status] : '';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusesArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Активен',
+            self::STATUS_BLOCKED => 'Заблокирован',
+            self::STATUS_DELETED => 'Удален',
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypeName()
+    {
+        $statuses = self::getStatusesArray();
+        return isset($statuses[$this->status]) ? $statuses[$this->status] : '';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getTypesArray()
+    {
+        return [
+            self::TYPE_SIMPLE => 'Основной',
+            self::TYPE_PREVIEW => 'Сниппет',
         ];
     }
 
