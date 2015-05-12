@@ -3,6 +3,7 @@
 namespace app\modules\menu\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%menu}}".
@@ -34,6 +35,7 @@ class Menu extends \app\modules\core\models\CoreModel
     public function rules()
     {
         return [
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
             [['slug', 'name'], 'required'],
             [['status'], 'integer'],
             [['slug'], 'string', 'max' => 160],
@@ -82,5 +84,15 @@ class Menu extends \app\modules\core\models\CoreModel
     public function getMenuItems()
     {
         return $this->hasMany(MenuItem::className(), ['menu_id' => 'id']);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getItemsList()
+    {
+        $model = self::find()->where(['status' => self::STATUS_ACTIVE])->all();
+
+        return ArrayHelper::map($model, 'id', 'name');
     }
 }

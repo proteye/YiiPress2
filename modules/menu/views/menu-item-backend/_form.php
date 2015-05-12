@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\modules\menu\models\Menu;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\menu\models\MenuItem */
@@ -12,15 +13,15 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'parent_id')->textInput() ?>
+    <?= $form->field($model, 'parent_id')->dropDownList($model->getParentsList($model->id), ['prompt' => '-- нет --']) ?>
 
-    <?= $form->field($model, 'menu_id')->textInput() ?>
-
-    <?= $form->field($model, 'regular_link')->textInput() ?>
+    <?= $form->field($model, 'menu_id')->dropDownList(Menu::getItemsList(), ['prompt' => '-- нет --']) ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => 160]) ?>
 
     <?= $form->field($model, 'href')->textInput(['maxlength' => 255]) ?>
+
+    <?= $form->field($model, 'regular_link')->checkbox() ?>
 
     <?= $form->field($model, 'class')->textInput(['maxlength' => 160]) ?>
 
@@ -38,9 +39,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'condition_denial')->textInput() ?>
 
-    <?= $form->field($model, 'sort')->textInput() ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList($model->getStatusesArray()) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

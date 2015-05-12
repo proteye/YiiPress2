@@ -3,6 +3,7 @@
 namespace app\modules\menu\models;
 
 use Yii;
+use app\modules\core\components\behaviors\ParentTreeBehavior;
 
 /**
  * This is the model class for table "{{%menu_item}}".
@@ -30,6 +31,9 @@ use Yii;
  */
 class MenuItem extends \app\modules\core\models\CoreModel
 {
+    const STATUS_BLOCKED = 0;
+    const STATUS_ACTIVE = 1;
+
     /**
      * @inheritdoc
      */
@@ -44,10 +48,13 @@ class MenuItem extends \app\modules\core\models\CoreModel
     public function rules()
     {
         return [
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['sort', 'default', 'value' => 1],
             [['parent_id', 'menu_id', 'regular_link', 'condition_denial', 'sort', 'status'], 'integer'],
             [['menu_id', 'title', 'href'], 'required'],
             [['title', 'class', 'title_attr', 'before_link', 'after_link', 'target', 'rel', 'condition_name'], 'string', 'max' => 160],
-            [['href'], 'string', 'max' => 255]
+            [['href'], 'string', 'max' => 255],
+            ['status', 'in', 'range' => array_keys(self::getStatusesArray())],
         ];
     }
 
@@ -73,6 +80,40 @@ class MenuItem extends \app\modules\core\models\CoreModel
             'condition_denial' => 'Отрицание условия',
             'sort' => 'Сортировка',
             'status' => 'Статус',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'tree' => [
+                'class' => ParentTreeBehavior::className(),
+                'displayAttr' => 'title',
+                'status' => self::STATUS_ACTIVE,
+            ],
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusName()
+    {
+        $statuses = self::getStatusesArray();
+        return isset($statuses[$this->status]) ? $statuses[$this->status] : '';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusesArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Активен',
+            self::STATUS_BLOCKED => 'Заблокирован',
         ];
     }
 
