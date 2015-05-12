@@ -9,6 +9,7 @@ use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
 use app\modules\core\components\behaviors\ImageUploadBehavior;
+use app\modules\core\components\behaviors\ParentTreeBehavior;
 
 /**
  * This is the model class for table "{{%image}}".
@@ -114,6 +115,11 @@ class Image extends \app\modules\core\models\CoreModel
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'user_id',
                 'updatedByAttribute' => 'user_id',
+            ],
+            'tree' => [
+                'class' => ParentTreeBehavior::className(),
+                'displayAttr' => 'name',
+                'status' => self::STATUS_ACTIVE,
             ],
         ];
     }

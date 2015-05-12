@@ -72,6 +72,8 @@ class ImageSearch extends Image
             ->andFilterWhere(['like', 'alt', $this->alt])
             ->andFilterWhere(['like', 'description', $this->description]);
 
+        $query->orderBy('updated_at DESC');
+
         return $dataProvider;
     }
 }
