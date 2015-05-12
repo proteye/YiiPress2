@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\modules\core\widgets\FlashMessage;
+use vova07\imperavi\Widget as Redactor;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\category\models\Category */
@@ -30,9 +32,21 @@ $core = Yii::$app->getModule('core');
 
     <?= $form->field($model, 'slug')->textInput(['maxlength' => 160]) ?>
 
-    <?= $form->field($model, 'short_description')->textInput(['maxlength' => 512]) ?>
+    <?= $form->field($model, 'description')->widget(Redactor::className(), [
+        'settings' => [
+            'lang' => 'ru',
+            'minHeight' => 400,
+            'imageUpload' => '/image/image-backend/upload',
+            'imageManagerJson' => Url::to(['/blog/post-backend/image-get']),
+            'plugins' => [
+                'imagemanager',
+                'clips',
+                'fullscreen',
+            ]
+        ]
+    ]); ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'short_description')->textarea(['rows' => 3]) ?>
 
     <div class="form-group">
         <?= Html::img($model->image ? $model->getImageUrl() : '#', ['alt' => $model->image_alt, 'title' => $model->image_alt, 'class' => 'image-preview']) ?>

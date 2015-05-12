@@ -10,6 +10,7 @@ use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use app\modules\core\components\behaviors\ImageUploadBehavior;
 use app\modules\core\components\behaviors\ParentTreeBehavior;
+use yii\behaviors\SluggableBehavior;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -111,7 +112,7 @@ class Category extends \app\modules\core\models\CoreModel
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
                 ],
             ],
-            'file' => [
+            'image' => [
                 'class' => ImageUploadBehavior::className(),
                 'attributeName' => 'image',
                 'path' => $module->uploadPath,
@@ -120,6 +121,11 @@ class Category extends \app\modules\core\models\CoreModel
                 'class' => ParentTreeBehavior::className(),
                 'displayAttr' => 'name',
                 'status' => self::STATUS_ACTIVE,
+            ],
+            'slug' => [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'name',
+                'slugAttribute' => 'slug',
             ],
         ];
     }

@@ -132,7 +132,7 @@ class Post extends \app\modules\core\models\CoreModel
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
                 ],
             ],
-            'file' => [
+            'image' => [
                 'class' => ImageUploadBehavior::className(),
                 'attributeName' => 'image',
                 'path' => $module->uploadPath,
@@ -142,12 +142,12 @@ class Post extends \app\modules\core\models\CoreModel
                 'dateAttribute' => 'published_at',
                 'ipAttribute' => 'user_ip',
             ],
-            [
+            'blame' => [
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'created_by',
                 'updatedByAttribute' => 'updated_by',
             ],
-            [
+            'slug' => [
                 'class' => SluggableBehavior::className(),
                 'attribute' => 'title',
                 'slugAttribute' => 'slug',
