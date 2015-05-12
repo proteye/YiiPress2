@@ -140,6 +140,7 @@ class Post extends \app\modules\core\models\CoreModel
             'filter_attribute' => [
                 'class' => FilterAttributeBehavior::className(),
                 'dateAttribute' => 'published_at',
+                'ipAttribute' => 'user_ip',
             ],
             [
                 'class' => BlameableBehavior::className(),
