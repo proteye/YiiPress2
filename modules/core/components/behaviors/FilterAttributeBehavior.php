@@ -1,14 +1,17 @@
 <?php
 namespace app\modules\core\components\behaviors;
 
-use yii\base\Behavior;
+use Yii;
+use yii\behaviors\AttributeBehavior;
 use yii\db\ActiveRecord;
 
-class FilterAttributeBehavior extends Behavior
+class FilterAttributeBehavior extends AttributeBehavior
 {
     public $slugAttribute = 'url';
 
     public $dateAttribute = 'published_at';
+
+    public $ipAttribute = 'user_ip';
 
     /**
      * @return array
@@ -17,19 +20,25 @@ class FilterAttributeBehavior extends Behavior
     {
         return [
             ActiveRecord::EVENT_BEFORE_VALIDATE => 'beforeValidate',
+            ActiveRecord::EVENT_BEFORE_INSERT => 'beforeInsert',
         ];
     }
 
-    /**
-     * @param bool $selfId
-     * @return array
-     */
     public function beforeValidate()
     {
         $model = $this->owner;
 
-        if (isset($model->{$this->dateAttribute})) {
+        if ($model->hasAttribute($this->dateAttribute)) {
             $model->{$this->dateAttribute} = $this->getDateToTime();
+        }
+    }
+
+    public function beforeInsert()
+    {
+        $model = $this->owner;
+
+        if ($model->hasAttribute($this->ipAttribute)) {
+            $model->{$this->ipAttribute} = Yii::$app->request->userIP;
         }
     }
 
