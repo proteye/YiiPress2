@@ -26,14 +26,6 @@ $config = [
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
         ],
-        'assetManager' => [
-            'bundles' => [
-                'yii\bootstrap\BootstrapAsset' => [
-                    'css' => ['css/bootstrap.min.css'],
-                    'js' => ['js/bootstrap.min.js'],
-                ],
-            ],
-        ],
         'view' => [
             /* default Theme */
             'theme' => [

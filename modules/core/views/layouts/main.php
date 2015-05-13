@@ -38,12 +38,22 @@ BackendAsset::register($this);
                     ['label' => 'Главная', 'url' => ['/core/core-backend']],
                     ['label' => 'Категории', 'url' => ['/category/category-backend']],
                     ['label' => 'Страницы', 'url' => ['/page/page-backend']],
-                    ['label' => 'Блог', 'url' => ['/blog/post-backend']],
-                    ['label' => 'Тэги', 'url' => ['/blog/tag-backend']],
-                    ['label' => 'Комментарии', 'url' => ['/comment/comment-backend']],
-                    ['label' => 'Меню', 'url' => ['/menu/menu-backend']],
-                    ['label' => 'Пункты', 'url' => ['/menu/menu-item-backend']],
+                    [
+                        'label' => 'Блог',
+                        'items' => [
+                            ['label' => 'Посты', 'url' => ['/blog/post-backend']],
+                            ['label' => 'Тэги', 'url' => ['/blog/tag-backend']],
+                        ],
+                    ],
+                    [
+                        'label' => 'Меню',
+                        'items' => [
+                            ['label' => 'Меню', 'url' => ['/menu/menu-backend']],
+                            ['label' => 'Пункты', 'url' => ['/menu/menu-item-backend']],
+                        ],
+                    ],
                     ['label' => 'Изображения', 'url' => ['/image/image-backend']],
+                    ['label' => 'Комментарии', 'url' => ['/comment/comment-backend']],
                     ['label' => 'Пользователи', 'url' => ['/user/user-backend']],
                     ['label' => 'Настройки', 'url' => ['/core/setting-backend']],
                     Yii::$app->user->isGuest ?
@@ -55,7 +65,6 @@ BackendAsset::register($this);
             ]);
             NavBar::end();
         ?>
-
         <div class="container">
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
