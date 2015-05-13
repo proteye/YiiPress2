@@ -80,6 +80,8 @@ class PostSearch extends Post
             ->andFilterWhere(['like', 'meta_keywords', $this->meta_keywords])
             ->andFilterWhere(['like', 'meta_description', $this->meta_description]);
 
+        $query->orderBy('published_at DESC');
+
         return $dataProvider;
     }
 }
