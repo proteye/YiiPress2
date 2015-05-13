@@ -3,6 +3,8 @@
 namespace app\modules\blog\models;
 
 use Yii;
+use yii\behaviors\SluggableBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%tag}}".
@@ -50,6 +52,20 @@ class Tag extends \app\modules\core\models\CoreModel
     }
 
     /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'slug' => [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'title',
+                'slugAttribute' => 'slug',
+            ],
+        ];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getPostTags()
@@ -63,5 +79,15 @@ class Tag extends \app\modules\core\models\CoreModel
     public function getPosts()
     {
         return $this->hasMany(Post::className(), ['id' => 'post_id'])->viaTable('{{%post_tag}}', ['tag_id' => 'id']);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getItemsList()
+    {
+        $model = self::find()->all();
+
+        return ArrayHelper::map($model, 'id', 'title');
     }
 }

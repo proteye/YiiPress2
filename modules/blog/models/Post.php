@@ -11,6 +11,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use app\modules\core\components\behaviors\ImageUploadBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%post}}".
@@ -56,6 +57,12 @@ class Post extends \app\modules\core\models\CoreModel
     const COMMENT_NO = 0;
 
     /**
+     * @var
+     * @return array
+     */
+    private $_tags;
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -73,6 +80,7 @@ class Post extends \app\modules\core\models\CoreModel
             ['published_at', 'default', 'value' => null],
             ['comment_status', 'default', 'value' => self::COMMENT_YES],
             ['access_type', 'default', 'value' => self::ACCESS_PUBLIC],
+            ['tags', 'default', 'value' => []],
             [['category_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'access_type', 'comment_status', 'status'], 'integer'],
             [['title', 'slug', 'published_at'], 'required'],
             [['content'], 'string'],
@@ -87,6 +95,7 @@ class Post extends \app\modules\core\models\CoreModel
             ['access_type', 'in', 'range' => array_keys(self::getAccessesArray())],
             ['comment_status', 'in', 'range' => array_keys(self::getCommentStatusesArray())],
             ['status', 'in', 'range' => array_keys(self::getStatusesArray())],
+            ['tags', 'safe'],
         ];
     }
 
@@ -117,6 +126,7 @@ class Post extends \app\modules\core\models\CoreModel
             'access_type' => 'Доступ',
             'comment_status' => 'Комментарии',
             'status' => 'Статус',
+            'tags' => 'Теги',
         ];
     }
 
@@ -241,14 +251,46 @@ class Post extends \app\modules\core\models\CoreModel
      */
     public function getPostTags()
     {
-        return $this->hasMany(PostTag::className(), ['post_id' => 'id']);
+        return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->viaTable('{{%post_tag}}', ['post_id' => 'id']);
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return array
      */
     public function getTags()
     {
-        return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->viaTable('{{%post_tag}}', ['post_id' => 'id']);
+        $tags = $this->postTags;
+
+        return ArrayHelper::map($tags, 'slug', 'id');
+    }
+
+    /**
+     * @param $value
+     */
+    public function setTags($value)
+    {
+        PostTag::deleteAll(['post_id' => $this->id]);
+
+        if (!empty($value)) {
+            foreach ($value as $val) {
+                if (is_numeric($val)) {
+                    $post_tag = new PostTag();
+                    $post_tag->post_id = $this->id;
+                    $post_tag->tag_id = $val;
+                    $post_tag->save();
+                } else {
+                    $tag = new Tag();
+                    $tag->title = $val;
+                    if ($tag->save()) {
+                        $post_tag = new PostTag();
+                        $post_tag->post_id = $this->id;
+                        $post_tag->tag_id = $tag->id;
+                        $post_tag->save();
+                    }
+                }
+            }
+        }
+
+        $this->_tags = ArrayHelper::map($this->tags, 'id', 'title');
     }
 }

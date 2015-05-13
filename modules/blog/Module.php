@@ -4,7 +4,7 @@ namespace app\modules\blog;
 
 class Module extends \yii\base\Module
 {
-    const VERSION = '0.0.2';
+    const VERSION = '0.0.3';
 
     public $controllerNamespace = 'app\modules\blog\controllers';
 

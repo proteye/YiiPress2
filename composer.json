@@ -22,6 +22,7 @@
         "yiisoft/yii2-imagine": "*",
 	"creocoder/yii2-nested-sets": "*",
 	"kartik-v/yii2-icons": "dev-master",
+	"kartik-v/yii2-widgets": "*",
 	"vova07/yii2-imperavi-widget": "*",
 	"2amigos/yii2-ckeditor-widget": "*"
     },

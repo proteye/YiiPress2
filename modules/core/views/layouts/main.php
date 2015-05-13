@@ -39,6 +39,7 @@ BackendAsset::register($this);
                     ['label' => 'Категории', 'url' => ['/category/category-backend']],
                     ['label' => 'Страницы', 'url' => ['/page/page-backend']],
                     ['label' => 'Блог', 'url' => ['/blog/post-backend']],
+                    ['label' => 'Тэги', 'url' => ['/blog/tag-backend']],
                     ['label' => 'Комментарии', 'url' => ['/comment/comment-backend']],
                     ['label' => 'Меню', 'url' => ['/menu/menu-backend']],
                     ['label' => 'Пункты', 'url' => ['/menu/menu-item-backend']],

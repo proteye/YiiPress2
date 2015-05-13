@@ -6,6 +6,8 @@ use app\modules\category\models\Category;
 use vova07\imperavi\Widget as Redactor;
 use yii\helpers\Url;
 use app\modules\core\widgets\FlashMessage;
+use kartik\widgets\Select2;
+use app\modules\blog\models\Tag;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\blog\models\Post */
@@ -58,6 +60,17 @@ $core = Yii::$app->getModule('core');
     </div>
 
     <?= $form->field($model, 'image')->fileInput() ?>
+
+    <?= $form->field($model, 'tags')->widget(Select2::classname(), [
+        'data' => Tag::getItemsList(),
+        'options' => ['multiple' => true],
+        'pluginOptions' => [
+            'allowClear' => true,
+            'tags' => true,
+            'tokenSeparators' => [','],
+            'maximumInputLength' => 160,
+        ],
+    ]); ?>
 
     <?= $form->field($model, 'link')->textInput(['maxlength' => 255]) ?>
 
