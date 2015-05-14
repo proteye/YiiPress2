@@ -38,7 +38,7 @@ class Module extends \yii\base\Module
 
     public function generatePathsMap()
     {
-        $category = Yii::$app->db->createCommand('SELECT id, parent_id, slug FROM {{%category}}')->queryAll();
+        $category = Yii::$app->db->createCommand('SELECT id, parent_id, slug FROM {{%category}} ORDER BY parent_id')->queryAll();
         $items = null;
 
         foreach ($category as $item) {
