@@ -48,6 +48,7 @@ class MenuItemBackendController extends BackendController
     public function actionCreate()
     {
         $model = new MenuItem();
+        $model->regular_link = 1;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);

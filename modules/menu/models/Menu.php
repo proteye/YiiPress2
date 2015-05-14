@@ -4,6 +4,7 @@ namespace app\modules\menu\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "{{%menu}}".
@@ -94,5 +95,44 @@ class Menu extends \app\modules\core\models\CoreModel
         $model = self::find()->where(['status' => self::STATUS_ACTIVE])->all();
 
         return ArrayHelper::map($model, 'id', 'name');
+    }
+
+    /**
+     * @param $slug
+     * @param int $parent_id
+     */
+    public static function getItems($slug, $parent_id = null)
+    {
+        $menu_id = self::findOne(['slug' => $slug])->id;
+        $items = [];
+
+        if ($menu_id)
+            $items = self::buildTree($menu_id, $parent_id);
+
+        return $items;
+    }
+
+    /**
+     * @param $menu_id
+     * @param int $parent_id
+     * @return array
+     */
+    private static function buildTree($menu_id, $parent_id = null)
+    {
+        $items = [];
+        $model = MenuItem::find()->where(['menu_id' => $menu_id, 'parent_id' => $parent_id, 'status' => MenuItem::STATUS_ACTIVE])->all();
+
+        if (!$model)
+            return null;
+
+        foreach ($model as $value) {
+            $item['label'] = $value->title;
+            $item['url'] = $value->regular_link ? Yii::$app->request->baseUrl . '/' . $value->href : Url::to([$value->href]);
+            $item['items'] = self::buildTree($menu_id, $value->id);
+            $items[] = $item;
+            unset($item);
+        }
+
+        return $items;
     }
 }

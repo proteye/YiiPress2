@@ -13,9 +13,9 @@ use app\modules\menu\models\Menu;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'parent_id')->dropDownList($model->getParentsList($model->id), ['prompt' => '-- нет --']) ?>
-
     <?= $form->field($model, 'menu_id')->dropDownList(Menu::getItemsList(), ['prompt' => '-- нет --']) ?>
+
+    <?= $form->field($model, 'parent_id')->dropDownList($model->getParentsList($model->id), ['prompt' => '-- нет --']) ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => 160]) ?>
 
