@@ -4,6 +4,8 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\modules\menu\models\Menu;
+use yii\helpers\ArrayHelper;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -25,6 +27,19 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
     <div class="wrap">
         <?php
+            $menu_id = 'top-menu';
+            $static = [
+                ['label' => 'About', 'url' => ['/core/core-frontend/about']],
+                ['label' => 'Contact', 'url' => ['/core/contact/index']],
+                Yii::$app->user->isGuest ?
+                    ['label' => 'Войти', 'url' => ['/user/user/login']] :
+                    ['label' => 'Выйти (' . Yii::$app->user->identity->username . ')',
+                        'url' => ['/user/user/logout'],
+                        'linkOptions' => ['data-method' => 'post']],
+                Yii::$app->user->can('admin') ?
+                    ['label' => 'Администрирование', 'url' => ['/core/core-backend']] :
+                    ['label' => '']
+            ];
             NavBar::begin([
                 'brandLabel' => Yii::$app->name,
                 'brandUrl' => Yii::$app->homeUrl,
@@ -32,25 +47,15 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
+        if ($this->beginCache($menu_id, ['duration' => Yii::$app->getModule('menu')->cacheTime])) {
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => [
-                    ['label' => 'Home', 'url' => ['/']],
-                    ['label' => 'About', 'url' => ['/core/core-frontend/about']],
-                    ['label' => 'Contact', 'url' => ['/core/contact/index']],
-                    Yii::$app->user->isGuest ?
-                        ['label' => 'Войти', 'url' => ['/user/user/login']] :
-                        ['label' => 'Выйти (' . Yii::$app->user->identity->username . ')',
-                            'url' => ['/user/user/logout'],
-                            'linkOptions' => ['data-method' => 'post']],
-                    Yii::$app->user->can('admin') ?
-                        ['label' => 'Администрирование', 'url' => ['/core/core-backend']] :
-                        ['label' => ''],
-                ],
+                'items' => ArrayHelper::merge(Menu::getItems($menu_id), $static),
             ]);
+            $this->endCache();
+        }
             NavBar::end();
         ?>
-
         <div class="container">
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
