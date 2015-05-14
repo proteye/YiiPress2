@@ -10,7 +10,7 @@ use app\modules\user\models\LoginForm;
 /**
  * DefaultController implements the CRUD actions for User model.
  */
-class UserController extends FrontendController
+class UserFrontendController extends FrontendController
 {
     public function behaviors()
     {
