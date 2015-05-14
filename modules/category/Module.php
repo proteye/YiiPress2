@@ -41,9 +41,9 @@ class Module extends \yii\base\Module
         $category = Yii::$app->db->createCommand('SELECT id, parent_id, slug FROM {{%category}}')->queryAll();
         $items = null;
 
-        foreach ($category as $catg) {
-            $parent = isset($items[$catg['parent_id']]) ? $items[$catg['parent_id']] . '/' : null;
-            $items[$catg['id']] = $parent . $catg['slug'];
+        foreach ($category as $item) {
+            $parent = isset($items[$item['parent_id']]) ? $items[$item['parent_id']] . '/' : null;
+            $items[$item['id']] = $parent . $item['slug'];
         }
 
         return $items;
