@@ -11,5 +11,4 @@ class CoreBackendController extends BackendController
     {
         return $this->render('index');
     }
-
 }

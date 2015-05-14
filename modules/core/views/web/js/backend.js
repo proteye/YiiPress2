@@ -7,7 +7,7 @@ slugTarget.focus(function(){
         var slugSource2 = $('input[name*=name]');
         var data = slugSource1.val() ? slugSource1.val() : slugSource2.val();
         $.post(
-            '/core/core-backend/ajax-slug',
+            '/backend/core/core-backend/ajax-slug',
             { data: data },
             function(data){
                 slugTarget.val(data);
