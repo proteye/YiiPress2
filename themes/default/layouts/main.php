@@ -32,9 +32,9 @@ AppAsset::register($this);
                 ['label' => 'About', 'url' => ['/core/core-frontend/about']],
                 ['label' => 'Contact', 'url' => ['/core/contact/index']],
                 Yii::$app->user->isGuest ?
-                    ['label' => 'Войти', 'url' => ['/user/user/login']] :
+                    ['label' => 'Войти', 'url' => ['/user/user-frontend/login']] :
                     ['label' => 'Выйти (' . Yii::$app->user->identity->username . ')',
-                        'url' => ['/user/user/logout'],
+                        'url' => ['/user/user-frontend/logout'],
                         'linkOptions' => ['data-method' => 'post']],
                 Yii::$app->user->can('admin') ?
                     ['label' => 'Администрирование', 'url' => ['/core/core-backend']] :
@@ -47,13 +47,13 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
-        if ($this->beginCache($menu_id, ['duration' => Yii::$app->getModule('menu')->cacheTime])) {
+        //if ($this->beginCache($menu_id, ['duration' => Yii::$app->getModule('menu')->cacheTime])) {
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => ArrayHelper::merge(Menu::getItems($menu_id), $static),
             ]);
-            $this->endCache();
-        }
+        //    $this->endCache();
+        //}
             NavBar::end();
         ?>
         <div class="container">
