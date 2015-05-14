@@ -61,6 +61,8 @@ $core = Yii::$app->getModule('core');
 
     <?= $form->field($model, 'image')->fileInput() ?>
 
+    <?= $form->field($model, 'image_alt')->textInput(['maxlength' => 255]) ?>
+
     <?= $form->field($model, 'tags')->widget(Select2::classname(), [
         'data' => Tag::getItemsList(),
         'options' => ['multiple' => true],

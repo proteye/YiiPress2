@@ -24,6 +24,7 @@ use yii\helpers\ArrayHelper;
  * @property string $quote
  * @property string $content
  * @property string $image
+ * @property string $image_alt
  * @property integer $created_by
  * @property integer $updated_by
  * @property integer $created_at
@@ -87,7 +88,7 @@ class Post extends \app\modules\core\models\CoreModel
             [['lang'], 'string', 'max' => 2],
             [['slug'], 'string', 'max' => 160],
             ['image', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'skipOnEmpty' => true],
-            [['title', 'image', 'link'], 'string', 'max' => 255],
+            [['title', 'image', 'image_alt', 'link'], 'string', 'max' => 255],
             [['quote'], 'string', 'max' => 512],
             [['user_ip'], 'string', 'max' => 20],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
@@ -113,6 +114,7 @@ class Post extends \app\modules\core\models\CoreModel
             'quote' => 'Цитата',
             'content' => 'Текст',
             'image' => 'Изображение',
+            'image_alt' => 'Атрибут alt',
             'created_by' => 'Создал',
             'updated_by' => 'Обновил',
             'created_at' => 'Дата создания',

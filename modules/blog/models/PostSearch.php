@@ -19,7 +19,7 @@ class PostSearch extends Post
     {
         return [
             [['id', 'category_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'published_at', 'access_type', 'comment_status', 'status'], 'integer'],
-            [['lang', 'slug', 'title', 'quote', 'content', 'image', 'user_ip', 'link', 'meta_title', 'meta_keywords', 'meta_description'], 'safe'],
+            [['lang', 'slug', 'title', 'quote', 'content', 'image', 'image_alt', 'user_ip', 'link', 'meta_title', 'meta_keywords', 'meta_description'], 'safe'],
         ];
     }
 
@@ -74,6 +74,7 @@ class PostSearch extends Post
             ->andFilterWhere(['like', 'quote', $this->quote])
             ->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'image', $this->image])
+            ->andFilterWhere(['like', 'image_alt', $this->image])
             ->andFilterWhere(['like', 'user_ip', $this->user_ip])
             ->andFilterWhere(['like', 'link', $this->link])
             ->andFilterWhere(['like', 'meta_title', $this->meta_title])

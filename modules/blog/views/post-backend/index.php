@@ -33,6 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'quote',
             // 'content:ntext',
             // 'image',
+            // 'image_alt',
             // 'created_by',
             // 'updated_by',
             // 'created_at',
