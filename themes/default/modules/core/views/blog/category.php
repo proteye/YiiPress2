@@ -12,7 +12,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $model->meta_keywords
 
     <ul>
     <?php
-    foreach ($model->posts as $post) {
+    foreach ($posts as $post) {
         echo '<li>' . Html::a($post->title, $post->url) . '</li>';
         echo '<li>' . strftime('%B %e, %Y', $post->published_at) . '</li>';
         echo '<li>' . $post->image ? Html::img($post->fileUrl, ['alt' => $post->image_alt]) : null . '</li>';
