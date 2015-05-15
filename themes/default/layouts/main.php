@@ -47,13 +47,13 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
-        //if ($this->beginCache($menu_id, ['duration' => Yii::$app->getModule('menu')->cacheTime])) {
+        if ($this->beginCache($menu_id, ['duration' => Yii::$app->getModule('core')->cacheTime])) {
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => ArrayHelper::merge(Menu::getItems($menu_id), $static),
             ]);
-        //    $this->endCache();
-        //}
+            $this->endCache();
+        }
             NavBar::end();
         ?>
         <div class="container">

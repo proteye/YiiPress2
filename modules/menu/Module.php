@@ -11,8 +11,6 @@ class Module extends \yii\base\Module
 
     public $controllerNamespace = 'app\modules\menu\controllers';
 
-    public $cacheTime = 86400;
-
     public function init()
     {
         parent::init();
