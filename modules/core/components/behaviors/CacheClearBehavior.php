@@ -22,15 +22,15 @@ class CacheClearBehavior extends Behavior
 
     public function afterInsert()
     {
-        $this->clearCache($this->modules);
+        $this->clearModulesCache($this->modules);
     }
 
     /**
      * @param $modules
      */
-    protected function clearCache($modules)
+    public function clearModulesCache($modules)
     {
-        if (is_array($modules)) {
+        if (is_array($modules) && !empty($modules)) {
             foreach ($modules as $module) {
                 $cacheId = Yii::$app->getModule($module)->cacheId;
                 Yii::$app->cache->delete($cacheId);
