@@ -103,11 +103,11 @@ class Menu extends \app\modules\core\models\CoreModel
      */
     public static function getItems($slug, $parent_id = null)
     {
-        $menu_id = self::findOne(['slug' => $slug])->id;
+        $model = self::findOne(['slug' => $slug]);
         $items = [];
 
-        if ($menu_id)
-            $items = self::buildTree($menu_id, $parent_id);
+        if ($model)
+            $items = self::buildTree($model->id, $parent_id);
 
         return $items;
     }
