@@ -11,6 +11,7 @@ use yii\behaviors\TimestampBehavior;
 use app\modules\core\components\behaviors\ImageUploadBehavior;
 use app\modules\core\components\behaviors\ParentTreeBehavior;
 use yii\behaviors\SluggableBehavior;
+use app\modules\core\components\behaviors\CacheClearBehavior;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -126,6 +127,10 @@ class Category extends \app\modules\core\models\CoreModel
                 'class' => SluggableBehavior::className(),
                 'attribute' => 'name',
                 'slugAttribute' => 'slug',
+            ],
+            'cacheClear' => [
+                'class' => CacheClearBehavior::className(),
+                'modules' => ['category', 'blog'],
             ],
         ];
     }
