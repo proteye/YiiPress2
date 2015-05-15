@@ -61,6 +61,7 @@ return [
             'enableStrictParsing' => true,
             'rules' => [
                 ''                                                                                   => 'core/core-frontend/index',
+                'sitemap.xml'                                                                        => 'core/sitemap/index',
                 'contact'                                                                            => 'core/contact/index',
                 '<action:(about)>'                                                                   => 'core/core-frontend/<action>',
                 '<action:(login|logout|signup|confirm-email|request-password-reset|reset-password)>' => 'user/user-frontend/<action>',
