@@ -2,6 +2,7 @@
 
 namespace app\modules\blog\models;
 
+use app\modules\core\components\behaviors\CacheClearBehavior;
 use app\modules\core\components\behaviors\FilterAttributeBehavior;
 use Yii;
 use app\modules\user\models\User;
@@ -166,6 +167,10 @@ class Post extends \app\modules\core\models\CoreModel
                 'class' => SluggableBehavior::className(),
                 'attribute' => 'title',
                 'slugAttribute' => 'slug',
+            ],
+            'cacheClear' => [
+                'class' => CacheClearBehavior::className(),
+                'modules' => ['blog'],
             ],
         ];
     }
