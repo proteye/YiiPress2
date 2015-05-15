@@ -90,4 +90,11 @@ class Tag extends \app\modules\core\models\CoreModel
 
         return ArrayHelper::map($model, 'id', 'title');
     }
+
+    public function getUrl()
+    {
+        $tagUrl = Yii::$app->getModule('blog')->tagUrl;
+
+        return Yii::$app->request->baseUrl . '/' . $tagUrl . '/' . $this->slug;
+    }
 }

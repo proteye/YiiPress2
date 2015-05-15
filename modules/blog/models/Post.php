@@ -295,4 +295,14 @@ class Post extends \app\modules\core\models\CoreModel
 
         $this->_tags = ArrayHelper::map($this->tags, 'id', 'title');
     }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        $pathsMap = Yii::$app->getModule('category')->getPathsMap();
+
+        return Yii::$app->request->baseUrl . '/' . $pathsMap[$this->category_id] . '/' . $this->slug;
+    }
 }
