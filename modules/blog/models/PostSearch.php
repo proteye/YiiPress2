@@ -18,7 +18,7 @@ class PostSearch extends Post
     public function rules()
     {
         return [
-            [['id', 'category_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'published_at', 'access_type', 'comment_status', 'status'], 'integer'],
+            [['id', 'category_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'published_at', 'access_type', 'comment_status', 'status', 'views_count'], 'integer'],
             [['lang', 'slug', 'title', 'quote', 'content', 'image', 'image_alt', 'user_ip', 'link', 'meta_title', 'meta_keywords', 'meta_description'], 'safe'],
         ];
     }
@@ -77,6 +77,7 @@ class PostSearch extends Post
             ->andFilterWhere(['like', 'image_alt', $this->image])
             ->andFilterWhere(['like', 'user_ip', $this->user_ip])
             ->andFilterWhere(['like', 'link', $this->link])
+            ->andFilterWhere(['like', 'views_count', $this->views_count])
             ->andFilterWhere(['like', 'meta_title', $this->meta_title])
             ->andFilterWhere(['like', 'meta_keywords', $this->meta_keywords])
             ->andFilterWhere(['like', 'meta_description', $this->meta_description]);
