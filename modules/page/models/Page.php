@@ -221,4 +221,16 @@ class Page extends \app\modules\core\models\CoreModel
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        $pathsMap = Yii::$app->getModule('page')->getPathsMap();
+        if (is_array($pathsMap))
+            return Yii::$app->request->baseUrl . '/' . $pathsMap[$this->id];
+
+        return false;
+    }
 }
