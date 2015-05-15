@@ -301,8 +301,10 @@ class Post extends \app\modules\core\models\CoreModel
      */
     public function getUrl()
     {
-        $pathsMap = Yii::$app->getModule('category')->getPathsMap();
+        $pathsMap = Yii::$app->getModule('blog')->getPathsMap();
+        if (is_array($pathsMap))
+            return Yii::$app->request->baseUrl . '/' . $pathsMap[$this->id];
 
-        return Yii::$app->request->baseUrl . '/' . $pathsMap[$this->category_id] . '/' . $this->slug;
+        return false;
     }
 }
