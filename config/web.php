@@ -37,6 +37,14 @@ $config = [
                 ],
             ],
         ],
+        'rpcManager' => [
+            'class' => 'app\modules\core\components\RpcManager',
+            'pingEnable' => true,
+            'pingServers' => [
+                'http://ping.blogs.yandex.ru/RPC2',
+                'http://blogsearch.google.com/ping/RPC2',
+            ]
+        ],
     ],
 ];
 
