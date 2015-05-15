@@ -10,7 +10,8 @@ use yii\filters\VerbFilter;
 use app\modules\blog\models\Post;
 use app\modules\category\models\Category;
 use app\modules\page\models\Page;
-use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
+use app\modules\menu\models\Menu;
 
 class CoreFrontendController extends FrontendController
 {
@@ -81,7 +82,21 @@ class CoreFrontendController extends FrontendController
         if ($id !== false) {
             $model = Category::find()->where(['id' => $id, 'status' => Category::STATUS_ACTIVE])->one();
             if ($model) {
-                return $this->render('/blog/category', ['model' => $model]);
+                $categories = Category::find()
+                    ->where(['id' => $model->id])
+                    ->orWhere(['parent_id' => $model->id])
+                    ->andWhere(['status' => Category::STATUS_ACTIVE])
+                    ->all()
+                ;
+                $arr_categories = ArrayHelper::map($categories, 'id', 'id');
+
+                $posts = Post::find()
+                    ->where(['category_id' => $arr_categories])
+                    ->andWhere('status = :status', ['status' => Post::STATUS_ACTIVE])
+                    ->all()
+                ;
+
+                return $this->render('/blog/category', ['model' => $model, 'posts' => $posts]);
             }
         }
 
