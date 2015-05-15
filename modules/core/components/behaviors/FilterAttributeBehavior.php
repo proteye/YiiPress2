@@ -38,7 +38,8 @@ class FilterAttributeBehavior extends AttributeBehavior
         $model = $this->owner;
 
         if ($model->hasAttribute($this->ipAttribute)) {
-            $model->{$this->ipAttribute} = Yii::$app->request->userIP;
+            if (isset(Yii::$app->request->userIP))
+                $model->{$this->ipAttribute} = Yii::$app->request->userIP;
         }
     }
 
