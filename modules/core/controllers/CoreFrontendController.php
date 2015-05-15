@@ -11,7 +11,6 @@ use app\modules\blog\models\Post;
 use app\modules\category\models\Category;
 use app\modules\page\models\Page;
 use yii\helpers\ArrayHelper;
-use app\modules\menu\models\Menu;
 
 class CoreFrontendController extends FrontendController
 {
