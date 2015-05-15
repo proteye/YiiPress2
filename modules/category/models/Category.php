@@ -200,4 +200,16 @@ class Category extends \app\modules\core\models\CoreModel
 
         return ArrayHelper::map($model, 'id', 'name');
     }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        $pathsMap = Yii::$app->getModule('category')->getPathsMap();
+        if (is_array($pathsMap))
+            return Yii::$app->request->baseUrl . '/' . $pathsMap[$this->id];
+
+        return false;
+    }
 }
