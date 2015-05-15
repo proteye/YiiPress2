@@ -2,8 +2,6 @@
 
 namespace app\modules\blog\models;
 
-use app\modules\core\components\behaviors\CacheClearBehavior;
-use app\modules\core\components\behaviors\FilterAttributeBehavior;
 use Yii;
 use app\modules\user\models\User;
 use app\modules\category\models\Category;
@@ -11,6 +9,9 @@ use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
+use app\modules\core\components\behaviors\CacheClearBehavior;
+use app\modules\core\components\behaviors\FilterAttributeBehavior;
+use app\modules\core\components\behaviors\RpcPingBehavior;
 use app\modules\core\components\behaviors\ImageUploadBehavior;
 use yii\helpers\ArrayHelper;
 
@@ -171,6 +172,11 @@ class Post extends \app\modules\core\models\CoreModel
             'cacheClear' => [
                 'class' => CacheClearBehavior::className(),
                 'modules' => ['blog'],
+            ],
+            'pingPage' => [
+                'class' => RpcPingBehavior::className(),
+                'titleAttribute' => 'title',
+                'urlAttribute' => 'url',
             ],
         ];
     }
