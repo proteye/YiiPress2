@@ -24,8 +24,8 @@ class m150430_124846_menu_init extends Migration
         /* Menu Item */
         $this->createTable('{{%menu_item}}', [
             'id' => Schema::TYPE_PK,
-            'parent_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'menu_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'parent_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'regular_link' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 0',
             'title' => Schema::TYPE_STRING . '(160) NOT NULL',
             'href' => Schema::TYPE_STRING . '(255) NOT NULL',
