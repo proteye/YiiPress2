@@ -29,3 +29,9 @@ phpunit.phar
 # allow only default theme
 /themes/*
 !/themes/default
+
+# assets
+/assets/*
+!/assets/App*
+!/assets/Backend*
+
