@@ -16,6 +16,7 @@ class TransferController extends Controller
         echo 'yii transfer/post' . PHP_EOL;
         echo 'yii transfer/tag' . PHP_EOL;
         echo 'yii transfer/image' . PHP_EOL;
+        echo 'yii transfer/create-menu "menu_slug"' . PHP_EOL;
     }
 
     public function actionAll()
@@ -147,6 +148,45 @@ class TransferController extends Controller
             $result = Yii::$app->db->createCommand()->insert('yp_post_tag', [
                 'post_id' => $row['post_id'] - 1,
                 'tag_id' => $row['tag_id'],
+            ])->execute()
+            ;
+            $this->log($result);
+        }
+    }
+
+    public function actionCreateMenu($menu_slug)
+    {
+        $query = new Query;
+        $menu = $query->select('id')
+            ->from('yp_menu')
+            ->where("slug = '$menu_slug'")
+            ->one()
+        ;
+        if (empty($menu)) {
+            $this->stderr('"' . $menu_slug . '" can not be found!', Console::FG_RED, Console::BOLD);
+            echo PHP_EOL;
+            return;
+        }
+
+        $query = new Query();
+        $rows = $query->select('*')
+            ->from('yp_category')
+            ->all()
+        ;
+        if (empty($rows)) {
+            $this->stderr('"yp_category" is empty!', Console::FG_RED, Console::BOLD);
+            echo PHP_EOL;
+            return;
+        }
+        $pathsMap = Yii::$app->getModule('category')->getPathsMap();
+        foreach ($rows as $row) {
+            $result = Yii::$app->db->createCommand()->insert('yp_menu_item', [
+                'menu_id' => $menu['id'],
+                'parent_id' => $row['parent_id'],
+                'regular_link' => 1,
+                'title' => $row['name'],
+                'href' => $pathsMap[$row['id']],
+                'status' => $row['status'],
             ])->execute()
             ;
             $this->log($result);
