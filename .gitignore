@@ -25,3 +25,7 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
+
+# allow only default theme
+/themes/*
+!/themes/default
