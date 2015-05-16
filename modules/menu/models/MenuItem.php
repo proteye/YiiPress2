@@ -9,8 +9,8 @@ use app\modules\core\components\behaviors\ParentTreeBehavior;
  * This is the model class for table "{{%menu_item}}".
  *
  * @property integer $id
- * @property integer $parent_id
  * @property integer $menu_id
+ * @property integer $parent_id
  * @property integer $regular_link
  * @property string $title
  * @property string $href
