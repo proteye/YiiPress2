@@ -13,7 +13,7 @@ use yii\helpers\Html;
                         <!-- Thumbnail -->
                         <div class="bthumb4">
                             <?= Html::beginTag('a', ['href' => $post->url]) ?>
-                            <?= Html::img($post->fileUrl, ['class' => 'img-responsive', 'alt' => $post->image_alt]) ?>
+                            <?= Html::img($post->thumbUrl, ['class' => 'img-responsive', 'alt' => $post->image_alt]) ?>
                             <?= Html::endTag('a') ?>
                         </div>
                     <?php endif; ?>
