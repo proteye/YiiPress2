@@ -197,6 +197,27 @@ class Category extends \app\modules\core\models\CoreModel
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAllPosts($limit = false)
+    {
+        $model = self::find()
+            ->where(['id' => $this->id])
+            ->orWhere(['parent_id' => $this->id])
+            ->active()
+            ->all()
+        ;
+
+        return Post::find()
+            ->where(['category_id' => ArrayHelper::map($model, 'id', 'id')])
+            ->active()
+            ->orderBy('published_at DESC')
+            ->limit($limit)
+            ->all()
+            ;
+    }
+
+    /**
      * @return array
      */
     public static function getItemsList()
