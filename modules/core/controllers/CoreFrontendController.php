@@ -97,9 +97,16 @@ class CoreFrontendController extends FrontendController
         if (is_array($pathsMap))
             $id = array_search($url, $pathsMap);
         if ($id !== false) {
-            $model = Post::find()->where(['id' => $id, 'status' => Post::STATUS_ACTIVE])->one();
-            if ($model)
+            $model = Post::find()
+                ->where(['id' => $id])
+                ->active()
+                ->one()
+            ;
+            if ($model) {
+                /* Update post view count */
+                $model->updateCounters(['view_count' => 1]);
                 return $this->render('/blog/show', ['model' => $model]);
+            }
         }
 
         /* Category */
@@ -145,8 +152,6 @@ class CoreFrontendController extends FrontendController
                     ->limit($pages->limit)
                     ->all()
                 ;
-
-
                 return $this->render('/blog/category', ['model' => $model, 'posts' => $posts, 'pages' => $pages]);
             }
         }
@@ -156,7 +161,10 @@ class CoreFrontendController extends FrontendController
         if (is_array($pathsMap))
             $id = array_search($url, $pathsMap);
         if ($id !== false) {
-            $model = Page::find()->where(['id' => $id, 'status' => Page::STATUS_ACTIVE])->one();
+            $model = Page::find()->where(['id' => $id])
+                ->active()
+                ->one()
+            ;
             if ($model)
                 return $this->render('/page/show', ['model' => $model]);
         }
