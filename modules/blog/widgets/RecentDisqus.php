@@ -45,6 +45,6 @@ class RecentDisqus extends Widget
         preg_match_all('/&nbsp;<a href="(.+?#comment.+?)">/si', $data, $matches);
         $links = $matches[1];
 
-        return $this->render('recent-comment', ['images' => $images, 'authors' => $authors, 'contents' => $contents, 'links' => $links]);
+        return $this->render('recent-disqus', ['images' => $images, 'authors' => $authors, 'contents' => $contents, 'links' => $links]);
     }
 }
