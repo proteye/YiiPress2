@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'access_type',
             // 'comment_status',
             // 'status',
-            // 'views_count',
+            // 'view_count',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

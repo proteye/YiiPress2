@@ -40,7 +40,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $access_type
  * @property integer $comment_status
  * @property integer $status
- * @property integer $views_count
+ * @property integer $view_count
  *
  * @property Category $category
  * @property Category $user
@@ -85,7 +85,7 @@ class Post extends \app\modules\core\models\CoreModel
             ['comment_status', 'default', 'value' => self::COMMENT_YES],
             ['access_type', 'default', 'value' => self::ACCESS_PUBLIC],
             ['tags', 'default', 'value' => []],
-            ['views_count', 'default', 'value' => 0],
+            ['view_count', 'default', 'value' => 0],
             [['category_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'access_type', 'comment_status', 'status'], 'integer'],
             [['title', 'slug', 'published_at'], 'required'],
             [['content'], 'string'],
@@ -133,7 +133,7 @@ class Post extends \app\modules\core\models\CoreModel
             'comment_status' => 'Комментарии',
             'status' => 'Статус',
             'tags' => 'Теги',
-            'views_count' => 'Количество просмотров',
+            'view_count' => 'Количество просмотров',
         ];
     }
 

@@ -90,7 +90,7 @@ class TransferController extends Controller
                 'access_type' => 1,
                 'comment_status' => 1,
                 'status' => $row['status'],
-                'views_count' => $row['views_count'],
+                'view_count' => $row['views_count'],
             ])->execute()
             ;
             $this->log($result);
