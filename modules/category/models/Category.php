@@ -238,4 +238,20 @@ class Category extends \app\modules\core\models\CoreModel
 
         return false;
     }
+
+    /**
+     * @return array
+     */
+    public static function getBreadcrumbs($category_id)
+    {
+        $breadcrumbs = [];
+
+        while ($category_id !== null) {
+            $model = self::findOne($category_id);
+            array_unshift($breadcrumbs, ['label' => $model->name, 'url' => $model->url]);
+            $category_id = $model->parent_id;
+        }
+
+        return $breadcrumbs;
+    }
 }
