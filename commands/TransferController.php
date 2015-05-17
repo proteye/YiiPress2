@@ -5,7 +5,6 @@ use Yii;
 use yii\console\Controller;
 use yii\helpers\Console;
 use yii\db\Query;
-use app\modules\category\models\Category;
 
 class TransferController extends Controller
 {
@@ -25,6 +24,7 @@ class TransferController extends Controller
         $this->actionPost();
         $this->actionTag();
         $this->actionImage();
+        $this->actionCreateMenu('top-menu');
     }
 
     public function actionCategory()
@@ -32,26 +32,29 @@ class TransferController extends Controller
         $query = new Query;
         $rows = $query->select('*')
             ->from('yp_category_copy')
+            ->orderBy('parent_id')
             ->all()
         ;
         foreach ($rows as $row) {
-            $model = new Category();
-            $model->id = $row['id'];
-            $model->parent_id = ($row['parent_id'] == 0) ? null : $row['parent_id'];
-            $model->lang = 'ru';
-            $model->slug = $row['url'];
-            $model->name = $row['title'];
-            $model->short_description = null;
-            $model->description = $row['content'];
-            $model->image = null;
-            $model->image_alt = null;
-            $model->created_at = $row['created_at'];
-            $model->updated_at = $row['updated_at'];
-            $model->meta_title = $row['meta_title'];
-            $model->meta_keywords = $row['meta_keywords'];
-            $model->meta_description = $row['meta_description'];
-            $model->status = $row['status'];
-            $this->log($model->save());
+            $result = Yii::$app->db->createCommand()->insert('yp_category', [
+                'id' => $row['id'],
+                'parent_id' => ($row['parent_id'] == 0) ? null : $row['parent_id'],
+                'lang' => 'ru',
+                'slug' => $row['url'],
+                'name' => $row['title'],
+                'short_description' => null,
+                'description' => $row['content'],
+                'image' => null,
+                'image_alt' => null,
+                'created_at' => $row['created_at'],
+                'updated_at' => $row['updated_at'],
+                'meta_title' => $row['meta_title'],
+                'meta_keywords' => $row['meta_keywords'],
+                'meta_description' => $row['meta_description'],
+                'status' => $row['status'],
+            ])->execute()
+            ;
+            $this->log($result);
         }
     }
 
