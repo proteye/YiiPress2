@@ -12,6 +12,7 @@ class FrontendController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
+                'view' => '/error'
             ],
         ];
     }

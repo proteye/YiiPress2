@@ -42,7 +42,7 @@ class CoreFrontendController extends FrontendController
         ;
 
         try {
-            return $this->render('search', ['model' => $model, 'query' => $query, 'pages' => $pages]);
+            return $this->render('/search', ['model' => $model, 'query' => $query, 'pages' => $pages]);
         }  catch(ErrorException $e) {
             throw new \yii\web\HttpException(404, 'Страница не найдена.');
         }

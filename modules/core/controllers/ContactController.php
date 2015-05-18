@@ -25,7 +25,7 @@ class ContactController extends FrontendController
 
             return $this->refresh();
         } else {
-            return $this->render('contact', [
+            return $this->render('/contact', [
                 'model' => $model,
             ]);
         }

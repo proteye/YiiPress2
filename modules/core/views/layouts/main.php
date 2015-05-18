@@ -57,9 +57,9 @@ BackendAsset::register($this);
                     ['label' => 'Пользователи', 'url' => ['/user/user-backend']],
                     ['label' => 'Настройки', 'url' => ['/core/setting-backend']],
                     Yii::$app->user->isGuest ?
-                        ['label' => 'Войти', 'url' => ['/user/user/login']] :
+                        ['label' => 'Войти', 'url' => ['/user/user-frontend/login']] :
                         ['label' => 'Выйти (' . Yii::$app->user->identity->username . ')',
-                            'url' => ['/user/user/logout'],
+                            'url' => ['/user/user-frontend/logout'],
                             'linkOptions' => ['data-method' => 'post']],
                 ],
             ]);
