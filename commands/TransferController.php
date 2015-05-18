@@ -15,7 +15,7 @@ class TransferController extends Controller
         echo 'yii transfer/post' . PHP_EOL;
         echo 'yii transfer/tag' . PHP_EOL;
         echo 'yii transfer/image' . PHP_EOL;
-        echo 'yii transfer/create-menu "menu_slug"' . PHP_EOL;
+        echo 'yii transfer/create-menu "menu_slug" "nofollow"' . PHP_EOL;
     }
 
     public function actionAll()
@@ -157,7 +157,7 @@ class TransferController extends Controller
         }
     }
 
-    public function actionCreateMenu($menu_slug)
+    public function actionCreateMenu($menu_slug, $rel = null)
     {
         $query = new Query;
         $menu = $query->select('id')
@@ -189,6 +189,7 @@ class TransferController extends Controller
                 'regular_link' => 1,
                 'title' => $row['name'],
                 'href' => $pathsMap[$row['id']],
+                'rel' => $rel,
                 'status' => $row['status'],
             ])->execute()
             ;
