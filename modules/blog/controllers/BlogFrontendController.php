@@ -62,7 +62,7 @@ class BlogFrontendController extends FrontendController
                 $pages = new Pagination(
                     [
                         'totalCount' => $countQuery->count(),
-                        'defaultPageSize' => 6,
+                        'defaultPageSize' => 10,
                         'forcePageParam' => false,
                         'pageSizeParam' => false,
                         'validatePage'=>true,
