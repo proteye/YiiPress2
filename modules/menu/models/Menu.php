@@ -129,6 +129,7 @@ class Menu extends \app\modules\core\models\CoreModel
             $item['label'] = $value->title;
             $item['url'] = $value->regular_link ? Yii::$app->request->baseUrl . '/' . $value->href : Url::to([$value->href]);
             $item['items'] = self::buildTree($menu_id, $value->id);
+            $item['linkOptions'] = ['class' => $value->class, 'title' => $value->title_attr, 'target' => $value->target, 'rel' => $value->rel];
             $items[] = $item;
             unset($item);
         }
