@@ -65,7 +65,7 @@ return [
                 'contact'                                                                            => 'core/contact/index',
                 '<action:(search)>'                                                                  => 'core/core-frontend/<action>',
                 '<action:(login|logout|signup|confirm-email|request-password-reset|reset-password)>' => 'user/user-frontend/<action>',
-                '<action:(about)>'                                                                   => 'page/page-frontend/<action>',
+                'page/<action:(about)>'                                                              => 'page/page-frontend/<action>',
                 'page/<url:[\w\-\/]+>'                                                               => 'page/page-frontend/route',
                 'tag/<url:[\w\-\/]+>'                                                                => 'blog/blog-frontend/tag',
                 '<url:(?!backend)[\w\-\/]+>'                                                         => 'blog/blog-frontend/route',
