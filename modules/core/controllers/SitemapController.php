@@ -5,6 +5,7 @@ namespace app\modules\core\controllers;
 use Yii;
 use yii\db\Query;
 use app\modules\blog\models\Post;
+use app\modules\category\models\Category;
 
 class SitemapController extends \yii\web\Controller
 {
@@ -17,6 +18,16 @@ class SitemapController extends \yii\web\Controller
     const NEVER = 'never';
 
     public function actionIndex()
+    {
+        $model = Category::find()
+            ->where(['parent_id' => null])
+            ->active()
+            ->all()
+        ;
+        return $this->render('/sitemap', ['model' => $model]);
+    }
+
+    public function actionSitemapXml()
     {
         $classes = [
             '\app\modules\category\models\Category' => [self::WEEKLY, 0.9],
@@ -42,7 +53,7 @@ class SitemapController extends \yii\web\Controller
         $query = new Query;
         $last_date = $query->from('{{%post}}')->where(['status' => Post::STATUS_ACTIVE])->max('published_at');
 
-        return $this->renderPartial('index', [
+        return $this->renderPartial('sitemap-xml', [
             'host' => Yii::$app->request->hostInfo,
             'last_date' => $last_date,
             'items' => $items
