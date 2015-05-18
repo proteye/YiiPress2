@@ -167,8 +167,11 @@ class Category extends \app\modules\core\models\CoreModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCategories()
+    public function getCategories($only_active = false)
     {
+        if ($only_active)
+            return $this->hasMany(Category::className(), ['parent_id' => 'id'])->where(['status' => self::STATUS_ACTIVE])->all();
+
         return $this->hasMany(Category::className(), ['parent_id' => 'id']);
     }
 
@@ -191,8 +194,11 @@ class Category extends \app\modules\core\models\CoreModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPosts()
+    public function getPosts($only_active = false)
     {
+        if ($only_active)
+            return $this->hasMany(Post::className(), ['category_id' => 'id'])->where(['status' => Post::STATUS_ACTIVE])->all();
+
         return $this->hasMany(Post::className(), ['category_id' => 'id']);
     }
 
