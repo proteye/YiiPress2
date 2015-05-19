@@ -133,7 +133,7 @@ class Post extends \app\modules\core\models\CoreModel
             'comment_status' => 'Комментарии',
             'status' => 'Статус',
             'tags' => 'Теги',
-            'view_count' => 'Количество просмотров',
+            'view_count' => 'Просмотров',
         ];
     }
 

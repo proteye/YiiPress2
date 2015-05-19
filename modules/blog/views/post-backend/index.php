@@ -51,8 +51,13 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'meta_description',
             // 'access_type',
             // 'comment_status',
-            // 'status',
-            // 'view_count',
+            'view_count',
+            [
+                'attribute' => 'status',
+                'value' => function ($model) {
+                        return $model->statusName;
+                    },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
