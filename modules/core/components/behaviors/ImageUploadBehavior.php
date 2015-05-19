@@ -18,7 +18,7 @@ class ImageUploadBehavior extends FileUploadBehavior
 
     protected $defaultResizeOptions = [
         'width'   => 1200,
-        'height'  => 1200,
+        'height'  => 800,
         'quality' => 75,
     ];
 
