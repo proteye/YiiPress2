@@ -26,18 +26,30 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             // 'id',
-            'category_id',
-            // 'parent_id',
-            'name',
+            [
+                'attribute' => 'file',
+                'format' => 'html',
+                'value' => function ($model) {
+                        return Html::a(Html::img($model->thumbUrl, ['alt' => $model->alt]), $model->fileUrl, ['class' => 'prettyphoto']);
+                    },
+            ],
             'file',
+            'name',
             'alt',
-            'description:ntext',
-            // 'created_at',
-            // 'updated_at',
+            // 'description:ntext',
+            // 'category_id',
+            // 'parent_id',
+            'created_at:date',
+            // 'updated_at:date',
             // 'user_id',
             // 'sort',
-            'type',
-            'status',
+            // 'type',
+            [
+                'attribute' => 'status',
+                'value' => function ($model) {
+                        return $model->statusName;
+                    },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

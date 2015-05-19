@@ -41,7 +41,7 @@ class ImageSearch extends Image
      */
     public function search($params)
     {
-        $query = Image::find();
+        $query = Image::find()->orderBy('updated_at DESC');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -71,8 +71,6 @@ class ImageSearch extends Image
             ->andFilterWhere(['like', 'file', $this->file])
             ->andFilterWhere(['like', 'alt', $this->alt])
             ->andFilterWhere(['like', 'description', $this->description]);
-
-        $query->orderBy('updated_at DESC');
 
         return $dataProvider;
     }
