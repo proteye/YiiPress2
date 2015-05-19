@@ -42,7 +42,7 @@ $core = Yii::$app->getModule('core');
         'settings' => [
             'lang' => 'ru',
             'minHeight' => 400,
-            'imageUpload' => '/image/image-backend/upload',
+            'imageUpload' => Url::to(['/image/image-backend/upload']),
             'imageManagerJson' => Url::to(['/image/image-backend/image-get']),
             'plugins' => [
                 'imagemanager',
