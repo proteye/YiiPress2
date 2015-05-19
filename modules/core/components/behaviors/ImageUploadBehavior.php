@@ -143,8 +143,10 @@ class ImageUploadBehavior extends FileUploadBehavior
                 mkdir($this->thumbDirPath, 0755, true);
             }
             /* Create thumb */
-            Imagine::thumbnail($this->filePath, $width, $height)
-                ->save($this->thumbDirPath . DIRECTORY_SEPARATOR . $filename, ['quality' => $quality]);
+            if (@is_file($this->filepath)) {
+                Imagine::thumbnail($this->filePath, $width, $height)
+                    ->save($this->thumbDirPath . DIRECTORY_SEPARATOR . $filename, ['quality' => $quality]);
+            }
         }
 
         return $this->getThumbDirUrl() . '/' . $filename;
