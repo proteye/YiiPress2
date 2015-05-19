@@ -66,7 +66,7 @@ class TransferController extends Controller
             ->leftJoin('yp_post_meta_copy pm', 'pm.post_id = p.id AND pm.meta_key = "views_count"')
             ->leftJoin('yp_post_meta_copy pmc', 'pmc.post_id = p.id AND pmc.meta_key = "main_image_id"')
             ->leftJoin('yp_image_copy img', 'img.id = pmc.meta_value')
-            ->where('p.url != "index"')
+            ->where('p.type = "post"')
             ->all()
         ;
         foreach ($rows as $row) {
