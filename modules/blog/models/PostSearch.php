@@ -5,7 +5,7 @@ namespace app\modules\blog\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\blog\models\Post;
+use yii\data\Sort;
 
 /**
  * PostSearch represents the model behind the search form about `app\modules\blog\models\Post`.
@@ -41,7 +41,7 @@ class PostSearch extends Post
      */
     public function search($params)
     {
-        $query = Post::find();
+        $query = Post::find()->orderBy('published_at DESC');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -81,8 +81,6 @@ class PostSearch extends Post
             ->andFilterWhere(['like', 'meta_title', $this->meta_title])
             ->andFilterWhere(['like', 'meta_keywords', $this->meta_keywords])
             ->andFilterWhere(['like', 'meta_description', $this->meta_description]);
-
-        $query->orderBy('published_at DESC');
 
         return $dataProvider;
     }
