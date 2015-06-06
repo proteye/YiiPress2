@@ -53,4 +53,11 @@ class PageFrontendController extends FrontendController
     {
         return $this->render('/about');
     }
+
+    public function actionRedirect($url)
+    {
+        switch ($url) {
+            case 'inventar/sadovyi/sadovyi-nozh': $this->redirect('/ozelenenie/tsvety-i-kustarniki/sadovyi-nozh', 301); break;
+        }
+    }
 }
