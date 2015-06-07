@@ -138,6 +138,27 @@ class Post extends \app\modules\core\models\CoreModel
     }
 
     /**
+     * Init post tags
+     */
+    public function afterFind()
+    {
+        $this->_tags = ArrayHelper::map($this->postTags, 'slug', 'id');
+
+        parent::afterFind();
+    }
+
+    /**
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        $this->saveTags();
+
+        parent::afterSave($insert, $changedAttributes);
+    }
+
+    /**
      * @return array
      */
     public function behaviors()
@@ -275,9 +296,7 @@ class Post extends \app\modules\core\models\CoreModel
      */
     public function getTags()
     {
-        $tags = $this->postTags;
-
-        return ArrayHelper::map($tags, 'slug', 'id');
+        return $this->_tags;
     }
 
     /**
@@ -285,10 +304,26 @@ class Post extends \app\modules\core\models\CoreModel
      */
     public function setTags($value)
     {
-        PostTag::deleteAll(['post_id' => $this->id]);
+        $this->_tags = $value;
+    }
 
-        if (!empty($value)) {
-            foreach ($value as $val) {
+    /**
+     * Remove all tags
+     */
+    public function removeTags()
+    {
+        PostTag::deleteAll(['post_id' => $this->id]);
+    }
+
+    /**
+     * Add tags to post
+     */
+    public function saveTags()
+    {
+        $this->removeTags();
+
+        if (!empty($this->tags)) {
+            foreach ($this->tags as $val) {
                 if (is_numeric($val)) {
                     $post_tag = new PostTag();
                     $post_tag->post_id = $this->id;
@@ -307,7 +342,7 @@ class Post extends \app\modules\core\models\CoreModel
             }
         }
 
-        $this->_tags = ArrayHelper::map($this->tags, 'id', 'title');
+        $this->_tags = ArrayHelper::map($this->postTags, 'slug', 'id');
     }
 
     /**
