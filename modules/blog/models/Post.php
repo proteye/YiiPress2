@@ -182,6 +182,8 @@ class Post extends \app\modules\core\models\CoreModel
                 'class' => FilterAttributeBehavior::className(),
                 'dateAttribute' => 'published_at',
                 'ipAttribute' => 'user_ip',
+                'contentAttribute' => 'content',
+                'adsenseScript' => Yii::$app->params['adsenseScript'],
             ],
             'blame' => [
                 'class' => BlameableBehavior::className(),
