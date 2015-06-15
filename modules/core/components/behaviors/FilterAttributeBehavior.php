@@ -80,9 +80,14 @@ class FilterAttributeBehavior extends AttributeBehavior
         $length = mb_strlen($old_content);
         $hpos = mb_strrpos($old_content, '<h2>');
         $lpos = mb_strpos($old_content, '<h2>', ceil($length / 2));
-        $pos = ($hpos !== false && $hpos < $lpos) ? $hpos : $lpos;
-
         if ($hpos !== false || $lpos !== false) {
+            if ($hpos === false && $lpos !== false) {
+                $pos = $lpos;
+            } elseif ($hpos !== false && $lpos === false) {
+                $pos = $hpos;
+            } else {
+                $pos = ($hpos < $lpos) ? $hpos : $lpos;
+            }
             $content = substr_replace($old_content, $this->adsenseScript, $pos, 0);
         } else {
             $content = $old_content;
