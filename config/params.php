@@ -6,6 +6,10 @@ return [
     'supportEmail' => '',
     'fromEmail' => '',
     'projectStartDate' => 2015,
-    'adsenseScripts' => [],
+    'adsenseScripts' => [
+        'top' => null,
+        'content' => null,
+        'bottom' => null,
+    ],
     'user.passwordResetTokenExpire' => 3600,
 ];
