@@ -183,7 +183,7 @@ class Post extends \app\modules\core\models\CoreModel
                 'dateAttribute' => 'published_at',
                 'ipAttribute' => 'user_ip',
                 'contentAttribute' => 'content',
-                'adsenseScript' => Yii::$app->params['adsenseScript'],
+                'adsenseScript' => Yii::$app->params['adsenseScripts']['content'],
             ],
             'blame' => [
                 'class' => BlameableBehavior::className(),

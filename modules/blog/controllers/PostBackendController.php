@@ -67,8 +67,8 @@ class PostBackendController extends BackendController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $adsense_pos = mb_strpos($model->content, Yii::$app->params['adsenseScript']);
-        $adsense_length = mb_strlen(Yii::$app->params['adsenseScript']);
+        $adsense_pos = mb_strpos($model->content, Yii::$app->params['adsenseScripts']['content']);
+        $adsense_length = mb_strlen(Yii::$app->params['adsenseScripts']['content']);
         if ($adsense_pos !== false) {
             $model->content = substr_replace($model->content, '', $adsense_pos, $adsense_length);
         }
