@@ -47,7 +47,7 @@ class FilterAttributeBehavior extends AttributeBehavior
                 $model->{$this->ipAttribute} = Yii::$app->request->userIP;
         }
 
-        if ($model->hasAttribute($this->contentAttribute)) {
+        if ($this->adsenseScript != null && $model->hasAttribute($this->contentAttribute)) {
             $model->{$this->contentAttribute} = $this->getContentWithAdsense();
         }
     }
@@ -56,7 +56,7 @@ class FilterAttributeBehavior extends AttributeBehavior
     {
         $model = $this->owner;
 
-        if ($model->hasAttribute($this->contentAttribute)) {
+        if ($this->adsenseScript != null && $model->hasAttribute($this->contentAttribute)) {
             $model->{$this->contentAttribute} = $this->getContentWithAdsense();
         }
     }
