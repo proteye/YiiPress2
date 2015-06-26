@@ -358,4 +358,14 @@ class Post extends \app\modules\core\models\CoreModel
 
         return false;
     }
+
+    /**
+     * @return string
+     */
+    public function getShortQuote($num = 145)
+    {
+        $quote = mb_substr($this->quote, 0, $num, 'utf-8');
+        $quote .= (mb_strlen($this->quote, 'utf-8') > $num) ? '...' : '';
+        return $quote;
+    }
 }
