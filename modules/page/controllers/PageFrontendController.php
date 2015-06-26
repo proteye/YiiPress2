@@ -6,6 +6,7 @@ use Yii;
 use app\modules\core\components\controllers\FrontendController;
 use app\modules\category\models\Category;
 use app\modules\page\models\Page;
+use app\modules\blog\models\Post;
 
 class PageFrontendController extends FrontendController
 {
@@ -23,9 +24,17 @@ class PageFrontendController extends FrontendController
             ->all()
         ;
 
+        $slider_posts = Post::find()
+            ->active()
+            ->orderby('published_at DESC')
+            ->limit(15)
+            ->all()
+        ;
+
         return $this->render('/index', [
             'model' => $model,
             'categories' => $categories,
+            'slider_posts' => $slider_posts
         ]);
     }
 
