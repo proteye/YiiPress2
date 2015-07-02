@@ -8,8 +8,13 @@ class TopicPost extends Widget
 {
     public $post_id;
     public $category_id;
-    public $limit = 10;
+    public $limit = 3;
     public $sort = 'published_at';
+    /**
+     * default | bottom
+     * @var string
+     */
+    public $template = 'bottom';
 
     public function run()
     {
@@ -26,6 +31,8 @@ class TopicPost extends Widget
             ->all()
         ;
 
-        return $this->render('topic-post', ['model' => $model]);
+        $view = ($this->template == 'bottom') ? 'topic-post-btm' : 'topic-post';
+
+        return $this->render($view, ['model' => $model]);
     }
 }
