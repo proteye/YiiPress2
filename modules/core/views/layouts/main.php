@@ -42,6 +42,7 @@ BackendAsset::register($this);
                         'label' => 'Блог',
                         'items' => [
                             ['label' => 'Посты', 'url' => ['/blog/post-backend']],
+                            ['label' => 'Комментарии', 'url' => ['/comment/comment-backend']],
                             ['label' => 'Тэги', 'url' => ['/blog/tag-backend']],
                         ],
                     ],
@@ -53,7 +54,6 @@ BackendAsset::register($this);
                         ],
                     ],
                     ['label' => 'Изображения', 'url' => ['/image/image-backend']],
-                    ['label' => 'Комментарии', 'url' => ['/comment/comment-backend']],
                     ['label' => 'Пользователи', 'url' => ['/user/user-backend']],
                     ['label' => 'Настройки', 'url' => ['/core/setting-backend']],
                     Yii::$app->user->isGuest ?
