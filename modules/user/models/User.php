@@ -21,6 +21,8 @@ use yii\base\NotSupportedException;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ *
+ * @property UserProfile $userProfile
  */
 class User extends CoreModel implements IdentityInterface
 {
@@ -241,5 +243,13 @@ class User extends CoreModel implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserProfile()
+    {
+        return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
     }
 }
