@@ -205,7 +205,7 @@ class Category extends \app\modules\core\models\CoreModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAllPosts($limit = false)
+    public function getAllPosts($limit = false, $post_id = null)
     {
         $model = self::find()
             ->where(['id' => $this->id])
@@ -214,13 +214,26 @@ class Category extends \app\modules\core\models\CoreModel
             ->all()
         ;
 
-        return Post::find()
-            ->where(['category_id' => ArrayHelper::map($model, 'id', 'id')])
-            ->active()
-            ->orderBy('published_at DESC')
-            ->limit($limit)
-            ->all()
+        if ($post_id !== null) {
+            $posts = Post::find()
+                ->where(['category_id' => ArrayHelper::map($model, 'id', 'id')])
+                ->andWhere('id != :id', ['id' => $post_id])
+                ->active()
+                ->orderBy('published_at DESC')
+                ->limit($limit)
+                ->all()
             ;
+        } else {
+            $posts = Post::find()
+                ->where(['category_id' => ArrayHelper::map($model, 'id', 'id')])
+                ->active()
+                ->orderBy('published_at DESC')
+                ->limit($limit)
+                ->all()
+            ;
+        }
+
+        return $posts;
     }
 
     /**
