@@ -4,10 +4,11 @@ namespace app\modules\core\controllers;
 
 use Yii;
 use yii\db\Query;
+use app\modules\core\components\controllers\FrontendController;
 use app\modules\blog\models\Post;
 use app\modules\category\models\Category;
 
-class SitemapController extends \yii\web\Controller
+class SitemapController extends FrontendController
 {
     const ALWAYS = 'always';
     const HOURLY = 'hourly';
