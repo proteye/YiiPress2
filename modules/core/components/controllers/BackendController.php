@@ -61,8 +61,9 @@ class BackendController extends Controller
      */
     public function actionAjaxSlug()
     {
+        $module = Yii::$app->getModule('core');
         $data = Yii::$app->request->post('data');
-
+        Inflector::$transliterator = $module->transliterator;
         echo Inflector::slug($data);
     }
 }

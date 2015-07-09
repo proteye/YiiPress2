@@ -6,7 +6,7 @@ use Yii;
 
 class Module extends \yii\base\Module
 {
-    const VERSION = '0.1.5';
+    const VERSION = '0.1.6';
 
     public $controllerNamespace = 'app\modules\core\controllers';
 
@@ -17,6 +17,8 @@ class Module extends \yii\base\Module
     public $defaultLanguage = 'ru-RU';
 
     public $languages = 'ru-RU,en-US';
+
+    public $transliterator = 'Russian-Latin/BGN; NFKD';
 
     public function init()
     {
