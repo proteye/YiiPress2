@@ -2,6 +2,8 @@
 use yii\helpers\Html;
 ?>
 
+<?php if ($model): ?>
+
 <div class="widget">
     <h4>Свежие записи</h4>
     <ul>
@@ -25,3 +27,5 @@ use yii\helpers\Html;
         <?php endforeach; ?>
     </ul>
 </div>
+
+<?php endif; ?>
