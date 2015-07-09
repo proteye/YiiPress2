@@ -6,7 +6,7 @@ use Yii;
 
 class Module extends \yii\base\Module
 {
-    const VERSION = '0.1.7';
+    const VERSION = '0.1.8';
 
     public $controllerNamespace = 'app\modules\blog\controllers';
 

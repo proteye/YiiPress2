@@ -8,7 +8,7 @@ use app\modules\category\models\Category;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
-use yii\behaviors\SluggableBehavior;
+use app\modules\core\components\behaviors\SluggableBehavior;
 use app\modules\core\components\behaviors\CacheClearBehavior;
 use app\modules\core\components\behaviors\FilterAttributeBehavior;
 use app\modules\core\components\behaviors\RpcPingBehavior;
@@ -194,6 +194,8 @@ class Post extends \app\modules\core\models\CoreModel
                 'class' => SluggableBehavior::className(),
                 'attribute' => 'title',
                 'slugAttribute' => 'slug',
+                'transliterator' => Yii::$app->getModule('core')->transliterator,
+                'forceUpdate' => false,
             ],
             'cacheClear' => [
                 'class' => CacheClearBehavior::className(),

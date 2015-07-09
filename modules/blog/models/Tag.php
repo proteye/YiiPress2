@@ -3,7 +3,7 @@
 namespace app\modules\blog\models;
 
 use Yii;
-use yii\behaviors\SluggableBehavior;
+use app\modules\core\components\behaviors\SluggableBehavior;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -61,6 +61,8 @@ class Tag extends \app\modules\core\models\CoreModel
                 'class' => SluggableBehavior::className(),
                 'attribute' => 'title',
                 'slugAttribute' => 'slug',
+                'transliterator' => Yii::$app->getModule('core')->transliterator,
+                'forceUpdate' => false,
             ],
         ];
     }
