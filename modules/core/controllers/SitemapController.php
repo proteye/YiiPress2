@@ -31,9 +31,9 @@ class SitemapController extends FrontendController
     public function actionSitemapXml()
     {
         $classes = [
-            '\app\modules\category\models\Category' => [self::WEEKLY, '0.9'],
-            '\app\modules\blog\models\Post' => [self::MONTHLY, '0.8'],
-            '\app\modules\page\models\Page' => [self::MONTHLY, '0.6'],
+            '\app\modules\category\models\Category' => [self::WEEKLY, 0.9],
+            '\app\modules\blog\models\Post' => [self::MONTHLY, 0.8],
+            '\app\modules\page\models\Page' => [self::MONTHLY, 0.6],
         ];
 
         $items = array();
