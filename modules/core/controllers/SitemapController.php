@@ -31,9 +31,9 @@ class SitemapController extends FrontendController
     public function actionSitemapXml()
     {
         $classes = [
-            '\app\modules\category\models\Category' => [self::WEEKLY, 0.9],
-            '\app\modules\blog\models\Post' => [self::MONTHLY, 0.8],
-            '\app\modules\page\models\Page' => [self::MONTHLY, 0.6],
+            '\app\modules\category\models\Category' => [self::WEEKLY, '0.9'],
+            '\app\modules\blog\models\Post' => [self::MONTHLY, '0.8'],
+            '\app\modules\page\models\Page' => [self::MONTHLY, '0.6'],
         ];
 
         $items = array();
@@ -42,7 +42,7 @@ class SitemapController extends FrontendController
                 [
                 'model' => $class::find()
                         ->where('slug != :slug', ['slug' => 'index'])
-                        ->andWhere('status = :status', ['status' => Post::STATUS_ACTIVE])
+                        ->active()
                         ->orderBy('updated_at')
                         ->all(),
                 'changefreq' => $options[0],
