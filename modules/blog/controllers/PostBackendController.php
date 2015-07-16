@@ -6,6 +6,7 @@ use Yii;
 use app\modules\core\components\controllers\BackendController;
 use app\modules\blog\models\Post;
 use app\modules\blog\models\PostSearch;
+use yii\helpers\Html;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -67,12 +68,6 @@ class PostBackendController extends BackendController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $adsense_pos = mb_strpos($model->content, Yii::$app->params['adsenseScripts']['content']);
-        $adsense_length = mb_strlen(Yii::$app->params['adsenseScripts']['content']);
-        if ($adsense_pos !== false) {
-            $model->content = substr_replace($model->content, '', $adsense_pos, $adsense_length);
-        }
-
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
@@ -110,5 +105,22 @@ class PostBackendController extends BackendController
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * @return \yii\web\Response
+     */
+    public function actionClearAdsense()
+    {
+        $model = Post::find()->all();
+        foreach ($model as $post) {
+            if (preg_match('/\s*<!-- Google Adsense -->.+<\/script>\s*/ism', $post->content)) {
+                $post->content = preg_replace('/\s*<!-- Google Adsense -->.+<\/script>\s*/ism', '
+', $post->content);
+                $post->save();
+            }
+        }
+
+        return $this->redirect(['index']);
     }
 }
