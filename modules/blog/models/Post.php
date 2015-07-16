@@ -368,4 +368,30 @@ class Post extends \app\modules\core\models\CoreModel
         $quote .= (mb_strlen($this->quote, 'utf-8') > $num) ? '...' : '';
         return $quote;
     }
+
+    /**
+     * @return string
+     */
+    public function getContentWithAdsense()
+    {
+        $adsenseScript = Yii::$app->params['adsenseScripts']['content'];
+        $old_content = $this->content;
+        $length = mb_strlen($old_content);
+        $hpos = mb_strrpos($old_content, '<h2>');
+        $lpos = mb_strpos($old_content, '<h2>', ceil($length / 2));
+        if ($hpos !== false || $lpos !== false) {
+            if ($hpos === false && $lpos !== false) {
+                $pos = $lpos;
+            } elseif ($hpos !== false && $lpos === false) {
+                $pos = $hpos;
+            } else {
+                $pos = ($hpos < $lpos) ? $hpos : $lpos;
+            }
+            $content = substr_replace($old_content, $adsenseScript, $pos, 0);
+        } else {
+            $content = $old_content;
+        }
+
+        return $content;
+    }
 }
