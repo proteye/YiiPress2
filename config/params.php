@@ -10,6 +10,7 @@ return [
         'top' => null,
         'content' => null,
         'bottom' => null,
+        'mobile' => null,
     ],
     'user.passwordResetTokenExpire' => 3600,
 ];
