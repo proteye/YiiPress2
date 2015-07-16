@@ -13,10 +13,6 @@ class FilterAttributeBehavior extends AttributeBehavior
 
     public $ipAttribute = 'user_ip';
 
-    public $contentAttribute = 'content';
-
-    public $adsenseScript = null;
-
     /**
      * @return array
      */
@@ -25,7 +21,6 @@ class FilterAttributeBehavior extends AttributeBehavior
         return [
             ActiveRecord::EVENT_BEFORE_VALIDATE => 'beforeValidate',
             ActiveRecord::EVENT_BEFORE_INSERT => 'beforeInsert',
-            ActiveRecord::EVENT_BEFORE_UPDATE => 'beforeUpdate',
         ];
     }
 
@@ -46,19 +41,6 @@ class FilterAttributeBehavior extends AttributeBehavior
             if (isset(Yii::$app->request->userIP))
                 $model->{$this->ipAttribute} = Yii::$app->request->userIP;
         }
-
-        if ($this->adsenseScript != null && $model->hasAttribute($this->contentAttribute)) {
-            $model->{$this->contentAttribute} = $this->getContentWithAdsense();
-        }
-    }
-
-    public function beforeUpdate()
-    {
-        $model = $this->owner;
-
-        if ($this->adsenseScript != null && $model->hasAttribute($this->contentAttribute)) {
-            $model->{$this->contentAttribute} = $this->getContentWithAdsense();
-        }
     }
 
     /**
@@ -68,31 +50,5 @@ class FilterAttributeBehavior extends AttributeBehavior
     {
         $model = $this->owner;
         return strtotime($model->{$this->dateAttribute});
-    }
-
-    /**
-     * @return string
-     */
-    protected function getContentWithAdsense()
-    {
-        $model = $this->owner;
-        $old_content = $model->{$this->contentAttribute};
-        $length = mb_strlen($old_content);
-        $hpos = mb_strrpos($old_content, '<h2>');
-        $lpos = mb_strpos($old_content, '<h2>', ceil($length / 2));
-        if ($hpos !== false || $lpos !== false) {
-            if ($hpos === false && $lpos !== false) {
-                $pos = $lpos;
-            } elseif ($hpos !== false && $lpos === false) {
-                $pos = $hpos;
-            } else {
-                $pos = ($hpos < $lpos) ? $hpos : $lpos;
-            }
-            $content = substr_replace($old_content, $this->adsenseScript, $pos, 0);
-        } else {
-            $content = $old_content;
-        }
-
-        return $content;
     }
 }
