@@ -13,6 +13,7 @@ class m150430_121350_category_init extends Migration
         $this->createTable('{{%category}}', [
             'id' => Schema::TYPE_PK,
             'parent_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+            'model' => Schema::TYPE_STRING . '(160) DEFAULT NULL',
             'lang' => Schema::TYPE_STRING . '(2)',
             'slug' => Schema::TYPE_STRING . '(160) NOT NULL',
             'name' => Schema::TYPE_STRING . '(255) NOT NULL',
