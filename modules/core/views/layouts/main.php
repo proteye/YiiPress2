@@ -53,7 +53,13 @@ BackendAsset::register($this);
                             ['label' => 'Пункты', 'url' => ['/menu/menu-item-backend']],
                         ],
                     ],
-                    ['label' => 'Изображения', 'url' => ['/image/image-backend']],
+                    [
+                        'label' => 'Модули',
+                        'items' => [
+                            ['label' => 'Изображения', 'url' => ['/image/image-backend']],
+                            ['label' => 'Каталог', 'url' => ['/catalog/catalog-backend']],
+                        ],
+                    ],
                     ['label' => 'Пользователи', 'url' => ['/user/user-backend']],
                     ['label' => 'Настройки', 'url' => ['/core/setting-backend']],
                     Yii::$app->user->isGuest ?
