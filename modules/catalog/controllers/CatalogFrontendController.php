@@ -2,9 +2,10 @@
 
 namespace app\modules\catalog\controllers;
 
-use yii\web\Controller;
+use Yii;
+use app\modules\core\components\controllers\FrontendController;
 
-class DefaultController extends Controller
+class CatalogFrontendController extends FrontendController
 {
     public function actionIndex()
     {

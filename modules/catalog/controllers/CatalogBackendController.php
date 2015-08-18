@@ -3,16 +3,16 @@
 namespace app\modules\catalog\controllers;
 
 use Yii;
+use app\modules\core\components\controllers\BackendController;
 use app\modules\catalog\models\Company;
 use app\modules\catalog\models\CompanySearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * CatalogBackendController implements the CRUD actions for Company model.
  */
-class CatalogBackendController extends Controller
+class CatalogBackendController extends BackendController
 {
     public function behaviors()
     {
