@@ -27,15 +27,30 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
-            // 'email:email',
-            // 'status',
-            // 'created_at',
+            'email:email',
+            'created_at:date',
+            [
+                'attribute' => 'status',
+                'value' => function ($model) {
+                    return $model->statusName;
+                },
+            ],
+            // 'auth_key',
+            // 'password_hash',
+            // 'password_reset_token',
             // 'updated_at',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {change-password}',
+                'buttons' => [
+                    'change-password' => function($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-asterisk"></span>', $url, [
+                            'title' => 'Изменить пароль',
+                        ]);
+                    },
+                ]
+            ],
         ],
     ]); ?>
 

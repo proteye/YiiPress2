@@ -48,9 +48,10 @@ class UserBackendController extends BackendController
     public function actionCreate()
     {
         $model = new User();
+        $model->setScenario($model::OP_INSERT);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -67,9 +68,10 @@ class UserBackendController extends BackendController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->setScenario($model::OP_UPDATE);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -103,6 +105,25 @@ class UserBackendController extends BackendController
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
+     */
+    public function actionChangePassword($id)
+    {
+        $model = $this->findModel($id);
+        $model->setScenario($model::OP_UPDATE);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('change-password', [
+                'model' => $model,
+            ]);
         }
     }
 }
