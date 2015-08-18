@@ -35,6 +35,9 @@ return [
         'comment' => [
             'class' => 'app\modules\comment\Module',
         ],
+        'catalog' => [
+            'class' => 'app\modules\catalog\Module',
+        ],
     ],
     'components' => [
         'db' => [
