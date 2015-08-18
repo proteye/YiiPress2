@@ -60,6 +60,7 @@ class m150817_205616_catalog_init extends Migration
         $this->createIndex('idx_company_address_company_id', '{{%company_address}}', 'company_id');
         $this->createIndex('idx_company_address_city_id', '{{%company_address}}', 'city_id');
         $this->addForeignKey('fk_company_address_company_id', '{{%company_address}}', 'company_id', '{{%company}}', 'id', 'CASCADE', 'NO ACTION');
+        $this->addForeignKey('fk_company_address_city_id', '{{%company_address}}', 'city_id', '{{%geo_city}}', 'id', 'NO ACTION', 'NO ACTION');
 
         /* Company phone */
         $this->createTable('{{%company_phone}}', [
