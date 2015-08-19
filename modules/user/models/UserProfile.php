@@ -3,6 +3,7 @@
 namespace app\modules\user\models;
 
 use Yii;
+use app\modules\core\components\behaviors\FilterAttributeBehavior;
 
 /**
  * This is the model class for table "{{%user_profile}}".
@@ -25,6 +26,9 @@ use Yii;
  */
 class UserProfile extends \app\modules\core\models\CoreModel
 {
+    const STATUS_FALSE = 0;
+    const STATUS_TRUE = 1;
+
     /**
      * @inheritdoc
      */
@@ -39,7 +43,9 @@ class UserProfile extends \app\modules\core\models\CoreModel
     public function rules()
     {
         return [
-            [['birth_dt', 'last_visit', 'email_confirm'], 'integer'],
+            ['email_confirm', 'default', 'value' => self::STATUS_FALSE],
+            ['birth_dt', 'default', 'value' => null],
+            [['last_visit', 'email_confirm'], 'integer'],
             [['nick_nm', 'first_nm', 'last_nm', 'patron', 'about', 'site', 'avatar'], 'string', 'max' => 255],
             [['address'], 'string', 'max' => 512],
             [['user_ip'], 'string', 'max' => 20]
@@ -59,12 +65,48 @@ class UserProfile extends \app\modules\core\models\CoreModel
             'patron' => 'Отчество',
             'birth_dt' => 'Дата рождения',
             'about' => 'Обо мне',
-            'site' => 'Сайт',
+            'site' => 'Сайт (ссылка)',
             'address' => 'Адрес',
             'user_ip' => 'User IP',
             'avatar' => 'Аватар',
             'last_visit' => 'Последнее посещение',
             'email_confirm' => 'Email подтвержден',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        $module = Yii::$app->getModule('blog');
+
+        return [
+            'filter_attribute' => [
+                'class' => FilterAttributeBehavior::className(),
+                'dateAttribute' => 'birth_dt',
+                'ipAttribute' => 'user_ip',
+            ],
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusName()
+    {
+        $statuses = self::getStatusesArray();
+        return isset($statuses[$this->status]) ? $statuses[$this->status] : '';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusesArray()
+    {
+        return [
+            self::STATUS_FALSE => 'Нет',
+            self::STATUS_TRUE => 'Да',
         ];
     }
 

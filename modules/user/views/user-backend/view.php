@@ -19,24 +19,97 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы уверены, что хотите удалить этот элемент?',
                 'method' => 'post',
             ],
         ]) ?>
     </p>
 
     <?= DetailView::widget([
-        'model' => $model,
+        'model' => [$model, $profile],
         'attributes' => [
-            'id',
-            'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
-            'email:email',
-            'created_at:date',
-            'updated_at:date',
-            'status',
+            [
+                'label' => $model->getAttributeLabel('id'),
+                'value' => $model->id,
+            ],
+            [
+                'label' => $model->getAttributeLabel('username'),
+                'value' => $model->username,
+            ],
+            [
+                'label' => $model->getAttributeLabel('email'),
+                'value' => $model->email,
+                'format' => 'email',
+            ],
+            [
+                'label' => $profile->getAttributeLabel('nick_nm'),
+                'value' => $profile->nick_nm,
+            ],
+            [
+                'label' => $profile->getAttributeLabel('first_nm'),
+                'value' => $profile->first_nm,
+            ],
+            [
+                'label' => $profile->getAttributeLabel('last_nm'),
+                'value' => $profile->last_nm,
+            ],
+            [
+                'label' => $profile->getAttributeLabel('patron'),
+                'value' => $profile->patron,
+            ],
+            [
+                'label' => $profile->getAttributeLabel('birth_dt'),
+                'value' => $profile->birth_dt,
+                'format' => 'date',
+            ],
+            [
+                'label' => $profile->getAttributeLabel('about'),
+                'value' => $profile->about,
+            ],
+            [
+                'label' => $profile->getAttributeLabel('site'),
+                'value' => $profile->site,
+            ],
+            [
+                'label' => $profile->getAttributeLabel('address'),
+                'value' => $profile->address,
+            ],
+            [
+                'label' => $profile->getAttributeLabel('avatar'),
+                'value' => $profile->avatar,
+            ],
+            [
+                'label' => $profile->getAttributeLabel('last_visit'),
+                'value' => $profile->last_visit,
+            ],
+            [
+                'label' => $profile->getAttributeLabel('user_ip'),
+                'value' => $profile->user_ip,
+            ],
+            [
+                'label' => $model->getAttributeLabel('auth_key'),
+                'value' => $model->auth_key,
+            ],
+            [
+                'label' => $model->getAttributeLabel('created_at'),
+                'value' => $model->created_at,
+                'format' => 'date',
+            ],
+            [
+                'label' => $model->getAttributeLabel('updated_at'),
+                'value' => $model->updated_at,
+                'format' => 'date',
+            ],
+            [
+                'label' => $profile->getAttributeLabel('email_confirm'),
+                'value' => $profile->email_confirm,
+            ],
+            [
+                'label' => $model->getAttributeLabel('status'),
+                'value' => $model->status,
+            ],
+            // 'password_hash',
+            // 'password_reset_token',
         ],
     ]) ?>
 

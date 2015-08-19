@@ -6,6 +6,8 @@ use Yii;
 use app\modules\core\components\controllers\BackendController;
 use app\modules\user\models\User;
 use app\modules\user\models\UserSearch;
+use app\modules\user\models\UserProfile;
+use yii\debug\models\search\Profile;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -37,6 +39,7 @@ class UserBackendController extends BackendController
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'profile' => UserProfile::findOne($id),
         ]);
     }
 
@@ -49,14 +52,21 @@ class UserBackendController extends BackendController
     {
         $model = new User();
         $model->setScenario($model::OP_INSERT);
+        $profile = new UserProfile();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post()) && $profile->load(Yii::$app->request->post())) {
+            if ($model->validate() && $profile->validate()) {
+                $model->save(false);
+                $profile->user_id = $model->id;
+                $profile->save(false);
+                return $this->redirect(['index']);
+            }
         }
+
+        return $this->render('create', [
+            'model' => $model,
+            'profile' => $profile,
+        ]);
     }
 
     /**
@@ -69,14 +79,24 @@ class UserBackendController extends BackendController
     {
         $model = $this->findModel($id);
         $model->setScenario($model::OP_UPDATE);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        $profile = UserProfile::findOne($id);
+        if (!isset($profile)) {
+            $profile = new UserProfile();
+            $profile->user_id = $id;
         }
+
+        if ($model->load(Yii::$app->request->post()) && $profile->load(Yii::$app->request->post())) {
+            if ($model->validate() && $profile->validate()) {
+                $model->save(false);
+                $profile->save(false);
+                return $this->redirect(['index']);
+            }
+        }
+
+        return $this->render('update', [
+            'model' => $model,
+            'profile' => $profile,
+        ]);
     }
 
     /**

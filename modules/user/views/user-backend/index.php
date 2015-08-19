@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {update} {delete} {change-password}',
+                'template' => '{view} {update} {change-password} {delete}',
                 'buttons' => [
                     'change-password' => function($url, $model) {
                         return Html::a('<span class="glyphicon glyphicon-asterisk"></span>', $url, [
