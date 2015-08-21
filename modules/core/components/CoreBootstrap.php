@@ -18,6 +18,7 @@ class CoreBootstrap implements BootstrapInterface
 
             if (!$theme) {
                 /*
+                // Set cache
                 $duration = 60*60*24;
                 $dependency = new DbDependency(['sql' => 'SELECT MAX(updated_at) FROM {{%setting}}']);
                 $result = Yii::$app->db->cache(function ($db) {
@@ -30,7 +31,7 @@ class CoreBootstrap implements BootstrapInterface
                     return false;
             }
 
-            if (file_exists(Yii::getAlias('@app') . '/themes/' . $theme)) {
+            if (file_exists(Yii::getAlias('@app/themes/') . $theme)) {
                 Yii::setAlias('theme', '@app/themes/' . $theme);
                 Yii::$app->view->theme = Yii::createObject([
                     'class' => '\yii\base\Theme',
@@ -42,6 +43,10 @@ class CoreBootstrap implements BootstrapInterface
                     ],
                 ]);
             }
+
+            /* Set default layouts for Mailer */
+            Yii::$app->getMailer()->htmlLayout = '@core/mail/layouts/html';
+            Yii::$app->getMailer()->textLayout = '@core/mail/layouts/text';
         });
     }
 }
