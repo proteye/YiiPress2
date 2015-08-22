@@ -6,6 +6,7 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\modules\menu\models\Menu;
 use yii\helpers\ArrayHelper;
+use app\modules\core\widgets\Alert;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -60,6 +61,7 @@ AppAsset::register($this);
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
+            <?= Alert::widget() ?>
             <?= $content ?>
         </div>
     </div>
