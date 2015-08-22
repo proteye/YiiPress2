@@ -41,10 +41,13 @@ class ImageSearch extends Image
      */
     public function search($params)
     {
-        $query = Image::find()->orderBy('updated_at DESC');
+        $query = Image::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => ['created_at' => SORT_DESC],
+            ],
         ]);
 
         $this->load($params);
