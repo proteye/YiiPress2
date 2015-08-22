@@ -68,7 +68,7 @@ return [
                 'sitemap.xml'                                                                        => 'core/sitemap/sitemap-xml',
                 'contact'                                                                            => 'core/contact/index',
                 '<action:(search)>'                                                                  => 'core/core-frontend/<action>',
-                '<action:(login|logout|signup|confirm-email|request-password-reset|reset-password)>' => 'user/user-frontend/<action>',
+                '<action:(login|logout|signup|email-confirm|request-password-reset|password-reset)>' => 'user/user-frontend/<action>',
                 'page/<action:(about)>'                                                              => 'page/page-frontend/<action>',
                 'page/<url:[\w\-\/]+>'                                                               => 'page/page-frontend/route',
                 'tag/<url:[\w\-\/]+>'                                                                => 'blog/blog-frontend/tag',
