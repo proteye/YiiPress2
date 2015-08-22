@@ -312,6 +312,31 @@ class User extends CoreModel implements IdentityInterface
     }
 
     /**
+     * @param $email_confirm_token
+     * @return null|static
+     */
+    public static function findByEmailConfirmToken($email_confirm_token)
+    {
+        return static::findOne(['email_confirm_token' => $email_confirm_token, 'status' => self::STATUS_WAIT]);
+    }
+
+    /**
+     * Generates email confirmation token
+     */
+    public function generateEmailConfirmToken()
+    {
+        $this->email_confirm_token = Yii::$app->security->generateRandomString();
+    }
+
+    /**
+     * Removes email confirmation token
+     */
+    public function removeEmailConfirmToken()
+    {
+        $this->email_confirm_token = null;
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getUserProfile()

@@ -11,7 +11,7 @@ use yii\debug\models\search\Profile;
 use yii\web\NotFoundHttpException;
 
 /**
- * DefaultController implements the CRUD actions for User model.
+ * UserBackendController implements the CRUD actions for User model.
  */
 class UserBackendController extends BackendController
 {
