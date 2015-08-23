@@ -159,6 +159,12 @@ class User extends CoreModel implements IdentityInterface
         parent::afterDelete();
     }
 
+    public function afterLogin($event)
+    {
+        $this->userProfile->last_visit = time();
+        return $this->userProfile->save();
+    }
+
     /**
      * @return string
      */
