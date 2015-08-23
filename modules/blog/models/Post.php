@@ -13,6 +13,7 @@ use app\modules\core\components\behaviors\CacheClearBehavior;
 use app\modules\core\components\behaviors\FilterAttributeBehavior;
 use app\modules\core\components\behaviors\RpcPingBehavior;
 use app\modules\core\components\behaviors\ImageUploadBehavior;
+use yii\db\BaseActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -149,6 +150,20 @@ class Post extends \app\modules\core\models\CoreModel
 
     /**
      * @param bool $insert
+     * @return bool
+     */
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->updated_by = Yii::$app->user->id;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param bool $insert
      * @param array $changedAttributes
      */
     public function afterSave($insert, $changedAttributes)
@@ -182,11 +197,6 @@ class Post extends \app\modules\core\models\CoreModel
                 'class' => FilterAttributeBehavior::className(),
                 'dateAttribute' => 'published_at',
                 'ipAttribute' => 'user_ip',
-            ],
-            'blame' => [
-                'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'created_by',
-                'updatedByAttribute' => 'updated_by',
             ],
             'slug' => [
                 'class' => SluggableBehavior::className(),

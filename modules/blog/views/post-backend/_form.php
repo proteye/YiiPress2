@@ -82,6 +82,8 @@ $core = Yii::$app->getModule('core');
 
     <?= $form->field($model, 'meta_description')->textInput(['maxlength' => 250]) ?>
 
+    <?= $form->field($model, 'created_by')->dropDownList(\app\modules\user\models\User::getUsersArray()) ?>
+
     <?= $form->field($model, 'access_type')->dropDownList($model->getAccessesArray()) ?>
 
     <?= $form->field($model, 'comment_status')->dropDownList($model->getCommentStatusesArray()) ?>

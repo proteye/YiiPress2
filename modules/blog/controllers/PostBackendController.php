@@ -49,6 +49,7 @@ class PostBackendController extends BackendController
     public function actionCreate()
     {
         $model = new Post();
+        $model->created_by = Yii::$app->user->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
