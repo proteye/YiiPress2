@@ -4,7 +4,7 @@ namespace app\modules\user;
 
 class Module extends \yii\base\Module
 {
-    const VERSION = '0.0.9';
+    const VERSION = '0.1.0';
 
     public $controllerNamespace = 'app\modules\user\controllers';
 

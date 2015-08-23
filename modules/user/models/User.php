@@ -4,6 +4,7 @@ namespace app\modules\user\models;
 
 use Yii;
 use app\modules\core\models\CoreModel;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 use yii\behaviors\TimestampBehavior;
 use yii\base\NotSupportedException;
@@ -159,6 +160,10 @@ class User extends CoreModel implements IdentityInterface
         parent::afterDelete();
     }
 
+    /**
+     * @param $event
+     * @return bool
+     */
     public function afterLogin($event)
     {
         $this->userProfile->last_visit = time();
@@ -348,5 +353,14 @@ class User extends CoreModel implements IdentityInterface
     public function getUserProfile()
     {
         return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getUsersArray()
+    {
+        $model = self::find()->active()->all();
+        return ArrayHelper::map($model, 'id', 'username');
     }
 }
