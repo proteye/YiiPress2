@@ -81,6 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => $profile->getAttributeLabel('last_visit'),
                 'value' => $profile->last_visit,
+                'format' => 'date',
             ],
             [
                 'label' => $profile->getAttributeLabel('user_ip'),
