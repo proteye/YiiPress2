@@ -38,6 +38,9 @@ return [
         'catalog' => [
             'class' => 'app\modules\catalog\Module',
         ],
+        'coupon' => [
+            'class' => 'app\modules\coupon\Module',
+        ],
     ],
     'components' => [
         'db' => [
