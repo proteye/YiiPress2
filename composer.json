@@ -25,7 +25,8 @@
 	"kartik-v/yii2-widgets": "*",
 	"vova07/yii2-imperavi-widget": "*",
 	"2amigos/yii2-ckeditor-widget": "*",
-	"2amigos/yii2-disqus-widget": "~1.0"
+	"2amigos/yii2-disqus-widget": "~1.0",
+	"zelenin/yii2-semantic-ui": "~2"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
