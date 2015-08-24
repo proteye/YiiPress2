@@ -43,7 +43,6 @@ BackendAsset::register($this);
                         'label' => 'Блог',
                         'items' => [
                             ['label' => 'Посты', 'url' => ['/blog/post-backend']],
-                            ['label' => 'Комментарии', 'url' => ['/comment/comment-backend']],
                             ['label' => 'Тэги', 'url' => ['/blog/tag-backend']],
                         ],
                     ],
@@ -57,8 +56,10 @@ BackendAsset::register($this);
                     [
                         'label' => 'Модули',
                         'items' => [
-                            ['label' => 'Изображения', 'url' => ['/image/image-backend']],
                             ['label' => 'Каталог', 'url' => ['/catalog/catalog-backend']],
+                            ['label' => 'Купонатор', 'url' => ['/coupon/coupon-backend']],
+                            ['label' => 'Комментарии', 'url' => ['/comment/comment-backend']],
+                            ['label' => 'Изображения', 'url' => ['/image/image-backend']],
                         ],
                     ],
                     ['label' => 'Пользователи', 'url' => ['/user/user-backend']],
