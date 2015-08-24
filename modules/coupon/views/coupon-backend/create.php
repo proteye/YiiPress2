@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\coupon\models\Coupon */
 
-$this->title = 'Create Coupon';
-$this->params['breadcrumbs'][] = ['label' => 'Coupons', 'url' => ['index']];
+$this->title = 'Новый купон';
+$this->params['breadcrumbs'][] = ['label' => 'Купоны', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="coupon-create">

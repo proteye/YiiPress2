@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\modules\coupon\models\Coupon */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Coupons', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Купоны', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="coupon-view">
@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы уверены, что хотите удалить этот элемент?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -35,12 +35,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'description:ntext',
             'type_id',
             'value',
-            'begin_dt',
-            'end_dt',
+            'begin_dt:date',
+            'end_dt:date',
             'created_by',
             'updated_by',
-            'created_at',
-            'updated_at',
+            'created_at:date',
+            'updated_at:date',
             'meta_title',
             'meta_keywords',
             'meta_description',

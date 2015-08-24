@@ -3,6 +3,7 @@
 namespace app\modules\coupon\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%coupon_type}}".
@@ -44,9 +45,9 @@ class CouponType extends \app\modules\core\models\CoreModel
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'slug' => 'Slug',
-            'extra' => 'Extra',
+            'name' => 'Название',
+            'slug' => 'Алиас',
+            'extra' => 'Дополнительно',
         ];
     }
 
@@ -56,5 +57,15 @@ class CouponType extends \app\modules\core\models\CoreModel
     public function getCoupons()
     {
         return $this->hasMany(Coupon::className(), ['type_id' => 'id']);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getItemsList()
+    {
+        $model = self::find()->all();
+
+        return ArrayHelper::map($model, 'id', 'name');
     }
 }

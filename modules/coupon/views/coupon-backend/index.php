@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\modules\coupon\models\CouponSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Coupons';
+$this->title = 'Купоны';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="coupon-index">
@@ -16,7 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Coupon', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Типы', ['/coupon/coupon-type-backend'], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= GridView::widget([
@@ -26,14 +27,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'category_id',
+            [
+                'attribute' => 'category_id',
+                'value' => function ($model) {
+                    return $model->category_id ? \app\modules\category\models\Category::findOne($model->category_id)->name : '-';
+                },
+            ],
             'title',
             'url:url',
-            'description:ntext',
+            // 'description:ntext',
             // 'type_id',
             // 'value',
-            // 'begin_dt',
-            // 'end_dt',
+            'begin_dt:date',
+            'end_dt:date',
             // 'created_by',
             // 'updated_by',
             // 'created_at',

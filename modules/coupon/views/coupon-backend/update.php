@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\coupon\models\Coupon */
 
-$this->title = 'Update Coupon: ' . ' ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Coupons', 'url' => ['index']];
+$this->title = 'Изменить купон: ' . ' ' . $model->title;
+$this->params['breadcrumbs'][] = ['label' => 'Купоны', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Изменить';
 ?>
 <div class="coupon-update">
 
