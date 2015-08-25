@@ -23,10 +23,6 @@ class FrontendController extends Controller
             return false;
         }
 
-        /* Set current locale for Date */
-        $lang = str_replace('-', '_', Yii::$app->language) . '.UTF-8';
-        setlocale(LC_TIME, $lang);
-
         return true;
     }
 }

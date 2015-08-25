@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\modules\core\models\Setting */
 
-$this->title = $model->module_id;
-$this->params['breadcrumbs'][] = ['label' => 'Settings', 'url' => ['index']];
+$this->title = $model->param_key;
+$this->params['breadcrumbs'][] = ['label' => 'Настройки', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="setting-view">
@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'module_id' => $model->module_id, 'param_key' => $model->param_key], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'module_id' => $model->module_id, 'param_key' => $model->param_key], [
+        <?= Html::a('Изменить', ['update', 'module_id' => $model->module_id, 'param_key' => $model->param_key], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'module_id' => $model->module_id, 'param_key' => $model->param_key], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы уверены, что хотите удалить этот элемент?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -32,8 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'param_key',
             'param_value',
             'user_id',
-            'created_at',
-            'updated_at',
+            'created_at:date',
+            'updated_at:date',
             'type',
         ],
     ]) ?>

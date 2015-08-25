@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\core\models\Setting */
 
-$this->title = 'Update Setting: ' . ' ' . $model->module_id;
-$this->params['breadcrumbs'][] = ['label' => 'Settings', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->module_id, 'url' => ['view', 'module_id' => $model->module_id, 'param_key' => $model->param_key]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Изменить параметр: ' . ' ' . $model->param_key;
+$this->params['breadcrumbs'][] = ['label' => 'Настройки', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->param_key, 'url' => ['view', 'module_id' => $model->module_id, 'param_key' => $model->param_key]];
+$this->params['breadcrumbs'][] = 'Изменить';
 ?>
 <div class="setting-update">
 

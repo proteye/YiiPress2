@@ -43,10 +43,14 @@ class CoreBootstrap implements BootstrapInterface
                     ],
                 ]);
             }
-
-            /* Set default layouts for Mailer */
-            Yii::$app->getMailer()->htmlLayout = '@core/mail/layouts/html';
-            Yii::$app->getMailer()->textLayout = '@core/mail/layouts/text';
         });
+
+        /* Set default layouts for Mailer */
+        Yii::$app->getMailer()->htmlLayout = '@core/mail/layouts/html';
+        Yii::$app->getMailer()->textLayout = '@core/mail/layouts/text';
+
+        /* Set current locale for Date */
+        $lang = str_replace('-', '_', Yii::$app->language) . '.UTF-8';
+        setlocale(LC_TIME, $lang);
     }
 }

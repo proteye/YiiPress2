@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\modules\core\models\SettingSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Settings';
+$this->title = 'Настройки';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="setting-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Setting', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -28,10 +28,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'module_id',
             'param_key',
             'param_value',
-            'user_id',
-            'created_at',
-            // 'updated_at',
-            // 'type',
+            // 'user_id',
+            [
+                'attribute' => 'type',
+                'value' => function ($model) {
+                    return $model->typeName;
+                },
+            ],
+            'created_at:date',
+            'updated_at:date',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

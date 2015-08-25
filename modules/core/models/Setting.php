@@ -80,7 +80,7 @@ class Setting extends CoreModel
             'param_value' => 'Значение',
             'user_id' => 'Пользователь',
             'created_at' => 'Дата создания',
-            'updated_at' => 'Дата обновления',
+            'updated_at' => 'Дата изменения',
             'type' => 'Тип',
         ];
     }
@@ -89,8 +89,8 @@ class Setting extends CoreModel
      */
     public function getTypeName()
     {
-        $statuses = self::getTypesArray();
-        return isset($statuses[$this->status]) ? $statuses[$this->status] : '';
+        $types = self::getTypesArray();
+        return isset($types[$this->type]) ? $types[$this->type] : '';
     }
 
     /**
