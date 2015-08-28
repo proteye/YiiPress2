@@ -11,7 +11,7 @@ class m150430_121350_category_init extends Migration
 
         /* Coupon type */
         $this->createTable('{{%category_type}}', [
-            'id' => Schema::TYPE_PK,
+            'id' => Schema::TYPE_SMALLINT . '(2) NOT NULL AUTO_INCREMENT PRIMARY KEY',
             'name' => Schema::TYPE_STRING . '(64) NOT NULL',
             'description' => Schema::TYPE_STRING . '(255) DEFAULT NULL',
         ], $tableOptions);
