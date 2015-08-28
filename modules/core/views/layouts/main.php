@@ -37,8 +37,13 @@ BackendAsset::register($this);
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
                     ['label' => 'Главная', 'url' => ['/core/core-backend']],
-                    ['label' => 'Категории', 'url' => ['/category/category-backend']],
-                    ['label' => 'Страницы', 'url' => ['/page/page-backend']],
+                    [
+                        'label' => 'Структура',
+                        'items' => [
+                            ['label' => 'Категории', 'url' => ['/category/category-backend']],
+                            ['label' => 'Страницы', 'url' => ['/page/page-backend']],
+                        ],
+                    ],
                     [
                         'label' => 'Блог',
                         'items' => [

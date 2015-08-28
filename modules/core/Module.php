@@ -6,7 +6,7 @@ use Yii;
 
 class Module extends \yii\base\Module
 {
-    const VERSION = '0.2.4';
+    const VERSION = '0.2.5';
 
     public $controllerNamespace = 'app\modules\core\controllers';
 
@@ -55,5 +55,21 @@ class Module extends \yii\base\Module
     public function  getFullUploadUrl()
     {
         return Yii::$app->request->baseUrl . '/' . $this->uploadPath;
+    }
+
+    /**
+     * @return array
+     */
+    public function getModulesList()
+    {
+        $modules = [];
+        foreach (array_keys(Yii::$app->modules) as $module) {
+            if ($module == 'debug' || $module == 'gii') {
+                continue;
+            }
+            $modules[$module] = $module;
+        }
+
+        return $modules;
     }
 }
