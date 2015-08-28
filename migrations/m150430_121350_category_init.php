@@ -22,7 +22,7 @@ class m150430_121350_category_init extends Migration
         $this->createTable('{{%category}}', [
             'id' => Schema::TYPE_PK,
             'parent_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
-            'model' => Schema::TYPE_STRING . '(160) DEFAULT NULL',
+            'module' => Schema::TYPE_STRING . '(160) DEFAULT NULL',
             'lang' => Schema::TYPE_STRING . '(2)',
             'slug' => Schema::TYPE_STRING . '(160) NOT NULL',
             'name' => Schema::TYPE_STRING . '(255) NOT NULL',
@@ -41,7 +41,7 @@ class m150430_121350_category_init extends Migration
 
         $this->createIndex('idx_category_slug_lang', '{{%category}}', ['slug', 'lang'], true);
         $this->createIndex('idx_category_parent_id', '{{%category}}', 'parent_id');
-        $this->createIndex('idx_category_model', '{{%category}}', 'model');
+        $this->createIndex('idx_category_module', '{{%category}}', 'module');
         $this->createIndex('idx_category_type_id', '{{%category}}', 'type_id');
         $this->createIndex('idx_category_status', '{{%category}}', 'status');
         $this->addForeignKey('fk_category_parent_id', '{{%category}}', 'parent_id', '{{%category}}', 'id', 'SET NULL', 'NO ACTION');
