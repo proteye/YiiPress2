@@ -9,6 +9,15 @@ class m150430_121350_category_init extends Migration
     {
         $tableOptions = null;
 
+        /* Coupon type */
+        $this->createTable('{{%category_type}}', [
+            'id' => Schema::TYPE_PK,
+            'name' => Schema::TYPE_STRING . '(64) NOT NULL',
+            'description' => Schema::TYPE_STRING . '(255) DEFAULT NULL',
+        ], $tableOptions);
+
+        $this->createIndex('idx_category_type_name', '{{%category_type}}', 'name');
+
         /* Category */
         $this->createTable('{{%category}}', [
             'id' => Schema::TYPE_PK,
@@ -26,18 +35,23 @@ class m150430_121350_category_init extends Migration
             'meta_title' => Schema::TYPE_STRING . '(250)',
             'meta_keywords' => Schema::TYPE_STRING . '(250)',
             'meta_description' => Schema::TYPE_STRING . '(250)',
+            'type_id' => Schema::TYPE_SMALLINT . '(2) DEFAULT NULL',
             'status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 1',
         ], $tableOptions);
 
         $this->createIndex('idx_category_slug_lang', '{{%category}}', ['slug', 'lang'], true);
         $this->createIndex('idx_category_parent_id', '{{%category}}', 'parent_id');
+        $this->createIndex('idx_category_model', '{{%category}}', 'model');
+        $this->createIndex('idx_category_type_id', '{{%category}}', 'type_id');
         $this->createIndex('idx_category_status', '{{%category}}', 'status');
         $this->addForeignKey('fk_category_parent_id', '{{%category}}', 'parent_id', '{{%category}}', 'id', 'SET NULL', 'NO ACTION');
+        $this->addForeignKey('fk_category_type_id', '{{%category}}', 'type_id', '{{%category_type}}', 'id', 'SET NULL', 'NO ACTION');
     }
 
     public function down()
     {
         $this->dropTable('{{%category}}');
+        $this->dropTable('{{%category_type}}');
     }
     
     /*
