@@ -15,10 +15,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
+    <div class="pull-left">
         <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
         <?= Html::a('Типы', ['/coupon/coupon-type-backend'], ['class' => 'btn btn-primary']) ?>
-    </p>
+    </div>
+    <div class="pull-right">
+        <?= Html::a('Создать меню', ['/coupon/coupon-backend/menu-create'], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('Обновить меню', ['/coupon/coupon-backend/menu-update'], ['class' => 'btn btn-default']) ?>
+    </div>
+    <div class="clearfix"></div>
+    <p></p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

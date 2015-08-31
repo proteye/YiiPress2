@@ -2,12 +2,15 @@
 
 namespace app\modules\coupon\controllers;
 
+use app\modules\category\models\Category;
+use app\modules\menu\models\MenuItem;
 use Yii;
 use app\modules\coupon\models\Coupon;
 use app\modules\coupon\models\CouponSearch;
 use app\modules\core\components\controllers\BackendController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\menu\models\Menu;
 
 /**
  * CouponBackendController implements the CRUD actions for Coupon model.
@@ -116,6 +119,68 @@ class CouponBackendController extends BackendController
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * @return string|\yii\web\Response
+     */
+    public function actionMenuCreate()
+    {
+        $model = new Menu();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $categories = Category::find()
+                ->where(['module' => 'coupon', 'type_id' => 1, 'parent_id' => null])
+                ->active()
+                ->all();
+            foreach ($categories as $category) {
+                $menuItem = new MenuItem();
+                $menuItem->menu_id = $model->id;
+                $menuItem->regular_link = 1;
+                $menuItem->title = $category->name;
+                $menuItem->href = Yii::$app->getModule('category')->pathsMap[$category->id];
+                $menuItem->rel = 'nofollow';
+                $menuItem->save();
+            }
+
+            Yii::$app->getSession()->setFlash('success', 'Меню создано');
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('menu-create', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    /**
+     * @return string|\yii\web\Response
+     */
+    public function actionMenuUpdate()
+    {
+        $menu_id = (int)Yii::$app->request->post('menu_id');
+        if (Yii::$app->request->isPost && $menu_id != null) {
+            MenuItem::updateAll(['status' => MenuItem::STATUS_BLOCKED], ['menu_id' => $menu_id]);
+            // MenuItem::deleteAll(['menu_id' => $menu_id]);
+
+            $categories = Category::find()
+                ->where(['module' => 'coupon', 'type_id' => 1, 'parent_id' => null])
+                ->active()
+                ->all();
+            foreach ($categories as $category) {
+                $menuItem = new MenuItem();
+                $menuItem->menu_id = $menu_id;
+                $menuItem->regular_link = 1;
+                $menuItem->title = $category->name;
+                $menuItem->href = Yii::$app->getModule('category')->pathsMap[$category->id];
+                $menuItem->rel = 'nofollow';
+                $menuItem->save();
+            }
+
+            Yii::$app->getSession()->setFlash('success', 'Меню обновлено');
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('menu-update');
         }
     }
 }
