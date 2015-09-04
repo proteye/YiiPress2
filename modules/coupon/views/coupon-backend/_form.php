@@ -28,7 +28,9 @@ use app\modules\coupon\models\CouponType;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'description')->widget(Redactor::className(), [
         'settings' => [

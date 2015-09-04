@@ -16,7 +16,8 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $category_id
  * @property string $title
- * @property string $url
+ * @property string $link
+ * @property string $code
  * @property string $description
  * @property integer $type_id
  * @property string $value
@@ -65,9 +66,10 @@ class Coupon extends \app\modules\core\models\CoreModel
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             [['begin_dt', 'end_dt'], 'default', 'value' => null],
             [['category_id', 'type_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'recommended', 'status'], 'integer'],
-            [['title', 'url'], 'required'],
+            [['title'], 'required'],
             [['description'], 'string'],
-            [['title', 'url'], 'string', 'max' => 255],
+            [['title', 'link'], 'string', 'max' => 255],
+            [['code'], 'string', 'max' => 160],
             [['value'], 'string', 'max' => 64],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
             [['user_ip'], 'string', 'max' => 20]
@@ -83,7 +85,8 @@ class Coupon extends \app\modules\core\models\CoreModel
             'id' => 'ID',
             'category_id' => 'Категория',
             'title' => 'Заголовок',
-            'url' => 'Ссылка (url)',
+            'link' => 'Партнерская ссылка',
+            'code' => 'Промокод',
             'description' => 'Описание',
             'type_id' => 'Тип',
             'value' => 'Значение',

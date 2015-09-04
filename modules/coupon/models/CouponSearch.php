@@ -19,7 +19,7 @@ class CouponSearch extends Coupon
     {
         return [
             [['id', 'category_id', 'type_id', 'begin_dt', 'end_dt', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'recommended', 'status'], 'integer'],
-            [['title', 'url', 'description', 'value', 'meta_title', 'meta_keywords', 'meta_description', 'user_ip'], 'safe'],
+            [['title', 'link', 'code', 'description', 'value', 'meta_title', 'meta_keywords', 'meta_description', 'user_ip'], 'safe'],
         ];
     }
 
@@ -74,7 +74,8 @@ class CouponSearch extends Coupon
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'url', $this->url])
+            ->andFilterWhere(['like', 'link', $this->link])
+            ->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'value', $this->value])
             ->andFilterWhere(['like', 'meta_title', $this->meta_title])
