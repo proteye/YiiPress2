@@ -13,6 +13,7 @@ use app\modules\core\components\behaviors\ParentTreeBehavior;
 use yii\behaviors\SluggableBehavior;
 use app\modules\core\components\behaviors\CacheClearBehavior;
 use yii\helpers\ArrayHelper;
+use app\modules\user\models\User;
 
 /**
  * This is the model class for table "{{%category}}".
@@ -177,6 +178,22 @@ class Category extends \app\modules\core\models\CoreModel
     public function getCategoryType()
     {
         return $this->hasOne(CategoryType::className(), ['id' => 'type_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUpdatedBy()
+    {
+        return $this->hasOne(User::className(), ['id' => 'updated_by']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCreatedBy()
+    {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
     /**
