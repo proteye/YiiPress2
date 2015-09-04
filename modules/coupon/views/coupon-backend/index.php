@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             [
                 'attribute' => 'category_id',
                 'value' => function ($model) {
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'title',
-            // 'link:url',
+            'link:url',
             'code',
             // 'description:ntext',
             // 'type_id',

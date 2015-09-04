@@ -4,6 +4,7 @@ namespace app\modules\coupon\models;
 
 use Yii;
 use app\modules\core\components\behaviors\FilterAttributeBehavior;
+use app\modules\coupon\behaviors\CouponBehavior;
 use app\modules\user\models\User;
 use app\modules\category\models\Category;
 use yii\behaviors\BlameableBehavior;
@@ -83,7 +84,7 @@ class Coupon extends \app\modules\core\models\CoreModel
     {
         return [
             'id' => 'ID',
-            'category_id' => 'Категория',
+            'category_id' => 'Магазин',
             'title' => 'Заголовок',
             'link' => 'Партнерская ссылка',
             'code' => 'Промокод',
@@ -112,6 +113,9 @@ class Coupon extends \app\modules\core\models\CoreModel
     public function behaviors()
     {
         return [
+            'coupon' => [
+                'class' => CouponBehavior::className(),
+            ],
             'timestamp' => [
                 'class' => TimestampBehavior::className(),
                 'attributes' => [
@@ -126,12 +130,7 @@ class Coupon extends \app\modules\core\models\CoreModel
             ],
             'filter_attribute' => [
                 'class' => FilterAttributeBehavior::className(),
-                'dateAttribute' => 'begin_dt',
                 'ipAttribute' => 'user_ip',
-            ],
-            'filter_attribute2' => [
-                'class' => FilterAttributeBehavior::className(),
-                'dateAttribute' => 'end_dt',
             ],
         ];
     }
