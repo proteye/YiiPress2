@@ -26,11 +26,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'parent_id',
-            'lang',
-            'slug',
+            // 'id',
+            // 'lang',
+            [
+                'attribute' => 'parent_id',
+                'value' => function ($model) {
+                    return $model->parent_id ? \app\modules\category\models\Category::findOne($model->parent_id)->name : '-';
+                },
+            ],
             'name',
+            'slug',
+            'module',
             // 'short_description',
             // 'description:ntext',
             // 'image',
@@ -41,7 +47,12 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'meta_keywords',
             // 'meta_description',
             // 'link',
-            // 'status',
+            [
+                'attribute' => 'status',
+                'value' => function ($model) {
+                    return $model->statusName;
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

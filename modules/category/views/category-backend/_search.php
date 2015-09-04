@@ -27,6 +27,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name') ?>
 
+    <?= $form->field($model, 'module') ?>
+
     <?php // echo $form->field($model, 'short_description') ?>
 
     <?php // echo $form->field($model, 'description') ?>
