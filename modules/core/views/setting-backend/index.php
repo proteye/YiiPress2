@@ -28,7 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'module_id',
             'param_key',
             'param_value',
-            // 'user_id',
+            // 'created_by',
+            // 'updated_by',
             [
                 'attribute' => 'type',
                 'value' => function ($model) {

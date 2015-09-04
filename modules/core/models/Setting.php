@@ -13,7 +13,8 @@ use yii\behaviors\BlameableBehavior;
  * @property string $module_id
  * @property string $param_key
  * @property string $param_value
- * @property integer $user_id
+ * @property integer $created_by
+ * @property integer $updated_by
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $type
@@ -46,8 +47,8 @@ class Setting extends CoreModel
             ],
             'blame' => [
                 'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'user_id',
-                'updatedByAttribute' => 'user_id',
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
             ],
         ];
     }
@@ -60,7 +61,7 @@ class Setting extends CoreModel
         return [
             ['type', 'default', 'value' => self::TYPE_CORE],
             [['module_id', 'param_key'], 'required'],
-            [['user_id', 'created_at', 'updated_at', 'type'], 'integer'],
+            [['created_by', 'updated_by', 'created_at', 'updated_at', 'type'], 'integer'],
             [['module_id'], 'string', 'max' => 64],
             [['param_key'], 'string', 'max' => 128],
             [['param_value'], 'string', 'max' => 255],
@@ -78,7 +79,8 @@ class Setting extends CoreModel
             'module_id' => 'Модуль',
             'param_key' => 'Параметр',
             'param_value' => 'Значение',
-            'user_id' => 'Пользователь',
+            'created_by' => 'Создал',
+            'updated_by' => 'Обновил',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата изменения',
             'type' => 'Тип',

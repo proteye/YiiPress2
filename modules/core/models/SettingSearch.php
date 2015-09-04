@@ -19,7 +19,7 @@ class SettingSearch extends Setting
     {
         return [
             [['module_id', 'param_key', 'param_value'], 'safe'],
-            [['user_id', 'created_at', 'updated_at', 'type'], 'integer'],
+            [['created_by', 'updated_by', 'created_at', 'updated_at', 'type'], 'integer'],
         ];
     }
 
@@ -56,7 +56,8 @@ class SettingSearch extends Setting
         }
 
         $query->andFilterWhere([
-            'user_id' => $this->user_id,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'type' => $this->type,

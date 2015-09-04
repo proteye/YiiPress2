@@ -21,7 +21,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'param_value') ?>
 
-    <?= $form->field($model, 'user_id') ?>
+    <?= $form->field($model, 'created_by') ?>
+
+    <?= $form->field($model, 'updated_by') ?>
 
     <?= $form->field($model, 'created_at') ?>
 
