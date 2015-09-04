@@ -15,7 +15,7 @@ class m150817_205616_catalog_init extends Migration
             'slug' => Schema::TYPE_STRING . '(160) NOT NULL',
             'name' => Schema::TYPE_STRING . '(255) NOT NULL',
             'email' => Schema::TYPE_STRING . '(255) NOT NULL',
-            'short_descr' => Schema::TYPE_STRING . '(512)',
+            'short_description' => Schema::TYPE_STRING . '(512)',
             'description' => Schema::TYPE_TEXT,
             'logo' => Schema::TYPE_STRING . '(255)',
             'site' => Schema::TYPE_STRING . '(255)',

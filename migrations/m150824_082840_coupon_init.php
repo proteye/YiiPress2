@@ -24,7 +24,8 @@ class m150824_082840_coupon_init extends Migration
             'id' => Schema::TYPE_PK,
             'category_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'title' => Schema::TYPE_STRING . '(255) NOT NULL',
-            'url' => Schema::TYPE_STRING . '(255) NOT NULL',
+            'link' => Schema::TYPE_STRING . '(255)',
+            'code' => Schema::TYPE_STRING . '(160)',
             'description' => Schema::TYPE_TEXT,
             'type_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'value' => Schema::TYPE_STRING . '(64)',
@@ -45,8 +46,6 @@ class m150824_082840_coupon_init extends Migration
 
         $this->createIndex('idx_coupon_category_id', '{{%coupon}}', 'category_id');
         $this->createIndex('idx_coupon_type_id', '{{%coupon}}', 'type_id');
-        $this->createIndex('idx_coupon_created_by', '{{%coupon}}', 'created_by');
-        $this->createIndex('idx_coupon_updated_by', '{{%coupon}}', 'updated_by');
         $this->createIndex('idx_coupon_begin_dt', '{{%coupon}}', 'begin_dt');
         $this->createIndex('idx_coupon_end_dt', '{{%coupon}}', 'end_dt');
         $this->createIndex('idx_coupon_status', '{{%coupon}}', 'status');
