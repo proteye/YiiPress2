@@ -19,6 +19,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'parent_id') ?>
 
+    <?= $form->field($model, 'type_id') ?>
+
     <?= $form->field($model, 'lang') ?>
 
     <?= $form->field($model, 'slug') ?>
@@ -43,11 +45,13 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'meta_description') ?>
 
+    <?php // echo $form->field($model, 'link') ?>
+
     <?php // echo $form->field($model, 'status') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton('Искать', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Сбросить', ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
