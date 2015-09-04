@@ -11,7 +11,7 @@ use Yii;
  * @property string $slug
  * @property string $name
  * @property string $email
- * @property string $short_descr
+ * @property string $short_description
  * @property string $description
  * @property string $logo
  * @property string $site
@@ -63,7 +63,7 @@ class Company extends \app\modules\core\models\CoreModel
             [['created_by', 'updated_by', 'created_at', 'updated_at', 'published_at', 'comment_status', 'view_count', 'status'], 'integer'],
             [['slug', 'skype'], 'string', 'max' => 160],
             [['name', 'email', 'logo', 'site', 'link_vk', 'link_fb', 'link_in'], 'string', 'max' => 255],
-            [['short_descr'], 'string', 'max' => 512],
+            [['short_description'], 'string', 'max' => 512],
             [['icq', 'user_ip'], 'string', 'max' => 20],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250]
         ];
@@ -79,7 +79,7 @@ class Company extends \app\modules\core\models\CoreModel
             'slug' => 'Slug',
             'name' => 'Name',
             'email' => 'Email',
-            'short_descr' => 'Short Descr',
+            'short_description' => 'Short Description',
             'description' => 'Description',
             'logo' => 'Logo',
             'site' => 'Site',

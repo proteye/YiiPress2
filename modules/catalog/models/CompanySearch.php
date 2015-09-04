@@ -19,7 +19,7 @@ class CompanySearch extends Company
     {
         return [
             [['id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'published_at', 'comment_status', 'view_count', 'status'], 'integer'],
-            [['slug', 'name', 'email', 'short_descr', 'description', 'logo', 'site', 'skype', 'icq', 'link_vk', 'link_fb', 'link_in', 'user_ip', 'meta_title', 'meta_keywords', 'meta_description'], 'safe'],
+            [['slug', 'name', 'email', 'short_description', 'description', 'logo', 'site', 'skype', 'icq', 'link_vk', 'link_fb', 'link_in', 'user_ip', 'meta_title', 'meta_keywords', 'meta_description'], 'safe'],
             [['rating'], 'number'],
         ];
     }
@@ -72,7 +72,7 @@ class CompanySearch extends Company
         $query->andFilterWhere(['like', 'slug', $this->slug])
             ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'short_descr', $this->short_descr])
+            ->andFilterWhere(['like', 'short_description', $this->short_description])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'logo', $this->logo])
             ->andFilterWhere(['like', 'site', $this->site])
