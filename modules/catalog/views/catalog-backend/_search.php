@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'email') ?>
 
-    <?= $form->field($model, 'short_descr') ?>
+    <?= $form->field($model, 'short_description') ?>
 
     <?php // echo $form->field($model, 'description') ?>
 
