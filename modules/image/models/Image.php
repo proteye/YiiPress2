@@ -21,9 +21,10 @@ use app\modules\core\components\behaviors\ParentTreeBehavior;
  * @property string $file
  * @property string $alt
  * @property string $description
+ * @property integer $created_by
+ * @property integer $updated_by
  * @property integer $created_at
  * @property integer $updated_at
- * @property integer $user_id
  * @property integer $sort
  * @property integer $type
  * @property integer $status
@@ -59,7 +60,7 @@ class Image extends \app\modules\core\models\CoreModel
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['type', 'default', 'value' => self::TYPE_SIMPLE],
             ['sort', 'default', 'value' => 1],
-            [['category_id', 'parent_id', 'created_at', 'updated_at', 'user_id', 'sort', 'type', 'status'], 'integer'],
+            [['category_id', 'parent_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'sort', 'type', 'status'], 'integer'],
             [['name'], 'required'],
             [['description'], 'string'],
             ['file', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'skipOnEmpty' => true],
@@ -82,9 +83,10 @@ class Image extends \app\modules\core\models\CoreModel
             'file' => 'Файл',
             'alt' => 'Атрибут alt',
             'description' => 'Описание',
+            'created_by' => 'Создал',
+            'updated_by' => 'Обновил',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата обновления',
-            'user_id' => 'Пользователь',
             'sort' => 'Сортировка',
             'type' => 'Тип',
             'status' => 'Статус',
@@ -113,8 +115,8 @@ class Image extends \app\modules\core\models\CoreModel
             ],
             'blame' => [
                 'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'user_id',
-                'updatedByAttribute' => 'user_id',
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
             ],
             'tree' => [
                 'class' => ParentTreeBehavior::className(),
@@ -194,6 +196,6 @@ class Image extends \app\modules\core\models\CoreModel
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 }

@@ -18,7 +18,7 @@ class ImageSearch extends Image
     public function rules()
     {
         return [
-            [['id', 'category_id', 'parent_id', 'created_at', 'updated_at', 'user_id', 'sort', 'type', 'status'], 'integer'],
+            [['id', 'category_id', 'parent_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'sort', 'type', 'status'], 'integer'],
             [['name', 'file', 'alt', 'description'], 'safe'],
         ];
     }
@@ -62,9 +62,10 @@ class ImageSearch extends Image
             'id' => $this->id,
             'category_id' => $this->category_id,
             'parent_id' => $this->parent_id,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'user_id' => $this->user_id,
             'sort' => $this->sort,
             'type' => $this->type,
             'status' => $this->status,

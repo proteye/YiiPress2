@@ -39,9 +39,10 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'description:ntext',
             // 'category_id',
             // 'parent_id',
+            // 'created_by',
+            // 'updated_by',
             'created_at:date',
             // 'updated_at:date',
-            // 'user_id',
             // 'sort',
             // 'type',
             [
