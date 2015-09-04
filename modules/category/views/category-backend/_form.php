@@ -28,6 +28,8 @@ $core = Yii::$app->getModule('core');
 
     <?= $form->field($model, 'parent_id')->dropDownList($model->getParentsList($model->id), ['prompt' => '-- нет --']) ?>
 
+    <?= $form->field($model, 'type_id')->dropDownList(CategoryType::getItemsList(), ['prompt' => '-- нет --']) ?>
+
     <?= $form->field($model, 'module')->dropDownList($core->getModulesList(), ['prompt' => '-- нет --']) ?>
 
     <?= $form->field($model, 'lang')->dropDownList($core->getLanguagesList()) ?>
@@ -66,7 +68,7 @@ $core = Yii::$app->getModule('core');
 
     <?= $form->field($model, 'meta_description')->textInput(['maxlength' => 250]) ?>
 
-    <?= $form->field($model, 'type_id')->dropDownList(CategoryType::getItemsList(), ['prompt' => '-- нет --']) ?>
+    <?= $form->field($model, 'link')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'status')->dropDownList($model->getStatusesArray()) ?>
 

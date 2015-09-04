@@ -19,6 +19,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property integer $id
  * @property integer $parent_id
+ * @property integer $type_id
  * @property string $module
  * @property string $lang
  * @property string $slug
@@ -32,7 +33,7 @@ use yii\helpers\ArrayHelper;
  * @property string $meta_title
  * @property string $meta_keywords
  * @property string $meta_description
- * @property integer $type_id
+ * @property string $link
  * @property integer $status
  *
  * @property Category $parent
@@ -69,7 +70,7 @@ class Category extends \app\modules\core\models\CoreModel
             [['lang'], 'string', 'max' => 2],
             [['module', 'slug'], 'string', 'max' => 160],
             ['image', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'skipOnEmpty' => true],
-            [['name', 'image', 'image_alt'], 'string', 'max' => 255],
+            [['name', 'image', 'image_alt', 'link'], 'string', 'max' => 255],
             [['short_description'], 'string', 'max' => 512],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
             [['slug', 'lang'], 'unique', 'targetAttribute' => ['slug', 'lang'], 'message' => 'Такая комбинация Языка и Алиас уже существует..'],
@@ -85,6 +86,7 @@ class Category extends \app\modules\core\models\CoreModel
         return [
             'id' => 'ID',
             'parent_id' => 'Родитель',
+            'type_id' => 'Тип',
             'module' => 'Модуль',
             'lang' => 'Язык',
             'slug' => 'Алиас',
@@ -98,7 +100,7 @@ class Category extends \app\modules\core\models\CoreModel
             'meta_title' => 'SEO Title',
             'meta_keywords' => 'SEO Keywords',
             'meta_description' => 'SEO Description',
-            'type_id' => 'Тип',
+            'link' => 'Ссылка',
             'status' => 'Статус',
         ];
     }

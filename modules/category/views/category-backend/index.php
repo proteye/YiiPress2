@@ -40,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'meta_title',
             // 'meta_keywords',
             // 'meta_description',
+            // 'link',
             // 'status',
 
             ['class' => 'yii\grid\ActionColumn'],
