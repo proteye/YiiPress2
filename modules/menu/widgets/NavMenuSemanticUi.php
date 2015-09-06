@@ -16,12 +16,15 @@ class NavMenuSemanticUi extends Widget
         if ($this->menu_id === null)
             return false;
 
-        $items = Menu::getItems($this->menu_id);
+        $items = Yii::$app->cache->get($this->menu_id);
+        if ($items === false) {
+            $items = Menu::getItems($this->menu_id);
+            Yii::$app->cache->set($this->menu_id, $items, Yii::$app->getModule('core')->cacheTime);
+        }
         return $this->render('nav-menu-semantic-ui', [
             'items' => $items,
             'logo_url' => $this->logo_url,
             'logo_alt' => $this->logo_alt,
-            'cacheId' => $this->menu_id,
         ]);
     }
 }
