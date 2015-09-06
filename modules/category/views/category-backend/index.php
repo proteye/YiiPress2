@@ -47,6 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'meta_keywords',
             // 'meta_description',
             // 'link',
+            'view_count',
             [
                 'attribute' => 'status',
                 'value' => function ($model) {

@@ -45,6 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'meta_description',
             'type_id',
             'link',
+            'view_count',
             'status',
         ],
     ]) ?>

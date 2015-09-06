@@ -35,6 +35,7 @@ use app\modules\user\models\User;
  * @property string $meta_keywords
  * @property string $meta_description
  * @property string $link
+ * @property integer $view_count
  * @property integer $status
  *
  * @property Category $parent
@@ -65,7 +66,8 @@ class Category extends \app\modules\core\models\CoreModel
     {
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            [['parent_id', 'created_at', 'updated_at', 'type_id', 'status'], 'integer'],
+            ['view_count', 'default', 'value' => 0],
+            [['parent_id', 'created_at', 'updated_at', 'type_id', 'view_count', 'status'], 'integer'],
             [['slug', 'name'], 'required'],
             [['description'], 'string'],
             [['lang'], 'string', 'max' => 2],
@@ -102,6 +104,7 @@ class Category extends \app\modules\core\models\CoreModel
             'meta_keywords' => 'SEO Keywords',
             'meta_description' => 'SEO Description',
             'link' => 'Ссылка',
+            'view_count' => 'Просмотров',
             'status' => 'Статус',
         ];
     }
