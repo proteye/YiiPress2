@@ -18,7 +18,12 @@ class m150430_121350_category_init extends Migration
 
         $this->createIndex('idx_category_type_name', '{{%category_type}}', 'name');
 
-        /* Category */
+        $this->db->createCommand()->batchInsert('{{%category_type}}', ['name', 'description'], [
+            ['category', 'Категория (рубрика)'],
+            ['brand', 'Брэнд (магазин)'],
+        ])->execute();
+
+            /* Category */
         $this->createTable('{{%category}}', [
             'id' => Schema::TYPE_PK,
             'parent_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',

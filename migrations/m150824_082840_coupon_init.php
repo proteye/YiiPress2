@@ -19,6 +19,15 @@ class m150824_082840_coupon_init extends Migration
 
         $this->createIndex('idx_coupon_type_slug', '{{%coupon_type}}', 'slug');
 
+        $this->db->createCommand()->batchInsert('{{%coupon_type}}', ['name', 'slug', 'extra'], [
+            ['Скидка (%)', 'skidka', '%'],
+            ['Скидка (рублей)', 'skidka', 'рублей'],
+            ['Скидка ($)', 'skidka', 'долларов'],
+            ['Акция!', 'aktsiya', null],
+            ['Доставка!', 'dostavka', null],
+            ['Подарок!', 'podarok', null],
+        ])->execute();
+
         /* Coupon */
         $this->createTable('{{%coupon}}', [
             'id' => Schema::TYPE_PK,
