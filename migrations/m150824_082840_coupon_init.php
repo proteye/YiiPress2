@@ -36,6 +36,7 @@ class m150824_082840_coupon_init extends Migration
             'title' => Schema::TYPE_STRING . '(255) NOT NULL',
             'link' => Schema::TYPE_STRING . '(255)',
             'code' => Schema::TYPE_STRING . '(160)',
+            'short_description' => Schema::TYPE_STRING . '(255)',
             'description' => Schema::TYPE_TEXT,
             'type_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'value' => Schema::TYPE_STRING . '(64)',
@@ -49,8 +50,8 @@ class m150824_082840_coupon_init extends Migration
             'meta_keywords' => Schema::TYPE_STRING . '(250)',
             'meta_description' => Schema::TYPE_STRING . '(250)',
             'user_ip' => Schema::TYPE_STRING . '(20)',
-            'view_count' => Schema::TYPE_INTEGER . ' UNSIGNED NOT NULL DEFAULT 0',
             'recommended' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 0',
+            'view_count' => Schema::TYPE_INTEGER . ' UNSIGNED NOT NULL DEFAULT 0',
             'status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 0',
         ], $tableOptions);
 

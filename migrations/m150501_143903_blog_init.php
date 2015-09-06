@@ -32,8 +32,8 @@ class m150501_143903_blog_init extends Migration
             'meta_description' => Schema::TYPE_STRING . '(250)',
             'access_type' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 1',
             'comment_status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 1',
-            'status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 0',
             'view_count' => Schema::TYPE_INTEGER . ' UNSIGNED NOT NULL DEFAULT 0',
+            'status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 0',
         ], $tableOptions);
 
         $this->createIndex('idx_post_slug_lang', '{{%post}}', ['slug', 'lang'], true);

@@ -44,6 +44,7 @@ class m150430_121350_category_init extends Migration
             'meta_keywords' => Schema::TYPE_STRING . '(250)',
             'meta_description' => Schema::TYPE_STRING . '(250)',
             'link' => Schema::TYPE_STRING . '(255)',
+            'view_count' => Schema::TYPE_INTEGER . ' UNSIGNED NOT NULL DEFAULT 0',
             'status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 1',
         ], $tableOptions);
 
