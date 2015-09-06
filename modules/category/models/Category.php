@@ -10,7 +10,7 @@ use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use app\modules\core\components\behaviors\ImageUploadBehavior;
 use app\modules\core\components\behaviors\ParentTreeBehavior;
-use yii\behaviors\SluggableBehavior;
+use app\modules\core\components\behaviors\SluggableBehavior;
 use app\modules\core\components\behaviors\CacheClearBehavior;
 use yii\helpers\ArrayHelper;
 use app\modules\user\models\User;

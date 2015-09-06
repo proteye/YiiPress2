@@ -7,13 +7,11 @@ use app\modules\user\models\User;
 use app\modules\category\models\Category;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
-use yii\behaviors\BlameableBehavior;
 use app\modules\core\components\behaviors\SluggableBehavior;
 use app\modules\core\components\behaviors\CacheClearBehavior;
 use app\modules\core\components\behaviors\FilterAttributeBehavior;
 use app\modules\core\components\behaviors\RpcPingBehavior;
 use app\modules\core\components\behaviors\ImageUploadBehavior;
-use yii\db\BaseActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
