@@ -25,6 +25,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'code') ?>
 
+    <?= $form->field($model, 'short_description') ?>
+
     <?= $form->field($model, 'description') ?>
 
     <?php // echo $form->field($model, 'type_id') ?>

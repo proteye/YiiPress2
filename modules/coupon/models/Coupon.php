@@ -19,6 +19,7 @@ use yii\db\ActiveRecord;
  * @property string $title
  * @property string $link
  * @property string $code
+ * @property string $short_description
  * @property string $description
  * @property integer $type_id
  * @property string $value
@@ -32,8 +33,8 @@ use yii\db\ActiveRecord;
  * @property string $meta_keywords
  * @property string $meta_description
  * @property string $user_ip
- * @property string $view_count
  * @property integer $recommended
+ * @property string $view_count
  * @property integer $status
  *
  * @property User $updatedBy
@@ -69,7 +70,7 @@ class Coupon extends \app\modules\core\models\CoreModel
             [['category_id', 'type_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'recommended', 'status'], 'integer'],
             [['title'], 'required'],
             [['description'], 'string'],
-            [['title', 'link'], 'string', 'max' => 255],
+            [['title', 'link', 'short_description'], 'string', 'max' => 255],
             [['code'], 'string', 'max' => 160],
             [['value'], 'string', 'max' => 64],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
@@ -88,6 +89,7 @@ class Coupon extends \app\modules\core\models\CoreModel
             'title' => 'Заголовок',
             'link' => 'Партнерская ссылка',
             'code' => 'Промокод',
+            'short_description' => 'Краткое описание',
             'description' => 'Описание',
             'type_id' => 'Тип',
             'value' => 'Значение',

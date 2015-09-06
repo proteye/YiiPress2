@@ -32,10 +32,12 @@ use app\modules\coupon\models\CouponType;
 
     <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'short_description')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'description')->widget(Redactor::className(), [
         'settings' => [
             'lang' => 'ru',
-            'minHeight' => 400,
+            'minHeight' => 100,
             'imageUpload' => Url::to(['/image/image-backend/upload']),
             'imageManagerJson' => Url::to(['/image/image-backend/image-get']),
             'plugins' => [
