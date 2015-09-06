@@ -23,6 +23,7 @@ class m150824_082840_coupon_init extends Migration
             ['Скидка (%)', 'skidka', '%'],
             ['Скидка (рублей)', 'skidka', 'рублей'],
             ['Скидка ($)', 'skidka', 'долларов'],
+            ['Скидка (евро)', 'skidka', 'евро'],
             ['Акция!', 'aktsiya', null],
             ['Доставка!', 'dostavka', null],
             ['Подарок!', 'podarok', null],
