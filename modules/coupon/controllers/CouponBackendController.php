@@ -129,14 +129,14 @@ class CouponBackendController extends BackendController
         $menuItem->menu_id = $menu_id;
         $menuItem->regular_link = 1;
         $menuItem->title = 'Новые промокоды';
-        $menuItem->href = '/kupon/new';
+        $menuItem->href = 'kupon/new';
         $menuItem->save();
 
         $menuItem = new MenuItem();
         $menuItem->menu_id = $menu_id;
         $menuItem->regular_link = 1;
         $menuItem->title = 'Лучшие промокоды';
-        $menuItem->href = '/kupon/best';
+        $menuItem->href = 'kupon/best';
         $menuItem->save();
 
         /* Brands */
@@ -144,7 +144,7 @@ class CouponBackendController extends BackendController
         $menuItem->menu_id = $menu_id;
         $menuItem->regular_link = 1;
         $menuItem->title = 'Магазины';
-        $menuItem->href = '/kupon/brands';
+        $menuItem->href = 'kupon/brands';
         $menuItem->save();
 
         /* Categories */
@@ -152,7 +152,7 @@ class CouponBackendController extends BackendController
         $menuItem->menu_id = $menu_id;
         $menuItem->regular_link = 1;
         $menuItem->title = 'Категории';
-        $menuItem->href = '/kupon/categories';
+        $menuItem->href = 'kupon/categories';
         $menuItem->save();
         $parent_id = $menuItem->id;
 
@@ -166,7 +166,7 @@ class CouponBackendController extends BackendController
             $menuItem->parent_id = $parent_id;
             $menuItem->regular_link = 1;
             $menuItem->title = $category->name;
-            $menuItem->href = '/kupon/category/' . Yii::$app->getModule('category')->pathsMap[$category->id];
+            $menuItem->href = 'kupon/category/' . Yii::$app->getModule('category')->pathsMap[$category->id];
             $menuItem->save();
         }
     }
