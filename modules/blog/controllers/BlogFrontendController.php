@@ -76,6 +76,8 @@ class BlogFrontendController extends FrontendController
                     ->limit($pages->limit)
                     ->all()
                 ;
+                /* Update category view count */
+                $model->updateCounters(['view_count' => 1]);
                 return $this->render('/category', ['model' => $model, 'posts' => $posts, 'pages' => $pages]);
             }
         }
