@@ -122,6 +122,55 @@ class CouponBackendController extends BackendController
         }
     }
 
+    private static function createMenuItems($menu_id)
+    {
+        /* New and best coupons */
+        $menuItem = new MenuItem();
+        $menuItem->menu_id = $menu_id;
+        $menuItem->regular_link = 1;
+        $menuItem->title = 'Новые промокоды';
+        $menuItem->href = '/kupon/new';
+        $menuItem->save();
+
+        $menuItem = new MenuItem();
+        $menuItem->menu_id = $menu_id;
+        $menuItem->regular_link = 1;
+        $menuItem->title = 'Лучшие промокоды';
+        $menuItem->href = '/kupon/best';
+        $menuItem->save();
+
+        /* Brands */
+        $menuItem = new MenuItem();
+        $menuItem->menu_id = $menu_id;
+        $menuItem->regular_link = 1;
+        $menuItem->title = 'Магазины';
+        $menuItem->href = '/kupon/brands';
+        $menuItem->save();
+
+        /* Categories */
+        $menuItem = new MenuItem();
+        $menuItem->menu_id = $menu_id;
+        $menuItem->regular_link = 1;
+        $menuItem->title = 'Категории';
+        $menuItem->href = '/kupon/categories';
+        $menuItem->save();
+        $parent_id = $menuItem->id;
+
+        $categories = Category::find()
+            ->where(['module' => 'coupon', 'type_id' => 1, 'parent_id' => null])
+            ->active()
+            ->all();
+        foreach ($categories as $category) {
+            $menuItem = new MenuItem();
+            $menuItem->menu_id = $menu_id;
+            $menuItem->parent_id = $parent_id;
+            $menuItem->regular_link = 1;
+            $menuItem->title = $category->name;
+            $menuItem->href = '/kupon/category/' . Yii::$app->getModule('category')->pathsMap[$category->id];
+            $menuItem->save();
+        }
+    }
+
     /**
      * @return string|\yii\web\Response
      */
@@ -130,20 +179,7 @@ class CouponBackendController extends BackendController
         $model = new Menu();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $categories = Category::find()
-                ->where(['module' => 'coupon', 'type_id' => 1, 'parent_id' => null])
-                ->active()
-                ->all();
-            foreach ($categories as $category) {
-                $menuItem = new MenuItem();
-                $menuItem->menu_id = $model->id;
-                $menuItem->regular_link = 1;
-                $menuItem->title = $category->name;
-                $menuItem->href = Yii::$app->getModule('category')->pathsMap[$category->id];
-                $menuItem->rel = 'nofollow';
-                $menuItem->save();
-            }
-
+            self::createMenuItems($model->id);
             Yii::$app->getSession()->setFlash('success', 'Меню создано');
             return $this->redirect(['index']);
         } else {
@@ -160,23 +196,9 @@ class CouponBackendController extends BackendController
     {
         $menu_id = (int)Yii::$app->request->post('menu_id');
         if (Yii::$app->request->isPost && $menu_id != null) {
-            MenuItem::updateAll(['status' => MenuItem::STATUS_BLOCKED], ['menu_id' => $menu_id]);
-            // MenuItem::deleteAll(['menu_id' => $menu_id]);
-
-            $categories = Category::find()
-                ->where(['module' => 'coupon', 'type_id' => 1, 'parent_id' => null])
-                ->active()
-                ->all();
-            foreach ($categories as $category) {
-                $menuItem = new MenuItem();
-                $menuItem->menu_id = $menu_id;
-                $menuItem->regular_link = 1;
-                $menuItem->title = $category->name;
-                $menuItem->href = Yii::$app->getModule('category')->pathsMap[$category->id];
-                $menuItem->rel = 'nofollow';
-                $menuItem->save();
-            }
-
+            // MenuItem::updateAll(['status' => MenuItem::STATUS_BLOCKED], ['menu_id' => $menu_id]);
+            MenuItem::deleteAll(['menu_id' => $menu_id]);
+            self::createMenuItems($menu_id);
             Yii::$app->getSession()->setFlash('success', 'Меню обновлено');
             return $this->redirect(['index']);
         } else {
