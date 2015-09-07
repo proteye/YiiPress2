@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\coupon\models\CouponSearch */
+/* @var $model app\modules\coupon\models\CouponBrandSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="coupon-search">
+<div class="coupon-brand-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,29 +17,21 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'adv_id') ?>
+    <?= $form->field($model, 'category_id') ?>
 
-    <?= $form->field($model, 'brand_id') ?>
+    <?= $form->field($model, 'advcampaign_id') ?>
+
+    <?= $form->field($model, 'slug') ?>
 
     <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'short_name') ?>
+    <?php // echo $form->field($model, 'short_description') ?>
 
-    <?= $form->field($model, 'description') ?>
+    <?php // echo $form->field($model, 'description') ?>
 
-    <?= $form->field($model, 'promocode') ?>
+    <?php // echo $form->field($model, 'image') ?>
 
-    <?= $form->field($model, 'promolink') ?>
-
-    <?= $form->field($model, 'gotolink') ?>
-
-    <?php // echo $form->field($model, 'type_id') ?>
-
-    <?php // echo $form->field($model, 'discount') ?>
-
-    <?php // echo $form->field($model, 'begin_dt') ?>
-
-    <?php // echo $form->field($model, 'end_dt') ?>
+    <?php // echo $form->field($model, 'image_alt') ?>
 
     <?php // echo $form->field($model, 'created_by') ?>
 
@@ -55,11 +47,11 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'meta_description') ?>
 
-    <?php // echo $form->field($model, 'user_ip') ?>
+    <?php // echo $form->field($model, 'site') ?>
+
+    <?php // echo $form->field($model, 'advlink') ?>
 
     <?php // echo $form->field($model, 'view_count') ?>
-
-    <?php // echo $form->field($model, 'recommended') ?>
 
     <?php // echo $form->field($model, 'status') ?>
 

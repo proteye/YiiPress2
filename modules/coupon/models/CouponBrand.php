@@ -3,29 +3,27 @@
 namespace app\modules\coupon\models;
 
 use Yii;
-use app\modules\core\components\behaviors\FilterAttributeBehavior;
-use app\modules\coupon\behaviors\CouponBehavior;
+use yii\helpers\ArrayHelper;
+use app\modules\category\models\Category;
 use app\modules\user\models\User;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+use app\modules\core\components\behaviors\SluggableBehavior;
+use app\modules\core\components\behaviors\ImageUploadBehavior;
 
 /**
- * This is the model class for table "{{%coupon}}".
+ * This is the model class for table "{{%coupon_brand}}".
  *
  * @property integer $id
- * @property integer $brand_id
- * @property integer $adv_id
+ * @property integer $category_id
+ * @property string $advcampaign_id
+ * @property string $slug
  * @property string $name
- * @property string $short_name
+ * @property string $short_description
  * @property string $description
- * @property string $promocode
- * @property string $promolink
- * @property string $gotolink
- * @property integer $type_id
- * @property string $discount
- * @property integer $begin_dt
- * @property integer $end_dt
+ * @property string $image
+ * @property string $image_alt
  * @property integer $created_by
  * @property integer $updated_by
  * @property integer $created_at
@@ -33,31 +31,28 @@ use yii\db\ActiveRecord;
  * @property string $meta_title
  * @property string $meta_keywords
  * @property string $meta_description
- * @property string $user_ip
- * @property integer $recommended
+ * @property string $site
+ * @property string $advlink
  * @property string $view_count
  * @property integer $status
  *
- * @property CouponBrand $brand
- * @property CouponType $type
+ * @property Coupon[] $coupons
+ * @property Category $category
  * @property User $createdBy
  * @property User $updatedBy
  */
-class Coupon extends \app\modules\core\models\CoreModel
+class CouponBrand extends \app\modules\core\models\CoreModel
 {
     const STATUS_BLOCKED = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_DELETED = 2;
-
-    const RECOMMENDED_FALSE = 0;
-    const RECOMMENDED_TRUE = 1;
 
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%coupon}}';
+        return '{{%coupon_brand}}';
     }
 
     /**
@@ -66,16 +61,14 @@ class Coupon extends \app\modules\core\models\CoreModel
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            [['begin_dt', 'end_dt'], 'default', 'value' => null],
-            [['brand_id', 'adv_id', 'type_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'recommended', 'status'], 'integer'],
-            [['name'], 'required'],
+            [['category_id', 'advcampaign_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'status'], 'integer'],
+            [['slug', 'name'], 'required'],
             [['description'], 'string'],
-            [['short_name'], 'string', 'max' => 160],
-            [['name', 'promolink', 'gotolink'], 'string', 'max' => 255],
-            [['promocode', 'discount'], 'string', 'max' => 64],
-            [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
-            [['user_ip'], 'string', 'max' => 20]
+            [['slug'], 'string', 'max' => 160],
+            ['image', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'skipOnEmpty' => true],
+            [['name', 'image', 'image_alt', 'site', 'advlink'], 'string', 'max' => 255],
+            [['short_description'], 'string', 'max' => 512],
+            [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250]
         ];
     }
 
@@ -86,18 +79,14 @@ class Coupon extends \app\modules\core\models\CoreModel
     {
         return [
             'id' => 'ID',
-            'brand_id' => 'Магазин (бренд)',
-            'adv_id' => 'Admitad ID',
+            'category_id' => 'Категория',
+            'advcampaign_id' => 'AdvСampaign ID',
+            'slug' => 'Алиас',
             'name' => 'Название',
-            'short_name' => 'Короткое название',
+            'short_description' => 'Краткое описание',
             'description' => 'Описание',
-            'promocode' => 'Промокод',
-            'promolink' => 'Promo ссылка',
-            'gotolink' => 'Goto ссылка',
-            'type_id' => 'Тип',
-            'discount' => 'Скидка',
-            'begin_dt' => 'Начало',
-            'end_dt' => 'Завершение',
+            'image' => 'Логотип',
+            'image_alt' => 'Атрибут alt',
             'created_by' => 'Создал',
             'updated_by' => 'Изменил',
             'created_at' => 'Дата создания',
@@ -105,8 +94,8 @@ class Coupon extends \app\modules\core\models\CoreModel
             'meta_title' => 'Meta Title',
             'meta_keywords' => 'Meta Keywords',
             'meta_description' => 'Meta Description',
-            'user_ip' => 'IP адрес',
-            'recommended' => 'Рекомендуем',
+            'site' => 'Сайт (ссылка)',
+            'advlink' => 'Партнерская ссылка',
             'view_count' => 'Просмотров',
             'status' => 'Статус',
         ];
@@ -117,10 +106,9 @@ class Coupon extends \app\modules\core\models\CoreModel
      */
     public function behaviors()
     {
+        $module = Yii::$app->getModule('coupon');
+
         return [
-            'coupon' => [
-                'class' => CouponBehavior::className(),
-            ],
             'timestamp' => [
                 'class' => TimestampBehavior::className(),
                 'attributes' => [
@@ -133,9 +121,15 @@ class Coupon extends \app\modules\core\models\CoreModel
                 'createdByAttribute' => 'created_by',
                 'updatedByAttribute' => 'updated_by',
             ],
-            'filter_attribute' => [
-                'class' => FilterAttributeBehavior::className(),
-                'ipAttribute' => 'user_ip',
+            'slug' => [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'name',
+                'slugAttribute' => 'slug',
+            ],
+            'image' => [
+                'class' => ImageUploadBehavior::className(),
+                'attributeName' => 'image',
+                'path' => $module->uploadPath,
             ],
         ];
     }
@@ -162,39 +156,27 @@ class Coupon extends \app\modules\core\models\CoreModel
     }
 
     /**
-     * @return string
+     * @return \yii\db\ActiveQuery
      */
-    public function getRecommendedName()
+    public function getCoupons()
     {
-        $statuses = self::getRecommendedsArray();
-        return isset($statuses[$this->status]) ? $statuses[$this->status] : '';
-    }
-
-    /**
-     * @return array
-     */
-    public static function getRecommendedsArray()
-    {
-        return [
-            self::RECOMMENDED_FALSE => 'Нет',
-            self::RECOMMENDED_TRUE => 'Да',
-        ];
+        return $this->hasMany(Coupon::className(), ['brand_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBrand()
+    public function getUpdatedBy()
     {
-        return $this->hasOne(CouponBrand::className(), ['id' => 'brand_id']);
+        return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getType()
+    public function getCategory()
     {
-        return $this->hasOne(CouponType::className(), ['id' => 'type_id']);
+        return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
     /**
@@ -206,10 +188,12 @@ class Coupon extends \app\modules\core\models\CoreModel
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return array
      */
-    public function getUpdatedBy()
+    public static function getItemsList()
     {
-        return $this->hasOne(User::className(), ['id' => 'updated_by']);
+        $model = self::find()->where(['status' => self::STATUS_ACTIVE])->all();
+
+        return ArrayHelper::map($model, 'id', 'name');
     }
 }

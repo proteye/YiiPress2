@@ -3,14 +3,14 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\coupon\models\Coupon */
+/* @var $model app\modules\coupon\models\CouponBrand */
 
-$this->title = 'Изменить купон: ' . ' ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Купоны', 'url' => ['index']];
+$this->title = 'Изменить бренд: ' . ' ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Бренды', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Изменить';
 ?>
-<div class="coupon-update">
+<div class="coupon-brand-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

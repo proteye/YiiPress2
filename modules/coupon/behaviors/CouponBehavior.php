@@ -4,13 +4,11 @@ namespace app\modules\coupon\behaviors;
 use Yii;
 use yii\behaviors\AttributeBehavior;
 use yii\db\ActiveRecord;
-use app\modules\category\models\Category;
 
 class CouponBehavior extends AttributeBehavior
 {
     public $begin_dtAttribute = 'begin_dt';
     public $end_dtAttribute = 'end_dt';
-    public $linkAttribute = 'link';
 
     /**
      * @return array
@@ -44,12 +42,6 @@ class CouponBehavior extends AttributeBehavior
         }
         if ($model->hasAttribute($this->end_dtAttribute) && $model->{$this->end_dtAttribute} == null) {
             $model->{$this->end_dtAttribute} = time();
-        }
-        if ($model->hasAttribute($this->linkAttribute) && $model->{$this->linkAttribute} == null) {
-            $category = Category::findOne($model->category_id);
-            if ($category != null) {
-                $model->{$this->linkAttribute} = $category->link;
-            }
         }
     }
 

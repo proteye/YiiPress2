@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\modules\category\models\Category;
+use app\modules\coupon\models\CouponBrand;
 use vova07\imperavi\Widget as Redactor;
 use yii\helpers\Url;
 use app\modules\coupon\models\CouponType;
@@ -24,15 +24,29 @@ use app\modules\coupon\models\CouponType;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'category_id')->dropDownList(Category::getItemsList(), ['prompt' => '-- нет --']) ?>
+    <?= $form->field($model, 'brand_id')->dropDownList(CouponBrand::getItemsList(), ['prompt' => '-- нет --']) ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'adv_id')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'short_name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'short_description')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'promocode')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'promolink')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'gotolink')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'type_id')->dropDownList(CouponType::getItemsList(), ['prompt' => '-- нет --']) ?>
+
+    <?= $form->field($model, 'discount')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'begin_dt')->widget(\yii\jui\DatePicker::classname(), ['language' => 'ru', 'dateFormat' => 'dd-MM-yyyy', 'clientOptions' => ['showAnim'=>'slideDown', 'showButtonPanel' => true]]) ?>
+
+    <?= $form->field($model, 'end_dt')->widget(\yii\jui\DatePicker::classname(), ['language' => 'ru', 'dateFormat' => 'dd-MM-yyyy', 'clientOptions' => ['showAnim'=>'slideDown', 'showButtonPanel' => true]]) ?>
+
+    <?= $form->field($model, 'recommended')->checkbox() ?>
 
     <?= $form->field($model, 'description')->widget(Redactor::className(), [
         'settings' => [
@@ -49,33 +63,11 @@ use app\modules\coupon\models\CouponType;
         ]
     ]); ?>
 
-    <?= $form->field($model, 'type_id')->dropDownList(CouponType::getItemsList(), ['prompt' => '-- нет --']) ?>
-
-    <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'begin_dt')->widget(\yii\jui\DatePicker::classname(), ['language' => 'ru', 'dateFormat' => 'dd-MM-yyyy', 'clientOptions' => ['showAnim'=>'slideDown', 'showButtonPanel' => true]]) ?>
-
-    <?= $form->field($model, 'end_dt')->widget(\yii\jui\DatePicker::classname(), ['language' => 'ru', 'dateFormat' => 'dd-MM-yyyy', 'clientOptions' => ['showAnim'=>'slideDown', 'showButtonPanel' => true]]) ?>
-
-    <?php // $form->field($model, 'created_by')->textInput() ?>
-
-    <?php // $form->field($model, 'updated_by')->textInput() ?>
-
-    <?php // $form->field($model, 'created_at')->textInput() ?>
-
-    <?php // $form->field($model, 'updated_at')->textInput() ?>
-
-    <?= $form->field($model, 'recommended')->dropDownList($model->getRecommendedsArray()) ?>
-
     <?= $form->field($model, 'meta_title')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'meta_keywords')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'meta_description')->textInput(['maxlength' => true]) ?>
-
-    <?php // $form->field($model, 'user_ip')->textInput(['maxlength' => true]) ?>
-
-    <?php // $form->field($model, 'view_count')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'status')->dropDownList($model->getStatusesArray()) ?>
 

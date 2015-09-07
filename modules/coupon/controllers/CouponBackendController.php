@@ -157,7 +157,7 @@ class CouponBackendController extends BackendController
         $parent_id = $menuItem->id;
 
         $categories = Category::find()
-            ->where(['module' => 'coupon', 'type_id' => 1, 'parent_id' => null])
+            ->where(['module' => Yii::$app->controller->module->id, 'parent_id' => null])
             ->active()
             ->all();
         foreach ($categories as $category) {

@@ -5,12 +5,12 @@ namespace app\modules\coupon\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\coupon\models\Coupon;
+use app\modules\coupon\models\CouponBrand;
 
 /**
- * CouponSearch represents the model behind the search form about `app\modules\coupon\models\Coupon`.
+ * CouponBrandSearch represents the model behind the search form about `app\modules\coupon\models\CouponBrand`.
  */
-class CouponSearch extends Coupon
+class CouponBrandSearch extends CouponBrand
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class CouponSearch extends Coupon
     public function rules()
     {
         return [
-            [['id', 'brand_id', 'adv_id', 'type_id', 'begin_dt', 'end_dt', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'recommended', 'status'], 'integer'],
-            [['name', 'short_name', 'description', 'promocode', 'promolink', 'gotolink', 'discount', 'meta_title', 'meta_keywords', 'meta_description', 'user_ip'], 'safe'],
+            [['id', 'category_id', 'advcampaign_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'status'], 'integer'],
+            [['slug', 'name', 'short_description', 'description', 'image', 'image_alt', 'meta_title', 'meta_keywords', 'meta_description', 'site', 'advlink'], 'safe'],
         ];
     }
 
@@ -41,13 +41,10 @@ class CouponSearch extends Coupon
      */
     public function search($params)
     {
-        $query = Coupon::find();
+        $query = CouponBrand::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => [
-                'defaultOrder' => ['created_at' => SORT_DESC],
-            ],
         ]);
 
         $this->load($params);
@@ -60,31 +57,27 @@ class CouponSearch extends Coupon
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'brand_id' => $this->brand_id,
-            'adv_id' => $this->adv_id,
-            'type_id' => $this->type_id,
-            'begin_dt' => $this->begin_dt,
-            'end_dt' => $this->end_dt,
+            'category_id' => $this->category_id,
+            'advcampaign_id' => $this->advcampaign_id,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'recommended' => $this->recommended,
             'view_count' => $this->view_count,
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'short_name', $this->short_name])
+        $query->andFilterWhere(['like', 'slug', $this->slug])
+            ->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'short_description', $this->short_description])
             ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'promocode', $this->promocode])
-            ->andFilterWhere(['like', 'promolink', $this->promolink])
-            ->andFilterWhere(['like', 'gotolink', $this->gotolink])
-            ->andFilterWhere(['like', 'discount', $this->discount])
+            ->andFilterWhere(['like', 'image', $this->image])
+            ->andFilterWhere(['like', 'image_alt', $this->image_alt])
             ->andFilterWhere(['like', 'meta_title', $this->meta_title])
             ->andFilterWhere(['like', 'meta_keywords', $this->meta_keywords])
             ->andFilterWhere(['like', 'meta_description', $this->meta_description])
-            ->andFilterWhere(['like', 'user_ip', $this->user_ip]);
+            ->andFilterWhere(['like', 'site', $this->site])
+            ->andFilterWhere(['like', 'advlink', $this->advlink]);
 
         return $dataProvider;
     }

@@ -4,28 +4,21 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\coupon\models\CouponSearch */
+/* @var $searchModel app\modules\coupon\models\CouponBrandSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Купоны';
+$this->title = 'Бренды';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="coupon-index">
+<div class="coupon-brand-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <div class="pull-left">
+    <p>
         <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Типы', ['/coupon/coupon-type-backend'], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Бренды', ['/coupon/coupon-brand-backend'], ['class' => 'btn btn-danger']) ?>
-    </div>
-    <div class="pull-right">
-        <?= Html::a('Создать меню', ['/coupon/coupon-backend/menu-create'], ['class' => 'btn btn-default']) ?>
-        <?= Html::a('Обновить меню', ['/coupon/coupon-backend/menu-update'], ['class' => 'btn btn-default']) ?>
-    </div>
-    <div class="clearfix"></div>
-    <p></p>
+        <?= Html::a('Купоны', ['/coupon/coupon-backend'], ['class' => 'btn btn-warning']) ?>
+    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -34,23 +27,26 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             // 'id',
-            'adv_id',
             [
-                'attribute' => 'brand_id',
+                'attribute' => 'image',
+                'format' => 'html',
                 'value' => function ($model) {
-                    return $model->brand_id ? \app\modules\coupon\models\CouponBrand::findOne($model->brand_id)->name : '-';
+                    return $model->image ? Html::img($model->thumbUrl, ['alt' => $model->image_alt]) : null;
                 },
             ],
             'name',
-            // 'short_name',
+            [
+                'attribute' => 'category_id',
+                'value' => function ($model) {
+                    return $model->category_id ? \app\modules\category\models\Category::findOne($model->category_id)->name : '-';
+                },
+            ],
+            'slug',
+            'site:url',
+            'advcampaign_id',
+            // 'short_description',
             // 'description:ntext',
-            'promocode',
-            'promolink:url',
-            'gotolink:url',
-            // 'type_id',
-            // 'discount',
-            'begin_dt:date',
-            'end_dt:date',
+            // 'image_alt',
             // 'created_by',
             // 'updated_by',
             // 'created_at',
@@ -58,8 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'meta_title',
             // 'meta_keywords',
             // 'meta_description',
-            // 'user_ip',
-            // 'recommended',
+            'advlink:url',
             // 'view_count',
             [
                 'attribute' => 'status',
