@@ -19,6 +19,7 @@ class m150824_082840_coupon_init extends Migration
 
         $this->createIndex('idx_coupon_type_slug', '{{%coupon_type}}', 'slug');
 
+        /*
         $this->db->createCommand()->batchInsert('{{%coupon_type}}', ['name', 'slug', 'extra'], [
             ['Скидка (%)', 'skidka', '%'],
             ['Скидка (рублей)', 'skidka', 'рублей'],
@@ -28,18 +29,53 @@ class m150824_082840_coupon_init extends Migration
             ['Доставка!', 'dostavka', null],
             ['Подарок!', 'podarok', null],
         ])->execute();
+        */
+
+        /* Brand */
+        $this->createTable('{{%coupon_brand}}', [
+            'id' => Schema::TYPE_PK,
+            'category_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+            'advcampaign_id' => Schema::TYPE_INTEGER . ' UNSIGNED DEFAULT NULL',
+            'slug' => Schema::TYPE_STRING . '(160) NOT NULL',
+            'name' => Schema::TYPE_STRING . '(255) NOT NULL',
+            'short_description' => Schema::TYPE_STRING . '(512)',
+            'description' => Schema::TYPE_TEXT,
+            'image' => Schema::TYPE_STRING . '(255)',
+            'image_alt' => Schema::TYPE_STRING . '(255)',
+            'created_by' => Schema::TYPE_INTEGER,
+            'updated_by' => Schema::TYPE_INTEGER,
+            'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'meta_title' => Schema::TYPE_STRING . '(250)',
+            'meta_keywords' => Schema::TYPE_STRING . '(250)',
+            'meta_description' => Schema::TYPE_STRING . '(250)',
+            'site' => Schema::TYPE_STRING . '(255)',
+            'advlink' => Schema::TYPE_STRING . '(255)',
+            'view_count' => Schema::TYPE_INTEGER . ' UNSIGNED NOT NULL DEFAULT 0',
+            'status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 1',
+        ], $tableOptions);
+
+        $this->createIndex('idx_coupon_brand_category_id', '{{%coupon_brand}}', 'category_id');
+        $this->createIndex('idx_coupon_brand_slug', '{{%coupon_brand}}', 'slug');
+        $this->createIndex('idx_coupon_brand_name', '{{%coupon_brand}}', 'name');
+        $this->createIndex('idx_coupon_brand_status', '{{%coupon_brand}}', 'status');
+        $this->addForeignKey('fk_coupon_brand_category_id', '{{%coupon_brand}}', 'category_id', '{{%category}}', 'id', 'SET NULL', 'NO ACTION');
+        $this->addForeignKey('fk_coupon_brand_created_by', '{{%coupon_brand}}', 'created_by', '{{%user}}', 'id', 'SET NULL', 'NO ACTION');
+        $this->addForeignKey('fk_coupon_brand_updated_by', '{{%coupon_brand}}', 'updated_by', '{{%user}}', 'id', 'SET NULL', 'NO ACTION');
 
         /* Coupon */
         $this->createTable('{{%coupon}}', [
             'id' => Schema::TYPE_PK,
-            'category_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
-            'title' => Schema::TYPE_STRING . '(255) NOT NULL',
-            'link' => Schema::TYPE_STRING . '(255)',
-            'code' => Schema::TYPE_STRING . '(160)',
-            'short_description' => Schema::TYPE_STRING . '(255)',
+            'brand_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+            'adv_id' => Schema::TYPE_INTEGER . ' UNSIGNED DEFAULT NULL',
+            'name' => Schema::TYPE_STRING . '(255) NOT NULL',
+            'short_name' => Schema::TYPE_STRING . '(160)',
             'description' => Schema::TYPE_TEXT,
+            'promocode' => Schema::TYPE_STRING . '(64)',
+            'promolink' => Schema::TYPE_STRING . '(255)',
+            'gotolink' => Schema::TYPE_STRING . '(255)',
             'type_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
-            'value' => Schema::TYPE_STRING . '(64)',
+            'discount' => Schema::TYPE_STRING . '(64)',
             'begin_dt' => Schema::TYPE_INTEGER,
             'end_dt' => Schema::TYPE_INTEGER,
             'created_by' => Schema::TYPE_INTEGER,
@@ -52,15 +88,15 @@ class m150824_082840_coupon_init extends Migration
             'user_ip' => Schema::TYPE_STRING . '(20)',
             'recommended' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 0',
             'view_count' => Schema::TYPE_INTEGER . ' UNSIGNED NOT NULL DEFAULT 0',
-            'status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 0',
+            'status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 1',
         ], $tableOptions);
 
-        $this->createIndex('idx_coupon_category_id', '{{%coupon}}', 'category_id');
+        $this->createIndex('idx_coupon_brand_id', '{{%coupon}}', 'brand_id');
         $this->createIndex('idx_coupon_type_id', '{{%coupon}}', 'type_id');
         $this->createIndex('idx_coupon_begin_dt', '{{%coupon}}', 'begin_dt');
         $this->createIndex('idx_coupon_end_dt', '{{%coupon}}', 'end_dt');
         $this->createIndex('idx_coupon_status', '{{%coupon}}', 'status');
-        $this->addForeignKey('fk_coupon_category_id', '{{%coupon}}', 'category_id', '{{%category}}', 'id', 'CASCADE', 'NO ACTION');
+        $this->addForeignKey('fk_coupon_brand_id', '{{%coupon}}', 'brand_id', '{{%coupon_brand}}', 'id', 'CASCADE', 'NO ACTION');
         $this->addForeignKey('fk_coupon_type_id', '{{%coupon}}', 'type_id', '{{%coupon_type}}', 'id', 'SET NULL', 'NO ACTION');
         $this->addForeignKey('fk_coupon_created_by', '{{%coupon}}', 'created_by', '{{%user}}', 'id', 'SET NULL', 'NO ACTION');
         $this->addForeignKey('fk_coupon_updated_by', '{{%coupon}}', 'updated_by', '{{%user}}', 'id', 'SET NULL', 'NO ACTION');
