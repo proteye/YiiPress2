@@ -17,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Типы категорий', ['/category/category-type-backend'], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= GridView::widget([
@@ -46,7 +45,6 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'meta_title',
             // 'meta_keywords',
             // 'meta_description',
-            // 'link',
             'view_count',
             [
                 'attribute' => 'status',

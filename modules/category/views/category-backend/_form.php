@@ -5,7 +5,6 @@ use yii\widgets\ActiveForm;
 use app\modules\core\widgets\FlashMessage;
 use vova07\imperavi\Widget as Redactor;
 use yii\helpers\Url;
-use app\modules\category\models\CategoryType;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\category\models\Category */
@@ -27,8 +26,6 @@ $core = Yii::$app->getModule('core');
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'parent_id')->dropDownList($model->getParentsList($model->id), ['prompt' => '-- нет --']) ?>
-
-    <?= $form->field($model, 'type_id')->dropDownList(CategoryType::getItemsList(), ['prompt' => '-- нет --']) ?>
 
     <?= $form->field($model, 'module')->dropDownList($core->getModulesList(), ['prompt' => '-- нет --']) ?>
 
@@ -67,8 +64,6 @@ $core = Yii::$app->getModule('core');
     <?= $form->field($model, 'meta_keywords')->textInput(['maxlength' => 250]) ?>
 
     <?= $form->field($model, 'meta_description')->textInput(['maxlength' => 250]) ?>
-
-    <?= $form->field($model, 'link')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'status')->dropDownList($model->getStatusesArray()) ?>
 

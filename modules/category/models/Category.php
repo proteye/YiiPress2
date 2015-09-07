@@ -20,7 +20,6 @@ use app\modules\user\models\User;
  *
  * @property integer $id
  * @property integer $parent_id
- * @property integer $type_id
  * @property string $module
  * @property string $lang
  * @property string $slug
@@ -34,12 +33,10 @@ use app\modules\user\models\User;
  * @property string $meta_title
  * @property string $meta_keywords
  * @property string $meta_description
- * @property string $link
  * @property integer $view_count
  * @property integer $status
  *
  * @property Category $parent
- * @property CategoryType $categoryType
  * @property Category[] $categories
  * @property Image[] $images
  * @property Page[] $pages
@@ -67,13 +64,13 @@ class Category extends \app\modules\core\models\CoreModel
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['view_count', 'default', 'value' => 0],
-            [['parent_id', 'created_at', 'updated_at', 'type_id', 'view_count', 'status'], 'integer'],
+            [['parent_id', 'created_at', 'updated_at', 'view_count', 'status'], 'integer'],
             [['slug', 'name'], 'required'],
             [['description'], 'string'],
             [['lang'], 'string', 'max' => 2],
             [['module', 'slug'], 'string', 'max' => 160],
             ['image', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'skipOnEmpty' => true],
-            [['name', 'image', 'image_alt', 'link'], 'string', 'max' => 255],
+            [['name', 'image', 'image_alt'], 'string', 'max' => 255],
             [['short_description'], 'string', 'max' => 512],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
             [['slug', 'lang'], 'unique', 'targetAttribute' => ['slug', 'lang'], 'message' => 'Такая комбинация Языка и Алиас уже существует..'],
@@ -89,7 +86,6 @@ class Category extends \app\modules\core\models\CoreModel
         return [
             'id' => 'ID',
             'parent_id' => 'Родитель',
-            'type_id' => 'Тип',
             'module' => 'Модуль',
             'lang' => 'Язык',
             'slug' => 'Алиас',
@@ -103,7 +99,6 @@ class Category extends \app\modules\core\models\CoreModel
             'meta_title' => 'SEO Title',
             'meta_keywords' => 'SEO Keywords',
             'meta_description' => 'SEO Description',
-            'link' => 'Ссылка',
             'view_count' => 'Просмотров',
             'status' => 'Статус',
         ];
@@ -173,14 +168,6 @@ class Category extends \app\modules\core\models\CoreModel
     public function getParent()
     {
         return $this->hasOne(Category::className(), ['id' => 'parent_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCategoryType()
-    {
-        return $this->hasOne(CategoryType::className(), ['id' => 'type_id']);
     }
 
     /**

@@ -19,8 +19,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'parent_id') ?>
 
-    <?= $form->field($model, 'type_id') ?>
-
     <?= $form->field($model, 'lang') ?>
 
     <?= $form->field($model, 'slug') ?>
@@ -46,8 +44,6 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'meta_keywords') ?>
 
     <?php // echo $form->field($model, 'meta_description') ?>
-
-    <?php // echo $form->field($model, 'link') ?>
 
     <?php // echo $form->field($model, 'status') ?>
 

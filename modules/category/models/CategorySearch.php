@@ -19,7 +19,7 @@ class CategorySearch extends Category
     {
         return [
             [['id', 'parent_id', 'created_at', 'updated_at', 'view_count', 'status'], 'integer'],
-            [['lang', 'slug', 'name', 'module', 'short_description', 'description', 'image', 'image_alt', 'meta_title', 'meta_keywords', 'meta_description', 'link'], 'safe'],
+            [['lang', 'slug', 'name', 'module', 'short_description', 'description', 'image', 'image_alt', 'meta_title', 'meta_keywords', 'meta_description'], 'safe'],
         ];
     }
 
@@ -77,8 +77,7 @@ class CategorySearch extends Category
             ->andFilterWhere(['like', 'image_alt', $this->image_alt])
             ->andFilterWhere(['like', 'meta_title', $this->meta_title])
             ->andFilterWhere(['like', 'meta_keywords', $this->meta_keywords])
-            ->andFilterWhere(['like', 'meta_description', $this->meta_description])
-            ->andFilterWhere(['like', 'link', $this->link]);
+            ->andFilterWhere(['like', 'meta_description', $this->meta_description]);
 
         return $dataProvider;
     }
