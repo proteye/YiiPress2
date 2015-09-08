@@ -9,32 +9,9 @@ class m150824_082840_coupon_init extends Migration
     {
         $tableOptions = null;
 
-        /* Coupon type */
-        $this->createTable('{{%coupon_type}}', [
-            'id' => Schema::TYPE_PK,
-            'name' => Schema::TYPE_STRING . '(255) NOT NULL',
-            'slug' => Schema::TYPE_STRING . '(160) NOT NULL',
-            'extra' => Schema::TYPE_STRING . '(64) DEFAULT NULL',
-        ], $tableOptions);
-
-        $this->createIndex('idx_coupon_type_slug', '{{%coupon_type}}', 'slug');
-
-        /*
-        $this->db->createCommand()->batchInsert('{{%coupon_type}}', ['name', 'slug', 'extra'], [
-            ['Скидка (%)', 'skidka', '%'],
-            ['Скидка (рублей)', 'skidka', 'рублей'],
-            ['Скидка ($)', 'skidka', 'долларов'],
-            ['Скидка (евро)', 'skidka', 'евро'],
-            ['Акция!', 'aktsiya', null],
-            ['Доставка!', 'dostavka', null],
-            ['Подарок!', 'podarok', null],
-        ])->execute();
-        */
-
         /* Brand */
         $this->createTable('{{%coupon_brand}}', [
             'id' => Schema::TYPE_PK,
-            'category_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'advcampaign_id' => Schema::TYPE_INTEGER . ' UNSIGNED DEFAULT NULL',
             'slug' => Schema::TYPE_STRING . '(160) NOT NULL',
             'name' => Schema::TYPE_STRING . '(255) NOT NULL',
@@ -55,13 +32,33 @@ class m150824_082840_coupon_init extends Migration
             'status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 1',
         ], $tableOptions);
 
-        $this->createIndex('idx_coupon_brand_category_id', '{{%coupon_brand}}', 'category_id');
         $this->createIndex('idx_coupon_brand_slug', '{{%coupon_brand}}', 'slug');
         $this->createIndex('idx_coupon_brand_name', '{{%coupon_brand}}', 'name');
         $this->createIndex('idx_coupon_brand_status', '{{%coupon_brand}}', 'status');
-        $this->addForeignKey('fk_coupon_brand_category_id', '{{%coupon_brand}}', 'category_id', '{{%category}}', 'id', 'SET NULL', 'NO ACTION');
         $this->addForeignKey('fk_coupon_brand_created_by', '{{%coupon_brand}}', 'created_by', '{{%user}}', 'id', 'SET NULL', 'NO ACTION');
         $this->addForeignKey('fk_coupon_brand_updated_by', '{{%coupon_brand}}', 'updated_by', '{{%user}}', 'id', 'SET NULL', 'NO ACTION');
+
+        /* Brand to Category */
+        $this->createTable('{{%coupon_brand_category}}', [
+            'brand_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'category_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+        ], $tableOptions);
+
+        $this->addPrimaryKey('pk_coupon_brand_category', '{{%coupon_brand_category}}', ['brand_id', 'category_id']);
+        $this->createIndex('idx_coupon_brand_category_brand_id', '{{%coupon_brand_category}}', 'brand_id');
+        $this->createIndex('idx_coupon_brand_category_category_id', '{{%coupon_brand_category}}', 'category_id');
+        $this->addForeignKey('fk_coupon_brand_category_brand_id', '{{%coupon_brand_category}}', 'brand_id', '{{%coupon_brand}}', 'id', 'CASCADE', 'NO ACTION');
+        $this->addForeignKey('fk_coupon_brand_category_category_id', '{{%coupon_brand_category}}', 'category_id', '{{%category}}', 'id', 'CASCADE', 'NO ACTION');
+
+        /* Coupon type */
+        $this->createTable('{{%coupon_type}}', [
+            'id' => Schema::TYPE_PK,
+            'name' => Schema::TYPE_STRING . '(255) NOT NULL',
+            'slug' => Schema::TYPE_STRING . '(160) NOT NULL',
+            'extra' => Schema::TYPE_STRING . '(64) DEFAULT NULL',
+        ], $tableOptions);
+
+        $this->createIndex('idx_coupon_type_slug', '{{%coupon_type}}', 'slug');
 
         /* Coupon */
         $this->createTable('{{%coupon}}', [
@@ -106,6 +103,8 @@ class m150824_082840_coupon_init extends Migration
     {
         $this->dropTable('{{%coupon}}');
         $this->dropTable('{{%coupon_type}}');
+        $this->dropTable('{{%coupon_brand_category}}');
+        $this->dropTable('{{%coupon_brand}}');
     }
 
     /*
