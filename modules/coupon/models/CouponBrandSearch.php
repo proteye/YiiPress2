@@ -18,7 +18,7 @@ class CouponBrandSearch extends CouponBrand
     public function rules()
     {
         return [
-            [['id', 'category_id', 'advcampaign_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'status'], 'integer'],
+            [['id', 'advcampaign_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'status'], 'integer'],
             [['slug', 'name', 'short_description', 'description', 'image', 'image_alt', 'meta_title', 'meta_keywords', 'meta_description', 'site', 'advlink'], 'safe'],
         ];
     }
@@ -57,7 +57,6 @@ class CouponBrandSearch extends CouponBrand
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'category_id' => $this->category_id,
             'advcampaign_id' => $this->advcampaign_id,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,

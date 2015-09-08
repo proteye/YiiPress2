@@ -16,7 +16,6 @@ use app\modules\core\components\behaviors\ImageUploadBehavior;
  * This is the model class for table "{{%coupon_brand}}".
  *
  * @property integer $id
- * @property integer $category_id
  * @property string $advcampaign_id
  * @property string $slug
  * @property string $name
@@ -37,15 +36,22 @@ use app\modules\core\components\behaviors\ImageUploadBehavior;
  * @property integer $status
  *
  * @property Coupon[] $coupons
- * @property Category $category
  * @property User $createdBy
  * @property User $updatedBy
+ * @property CouponBrandCategory[] $brandCategories
+ * @property Category[] $categories
  */
 class CouponBrand extends \app\modules\core\models\CoreModel
 {
     const STATUS_BLOCKED = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_DELETED = 2;
+
+    /**
+     * @var
+     * @return array
+     */
+    private $_categories;
 
     /**
      * @inheritdoc
@@ -61,14 +67,17 @@ class CouponBrand extends \app\modules\core\models\CoreModel
     public function rules()
     {
         return [
-            [['category_id', 'advcampaign_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'status'], 'integer'],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['categories', 'default', 'value' => []],
+            [['advcampaign_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'status'], 'integer'],
             [['slug', 'name'], 'required'],
             [['description'], 'string'],
             [['slug'], 'string', 'max' => 160],
             ['image', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'skipOnEmpty' => true],
             [['name', 'image', 'image_alt', 'site', 'advlink'], 'string', 'max' => 255],
             [['short_description'], 'string', 'max' => 512],
-            [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250]
+            [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
+            ['categories', 'safe'],
         ];
     }
 
@@ -79,7 +88,7 @@ class CouponBrand extends \app\modules\core\models\CoreModel
     {
         return [
             'id' => 'ID',
-            'category_id' => 'Категория',
+            'categories' => 'Категории',
             'advcampaign_id' => 'AdvСampaign ID',
             'slug' => 'Алиас',
             'name' => 'Название',
@@ -99,6 +108,27 @@ class CouponBrand extends \app\modules\core\models\CoreModel
             'view_count' => 'Просмотров',
             'status' => 'Статус',
         ];
+    }
+
+    /**
+     * Init post tags
+     */
+    public function afterFind()
+    {
+        $this->_categories = ArrayHelper::map($this->brandCategories, 'slug', 'id');
+
+        parent::afterFind();
+    }
+
+    /**
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        $this->saveCategories();
+
+        parent::afterSave($insert, $changedAttributes);
     }
 
     /**
@@ -174,14 +204,6 @@ class CouponBrand extends \app\modules\core\models\CoreModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCategory()
-    {
-        return $this->hasOne(Category::className(), ['id' => 'category_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getCreatedBy()
     {
         return $this->hasOne(User::className(), ['id' => 'created_by']);
@@ -195,5 +217,58 @@ class CouponBrand extends \app\modules\core\models\CoreModel
         $model = self::find()->where(['status' => self::STATUS_ACTIVE])->all();
 
         return ArrayHelper::map($model, 'id', 'name');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBrandCategories()
+    {
+        return $this->hasMany(Category::className(), ['id' => 'category_id'])->viaTable('{{%coupon_brand_category}}', ['brand_id' => 'id']);
+    }
+
+    /**
+     * @return array
+     */
+    public function getCategories()
+    {
+        return $this->_categories;
+    }
+
+    /**
+     * @param $value
+     */
+    public function setCategories($value)
+    {
+        $this->_categories = $value;
+    }
+
+    /**
+     * Remove all categories
+     */
+    public function removeCategories()
+    {
+        CouponBrandCategory::deleteAll(['brand_id' => $this->id]);
+    }
+
+    /**
+     * Add categories to brand
+     */
+    public function saveCategories()
+    {
+        $this->removeCategories();
+
+        if (!empty($this->categories)) {
+            foreach ($this->categories as $val) {
+                if (is_numeric($val)) {
+                    $brand_category = new CouponBrandCategory();
+                    $brand_category->brand_id = $this->id;
+                    $brand_category->category_id = $val;
+                    $brand_category->save();
+                }
+            }
+        }
+
+        $this->_categories = ArrayHelper::map($this->brandCategories, 'slug', 'id');
     }
 }

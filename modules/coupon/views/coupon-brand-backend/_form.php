@@ -2,7 +2,10 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\Url;
 use app\modules\category\models\Category;
+use vova07\imperavi\Widget as Redactor;
+use kartik\widgets\Select2;
 use app\modules\core\widgets\FlashMessage;
 
 /* @var $this yii\web\View */
@@ -22,7 +25,16 @@ use app\modules\core\widgets\FlashMessage;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'category_id')->dropDownList(Category::getItemsList(), ['prompt' => '-- нет --']) ?>
+    <?= $form->field($model, 'categories')->widget(Select2::classname(), [
+        'data' => Category::getItemsList(Yii::$app->controller->module->id),
+        'options' => ['multiple' => true],
+        'pluginOptions' => [
+            'allowClear' => true,
+            'tags' => false,
+            'tokenSeparators' => [','],
+            'maximumInputLength' => 255,
+        ],
+    ]); ?>
 
     <?= $form->field($model, 'advcampaign_id')->textInput(['maxlength' => true]) ?>
 
@@ -36,7 +48,20 @@ use app\modules\core\widgets\FlashMessage;
 
     <?= $form->field($model, 'short_description')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'description')->widget(Redactor::className(), [
+        'settings' => [
+            'lang' => 'ru',
+            'minHeight' => 200,
+            'imageUpload' => Url::to(['/image/image-backend/upload']),
+            'imageManagerJson' => Url::to(['/image/image-backend/image-get']),
+            'plugins' => [
+                'imagemanager',
+                'video',
+                'clips',
+                'fullscreen',
+            ]
+        ]
+    ]); ?>
 
     <div class="form-group">
         <?= Html::img($model->image ? $model->getImageUrl() : '#', ['alt' => $model->image_alt, 'title' => $model->image_alt, 'class' => 'image-preview']) ?>

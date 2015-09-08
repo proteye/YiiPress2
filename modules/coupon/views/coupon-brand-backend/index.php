@@ -35,12 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'name',
-            [
-                'attribute' => 'category_id',
-                'value' => function ($model) {
-                    return $model->category_id ? \app\modules\category\models\Category::findOne($model->category_id)->name : '-';
-                },
-            ],
             'slug',
             'site:url',
             'advcampaign_id',
