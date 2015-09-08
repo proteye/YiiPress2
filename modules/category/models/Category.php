@@ -261,9 +261,13 @@ class Category extends \app\modules\core\models\CoreModel
     /**
      * @return array
      */
-    public static function getItemsList()
+    public static function getItemsList($module = null)
     {
-        $model = self::find()->where(['status' => self::STATUS_ACTIVE])->all();
+        if ($module === null) {
+            $model = self::find()->active()->all();
+        } else {
+            $model = self::find()->where(['module' => $module])->active()->all();
+        }
 
         return ArrayHelper::map($model, 'id', 'name');
     }
