@@ -8,7 +8,7 @@ class ImageUploadBehavior extends FileUploadBehavior
 {
     public $attributeName = 'image';
 
-    public $path = 'image';
+    public $path = 'images';
 
     public $thumb_path = 'thumbs';
 
