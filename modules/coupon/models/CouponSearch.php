@@ -45,8 +45,11 @@ class CouponSearch extends Coupon
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 100,
+            ],
             'sort' => [
-                'defaultOrder' => ['created_at' => SORT_DESC],
+                'defaultOrder' => ['updated_at' => SORT_DESC],
             ],
         ]);
 

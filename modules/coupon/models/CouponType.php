@@ -4,6 +4,7 @@ namespace app\modules\coupon\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use app\modules\core\components\behaviors\SluggableBehavior;
 
 /**
  * This is the model class for table "{{%coupon_type}}".
@@ -34,7 +35,8 @@ class CouponType extends \app\modules\core\models\CoreModel
             [['name', 'slug'], 'required'],
             [['name'], 'string', 'max' => 255],
             [['slug'], 'string', 'max' => 160],
-            [['extra'], 'string', 'max' => 64]
+            [['extra'], 'string', 'max' => 64],
+            [['slug'], 'unique', 'targetAttribute' => ['slug'], 'message' => 'Такой Алиас уже существует..'],
         ];
     }
 
@@ -48,6 +50,22 @@ class CouponType extends \app\modules\core\models\CoreModel
             'name' => 'Название',
             'slug' => 'Алиас',
             'extra' => 'Дополнительно',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        $module = Yii::$app->getModule('coupon');
+
+        return [
+            'slug' => [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'name',
+                'slugAttribute' => 'slug',
+            ],
         ];
     }
 

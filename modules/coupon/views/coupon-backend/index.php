@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="pull-right">
         <?= Html::a('Создать меню', ['/coupon/coupon-backend/menu-create'], ['class' => 'btn btn-default']) ?>
         <?= Html::a('Обновить меню', ['/coupon/coupon-backend/menu-update'], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('Импорт', ['/coupon/coupon-backend/import-csv'], ['class' => 'btn btn-warning']) ?>
     </div>
     <div class="clearfix"></div>
     <p></p>
@@ -34,18 +35,18 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             // 'id',
-            'adv_id',
             [
                 'attribute' => 'brand_id',
                 'value' => function ($model) {
                     return $model->brand_id ? \app\modules\coupon\models\CouponBrand::findOne($model->brand_id)->name : '-';
                 },
             ],
+            'adv_id',
             'name',
             // 'short_name',
             // 'description:ntext',
             'promocode',
-            'promolink:url',
+            // 'promolink:url',
             'gotolink:url',
             // 'type_id',
             // 'discount',

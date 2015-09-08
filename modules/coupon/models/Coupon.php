@@ -67,6 +67,8 @@ class Coupon extends \app\modules\core\models\CoreModel
     {
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['recommended', 'default', 'value' => self::RECOMMENDED_FALSE],
+            ['view_count', 'default', 'value' => 0],
             [['begin_dt', 'end_dt'], 'default', 'value' => null],
             [['brand_id', 'adv_id', 'type_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'recommended', 'status'], 'integer'],
             [['name'], 'required'],
@@ -75,7 +77,8 @@ class Coupon extends \app\modules\core\models\CoreModel
             [['name', 'promolink', 'gotolink'], 'string', 'max' => 255],
             [['promocode', 'discount'], 'string', 'max' => 64],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
-            [['user_ip'], 'string', 'max' => 20]
+            [['user_ip'], 'string', 'max' => 20],
+            [['adv_id'], 'unique', 'targetAttribute' => ['adv_id'], 'message' => 'Такой Admitad ID уже существует..'],
         ];
     }
 

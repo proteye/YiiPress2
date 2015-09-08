@@ -50,6 +50,6 @@ class CouponBehavior extends AttributeBehavior
      */
     protected function getDateToTime($date)
     {
-        return strtotime($date);
+        return (is_int($date) || is_float($date)) ? $date : strtotime($date);
     }
 }

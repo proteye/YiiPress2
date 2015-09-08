@@ -31,7 +31,8 @@ class CouponBrandCategory extends \app\modules\core\models\CoreModel
     {
         return [
             [['brand_id', 'category_id'], 'required'],
-            [['brand_id', 'category_id'], 'integer']
+            [['brand_id', 'category_id'], 'integer'],
+            [['brand_id', 'category_id'], 'unique', 'targetAttribute' => ['brand_id', 'category_id'], 'message' => 'Такая комбинация Брэнда и Категории уже существует..'],
         ];
     }
 

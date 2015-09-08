@@ -64,7 +64,7 @@ use app\modules\core\widgets\FlashMessage;
     ]); ?>
 
     <div class="form-group">
-        <?= Html::img($model->image ? $model->getImageUrl() : '#', ['alt' => $model->image_alt, 'title' => $model->image_alt, 'class' => 'image-preview']) ?>
+        <?= Html::img($model->image ? $model->getImageUrl() : '#', ['alt' => $model->image_alt, 'title' => $model->image_alt]) ?>
     </div>
 
     <?= $form->field($model, 'image')->fileInput() ?>

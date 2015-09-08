@@ -34,10 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->image ? Html::img($model->thumbUrl, ['alt' => $model->image_alt]) : null;
                 },
             ],
+            'advcampaign_id',
             'name',
             'slug',
             'site:url',
-            'advcampaign_id',
             // 'short_description',
             // 'description:ntext',
             // 'image_alt',

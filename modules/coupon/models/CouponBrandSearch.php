@@ -45,6 +45,12 @@ class CouponBrandSearch extends CouponBrand
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 50,
+            ],
+            'sort' => [
+                'defaultOrder' => ['name' => SORT_ASC],
+            ],
         ]);
 
         $this->load($params);

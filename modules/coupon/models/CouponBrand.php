@@ -77,6 +77,7 @@ class CouponBrand extends \app\modules\core\models\CoreModel
             [['name', 'image', 'image_alt', 'site', 'advlink'], 'string', 'max' => 255],
             [['short_description'], 'string', 'max' => 512],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
+            [['advcampaign_id'], 'unique', 'targetAttribute' => ['advcampaign_id'], 'message' => 'Такой AdvСampaign ID уже существует..'],
             ['categories', 'safe'],
         ];
     }

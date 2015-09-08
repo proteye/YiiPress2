@@ -42,12 +42,6 @@ use app\modules\coupon\models\CouponType;
 
     <?= $form->field($model, 'discount')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'begin_dt')->widget(\yii\jui\DatePicker::classname(), ['language' => 'ru', 'dateFormat' => 'dd-MM-yyyy', 'clientOptions' => ['showAnim'=>'slideDown', 'showButtonPanel' => true]]) ?>
-
-    <?= $form->field($model, 'end_dt')->widget(\yii\jui\DatePicker::classname(), ['language' => 'ru', 'dateFormat' => 'dd-MM-yyyy', 'clientOptions' => ['showAnim'=>'slideDown', 'showButtonPanel' => true]]) ?>
-
-    <?= $form->field($model, 'recommended')->checkbox() ?>
-
     <?= $form->field($model, 'description')->widget(Redactor::className(), [
         'settings' => [
             'lang' => 'ru',
@@ -62,6 +56,12 @@ use app\modules\coupon\models\CouponType;
             ]
         ]
     ]); ?>
+
+    <?= $form->field($model, 'begin_dt')->widget(\yii\jui\DatePicker::classname(), ['language' => 'ru', 'dateFormat' => 'dd-MM-yyyy', 'clientOptions' => ['showAnim'=>'slideDown', 'showButtonPanel' => true]]) ?>
+
+    <?= $form->field($model, 'end_dt')->widget(\yii\jui\DatePicker::classname(), ['language' => 'ru', 'dateFormat' => 'dd-MM-yyyy', 'clientOptions' => ['showAnim'=>'slideDown', 'showButtonPanel' => true]]) ?>
+
+    <?= $form->field($model, 'recommended')->checkbox() ?>
 
     <?= $form->field($model, 'meta_title')->textInput(['maxlength' => true]) ?>
 
