@@ -40,6 +40,8 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'description:ntext',
             // 'image',
             // 'image_alt',
+            // 'created_by',
+            // 'updated_by',
             // 'created_at',
             // 'updated_at',
             // 'meta_title',

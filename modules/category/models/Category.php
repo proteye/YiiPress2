@@ -14,6 +14,7 @@ use app\modules\core\components\behaviors\SluggableBehavior;
 use app\modules\core\components\behaviors\CacheClearBehavior;
 use yii\helpers\ArrayHelper;
 use app\modules\user\models\User;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "{{%category}}".
@@ -28,6 +29,8 @@ use app\modules\user\models\User;
  * @property string $description
  * @property string $image
  * @property string $image_alt
+ * @property integer $created_by
+ * @property integer $updated_by
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $meta_title
@@ -41,6 +44,8 @@ use app\modules\user\models\User;
  * @property Image[] $images
  * @property Page[] $pages
  * @property Post[] $posts
+ * @property User $createdBy
+ * @property User $updatedBy
  */
 class Category extends \app\modules\core\models\CoreModel
 {
@@ -64,7 +69,7 @@ class Category extends \app\modules\core\models\CoreModel
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['view_count', 'default', 'value' => 0],
-            [['parent_id', 'created_at', 'updated_at', 'view_count', 'status'], 'integer'],
+            [['parent_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'status'], 'integer'],
             [['slug', 'name'], 'required'],
             [['description'], 'string'],
             [['lang'], 'string', 'max' => 2],
@@ -94,6 +99,8 @@ class Category extends \app\modules\core\models\CoreModel
             'description' => 'Описание',
             'image' => 'Изображение',
             'image_alt' => 'Атрибут alt',
+            'created_by' => 'Создал',
+            'updated_by' => 'Изменил',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата обновления',
             'meta_title' => 'SEO Title',
@@ -137,6 +144,11 @@ class Category extends \app\modules\core\models\CoreModel
             'cacheClear' => [
                 'class' => CacheClearBehavior::className(),
                 'modules' => ['category', 'blog'],
+            ],
+            'blame' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
             ],
         ];
     }
