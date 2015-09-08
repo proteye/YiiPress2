@@ -215,6 +215,7 @@ class CouponBackendController extends BackendController
     }
 
     /**
+     * Import CSV file with promocodes
      * 18 columns
      * @param $file_csv
      */
@@ -295,7 +296,7 @@ class CouponBackendController extends BackendController
                 $coupon->name = $data[1];
                 $coupon->short_name = $data[3];
                 $coupon->description = $data[7];
-                $coupon->promocode = $data[9];
+                $coupon->promocode = ($data[8] == 'promocode') ? $data[9] : null;
                 $coupon->promolink = $data[10];
                 $coupon->gotolink = $data[11];
                 $couponType = CouponType::findOne(['name' => $type_arr[count($type_arr)-1]]);
