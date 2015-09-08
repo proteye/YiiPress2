@@ -32,6 +32,7 @@ class m150824_082840_coupon_init extends Migration
             'status' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 1',
         ], $tableOptions);
 
+        $this->createIndex('idx_coupon_brand_advcampaign_id', '{{%coupon_brand}}', 'advcampaign_id');
         $this->createIndex('idx_coupon_brand_slug', '{{%coupon_brand}}', 'slug');
         $this->createIndex('idx_coupon_brand_name', '{{%coupon_brand}}', 'name');
         $this->createIndex('idx_coupon_brand_status', '{{%coupon_brand}}', 'status');
@@ -89,6 +90,7 @@ class m150824_082840_coupon_init extends Migration
         ], $tableOptions);
 
         $this->createIndex('idx_coupon_brand_id', '{{%coupon}}', 'brand_id');
+        $this->createIndex('idx_coupon_adv_id', '{{%coupon}}', 'adv_id');
         $this->createIndex('idx_coupon_type_id', '{{%coupon}}', 'type_id');
         $this->createIndex('idx_coupon_begin_dt', '{{%coupon}}', 'begin_dt');
         $this->createIndex('idx_coupon_end_dt', '{{%coupon}}', 'end_dt');
