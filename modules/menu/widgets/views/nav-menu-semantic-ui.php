@@ -9,6 +9,9 @@ use yii\helpers\Url;
 ?>
 <div class="ui menu large borderless blue inverted">
     <div class="ui container">
+        <a class="toc item">
+            <i class="sidebar icon"></i>
+        </a>
         <?php if (Url::to() != Yii::$app->homeUrl) {
             echo '<a href="/" rel="nofollow" class="header item">';
         } else {
