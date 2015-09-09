@@ -8,8 +8,8 @@ $config = [
         '@theme' => '@app/themes/default', // default path to Theme
     ],
     'bootstrap' => [
-        /* Set current Theme */
         [
+            /* Set current Theme, load current module url rules */
             'class' => 'app\modules\core\components\CoreBootstrap',
             'theme' => '', // if empty then get Theme from database
         ],
