@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\modules\menu\models\MenuItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Menu Items';
+$this->title = 'Пункты меню';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="menu-item-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Menu Item', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -25,12 +25,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'parent_id',
-            'menu_id',
-            'regular_link',
+            // 'id',
+            [
+                'attribute' => 'menu_id',
+                'value' => function ($model) {
+                    return $model->menu_id ? \app\modules\menu\models\Menu::findOne($model->menu_id)->name : '-';
+                },
+            ],
+            [
+                'attribute' => 'parent_id',
+                'value' => function ($model) {
+                    return $model->parent_id ? \app\modules\menu\models\MenuItem::findOne($model->parent_id)->title : '-';
+                },
+            ],
             'title',
-            // 'href',
+            'href',
+            //'regular_link',
             // 'class',
             // 'title_attr',
             // 'before_link',
@@ -40,7 +50,12 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'condition_name',
             // 'condition_denial',
             // 'sort',
-            // 'status',
+            [
+                'attribute' => 'status',
+                'value' => function ($model) {
+                    return $model->statusName;
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
