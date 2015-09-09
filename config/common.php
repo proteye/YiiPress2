@@ -75,7 +75,7 @@ return [
                 'page/<action:(about)>'                                                              => 'page/page-frontend/<action>',
                 'page/<url:[\w\-\/]+>'                                                               => 'page/page-frontend/route',
                 'tag/<url:[\w\-\/]+>'                                                                => 'blog/blog-frontend/tag',
-                '<url:(?!backend|coupon)[\w\-\/]+>'                                                  => 'blog/blog-frontend/route',
+                '<url:(?!backend)[\w\-\/]+>'                                                         => 'blog/blog-frontend/route',
                 'backend/<module:\w+>/<controller:[\w\-]+>/<id:\d+>'                                 => '<module>/<controller>/view',
                 'backend/<module:\w+>/<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>'                => '<module>/<controller>/<action>',
                 'backend/<module:\w+>/<controller:[\w\-]+>/<action:[\w\-]+>'                         => '<module>/<controller>/<action>',
