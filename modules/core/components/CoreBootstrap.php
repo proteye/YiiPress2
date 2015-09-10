@@ -66,13 +66,13 @@ class CoreBootstrap implements BootstrapInterface
     {
         $moduleName = $this->_getModuleName();
 
-        if(Yii::$app->hasModule($moduleName))
+        if (Yii::$app->hasModule($moduleName))
         {
             $module = Yii::$app->getModule($moduleName);
-            if(isset($module->urlRules))
+            if ($module->hasMethod('rules'))
             {
                 $urlManager = Yii::$app->getUrlManager();
-                $urlManager->addRules($module->urlRules, false);
+                $urlManager->addRules($module::rules(), false);
             }
         }
     }
