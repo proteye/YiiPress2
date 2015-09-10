@@ -8,7 +8,7 @@ use app\modules\user\models\User;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
-use yii\behaviors\SluggableBehavior;
+use app\modules\core\components\behaviors\SluggableBehavior;
 use app\modules\core\components\behaviors\ParentTreeBehavior;
 
 /**
