@@ -66,7 +66,7 @@ return [
             'showScriptName' => false,
             'enableStrictParsing' => true,
             'rules' => [
-                ''                                                                                   => 'page/page-frontend/index',
+                ''                                                                                   => 'coupon/coupon-frontend/index',
                 'sitemap'                                                                            => 'core/sitemap/index',
                 'sitemap.xml'                                                                        => 'core/sitemap/sitemap-xml',
                 'contact'                                                                            => 'core/contact/index',
