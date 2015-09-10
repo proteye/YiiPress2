@@ -9,6 +9,7 @@ use app\modules\user\models\User;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use app\modules\core\components\behaviors\SluggableBehavior;
 
 /**
  * This is the model class for table "{{%coupon}}".
@@ -16,6 +17,7 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $brand_id
  * @property integer $adv_id
+ * @property string $slug
  * @property string $name
  * @property string $short_name
  * @property string $description
@@ -45,6 +47,9 @@ use yii\db\ActiveRecord;
  */
 class Coupon extends \app\modules\core\models\CoreModel
 {
+    const SLUG_PREFIX = 'promokod';
+    const CSV_FILE = 'file_csv.csv';
+
     const STATUS_BLOCKED = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_DELETED = 2;
@@ -71,7 +76,8 @@ class Coupon extends \app\modules\core\models\CoreModel
             ['view_count', 'default', 'value' => 0],
             [['begin_dt', 'end_dt'], 'default', 'value' => null],
             [['brand_id', 'adv_id', 'type_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'recommended', 'status'], 'integer'],
-            [['name'], 'required'],
+            [['slug', 'name'], 'required'],
+            [['slug'], 'string', 'max' => 160],
             [['description'], 'string'],
             [['short_name'], 'string', 'max' => 160],
             [['name', 'promolink', 'gotolink'], 'string', 'max' => 255],
@@ -79,6 +85,7 @@ class Coupon extends \app\modules\core\models\CoreModel
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
             [['user_ip'], 'string', 'max' => 20],
             [['adv_id'], 'unique', 'targetAttribute' => ['adv_id'], 'message' => 'Такой Admitad ID уже существует..'],
+            [['slug'], 'unique', 'targetAttribute' => ['slug'], 'message' => 'Такой Алиас уже существует..'],
         ];
     }
 
@@ -91,6 +98,7 @@ class Coupon extends \app\modules\core\models\CoreModel
             'id' => 'ID',
             'brand_id' => 'Магазин (бренд)',
             'adv_id' => 'Admitad ID',
+            'slug' => 'Алиас',
             'name' => 'Название',
             'short_name' => 'Короткое название',
             'description' => 'Описание',
@@ -135,6 +143,11 @@ class Coupon extends \app\modules\core\models\CoreModel
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'created_by',
                 'updatedByAttribute' => 'updated_by',
+            ],
+            'slug' => [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'name',
+                'slugAttribute' => 'slug',
             ],
             'filter_attribute' => [
                 'class' => FilterAttributeBehavior::className(),

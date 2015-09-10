@@ -30,6 +30,8 @@ use app\modules\coupon\models\CouponType;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'short_name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'promocode')->textInput(['maxlength' => true]) ?>

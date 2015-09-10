@@ -33,6 +33,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'gotolink') ?>
 
+    <?php // echo $form->field($model, 'slug') ?>
+
     <?php // echo $form->field($model, 'type_id') ?>
 
     <?php // echo $form->field($model, 'discount') ?>

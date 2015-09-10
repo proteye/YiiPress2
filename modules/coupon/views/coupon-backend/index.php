@@ -42,6 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'adv_id',
+            // 'slug',
             'name',
             // 'short_name',
             // 'description:ntext',

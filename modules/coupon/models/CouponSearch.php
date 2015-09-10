@@ -19,7 +19,7 @@ class CouponSearch extends Coupon
     {
         return [
             [['id', 'brand_id', 'adv_id', 'type_id', 'begin_dt', 'end_dt', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'recommended', 'status'], 'integer'],
-            [['name', 'short_name', 'description', 'promocode', 'promolink', 'gotolink', 'discount', 'meta_title', 'meta_keywords', 'meta_description', 'user_ip'], 'safe'],
+            [['slug', 'name', 'short_name', 'description', 'promocode', 'promolink', 'gotolink', 'discount', 'meta_title', 'meta_keywords', 'meta_description', 'user_ip'], 'safe'],
         ];
     }
 
@@ -46,7 +46,7 @@ class CouponSearch extends Coupon
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 100,
+                'pageSize' => 50,
             ],
             'sort' => [
                 'defaultOrder' => ['updated_at' => SORT_DESC],
@@ -77,7 +77,8 @@ class CouponSearch extends Coupon
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'slug', $this->slug])
+            ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'short_name', $this->short_name])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'promocode', $this->promocode])
