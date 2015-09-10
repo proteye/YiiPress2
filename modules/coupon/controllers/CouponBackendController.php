@@ -153,7 +153,7 @@ class CouponBackendController extends BackendController
         $menuItem->menu_id = $menu_id;
         $menuItem->regular_link = 1;
         $menuItem->title = 'Магазины';
-        $menuItem->href = $module . '/brands';
+        $menuItem->href = $module . '/shops';
         $menuItem->save();
 
         /* Categories */
@@ -175,7 +175,7 @@ class CouponBackendController extends BackendController
             $menuItem->parent_id = $parent_id;
             $menuItem->regular_link = 1;
             $menuItem->title = $category->name;
-            $menuItem->href = $module . '/category/' . Yii::$app->getModule('category')->pathsMap[$category->id];
+            $menuItem->href = $module . '/cat-' . Yii::$app->getModule('category')->pathsMap[$category->id];
             $menuItem->save();
         }
     }

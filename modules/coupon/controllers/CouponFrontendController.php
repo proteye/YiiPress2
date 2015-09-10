@@ -4,15 +4,64 @@ namespace app\modules\coupon\controllers;
 
 use Yii;
 use app\modules\core\components\controllers\FrontendController;
-use yii\helpers\ArrayHelper;
-use yii\data\Pagination;
-use yii\helpers\Url;
+use app\modules\page\models\Page;
+use app\modules\coupon\models\CouponBrand;
+use app\modules\coupon\models\Coupon;
 
 class CouponFrontendController extends FrontendController
 {
-    public function actionDefault($id)
+    public function beforeAction($action)
     {
-        echo 'coupon #' . $id;
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+
+        Yii::$app->urlManager->addRules(\app\modules\coupon\Module::rules(), false);
+
+        return true;
+    }
+
+    public function actionIndex()
+    {
+        //print_r(Yii::$app->urlManager->rules);
+        $page = Page::find()
+            ->where(['slug' => 'index'])
+            ->active()
+            ->one()
+        ;
+
+        $brands = CouponBrand::find()
+            ->active()
+            ->orderBy(['view_count' => SORT_DESC])
+            ->limit(15)
+            ->all()
+        ;
+
+        $best = Coupon::find()
+            ->active()
+            ->orderBy(['view_count' => SORT_DESC])
+            ->limit(9)
+            ->all()
+        ;
+
+        $new = Coupon::find()
+            ->active()
+            ->orderBy(['updated_at' => SORT_DESC])
+            ->limit(9)
+            ->all()
+        ;
+
+        return $this->render('/index', [
+            'page' => $page,
+            'brands' => $brands,
+            'best' => $best,
+            'new' => $new,
+        ]);
+    }
+
+    public function actionDefault($coupon)
+    {
+        echo 'coupon #' . $coupon;
     }
 
     public function actionNewBest($action)
@@ -26,7 +75,7 @@ class CouponFrontendController extends FrontendController
 
     public function actionBrands()
     {
-        echo 'brands';
+        echo 'shops';
     }
 
     public function actionBrand($brand)
@@ -39,9 +88,9 @@ class CouponFrontendController extends FrontendController
         echo 'categories';
     }
 
-    public function actionCategory()
+    public function actionCategory($category)
     {
-        echo 'category';
+        echo $category;
     }
 
     public function actionSearch()
