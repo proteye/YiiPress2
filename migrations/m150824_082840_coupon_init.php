@@ -92,6 +92,7 @@ class m150824_082840_coupon_init extends Migration
 
         $this->createIndex('idx_coupon_brand_id', '{{%coupon}}', 'brand_id');
         $this->createIndex('idx_coupon_adv_id', '{{%coupon}}', 'adv_id');
+        $this->createIndex('idx_coupon_slug', '{{%coupon}}', 'slug');
         $this->createIndex('idx_coupon_type_id', '{{%coupon}}', 'type_id');
         $this->createIndex('idx_coupon_begin_dt', '{{%coupon}}', 'begin_dt');
         $this->createIndex('idx_coupon_end_dt', '{{%coupon}}', 'end_dt');
