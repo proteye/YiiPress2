@@ -66,6 +66,7 @@ class m150824_082840_coupon_init extends Migration
             'id' => Schema::TYPE_PK,
             'brand_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'adv_id' => Schema::TYPE_INTEGER . ' UNSIGNED DEFAULT NULL',
+            'slug' => Schema::TYPE_STRING . '(160) NOT NULL',
             'name' => Schema::TYPE_STRING . '(255) NOT NULL',
             'short_name' => Schema::TYPE_STRING . '(160)',
             'description' => Schema::TYPE_TEXT,
