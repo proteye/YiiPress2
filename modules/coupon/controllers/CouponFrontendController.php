@@ -63,10 +63,23 @@ class CouponFrontendController extends FrontendController
     public function actionNewBest($action)
     {
         if ($action === 'new') {
-            echo 'new';
+            $model = Coupon::find()
+                ->active()
+                ->orderBy(['created_at' => SORT_DESC])
+                ->limit(36)
+                ->all();
         } elseif ($action === 'best') {
-            echo 'best';
+            $model = Coupon::find()
+                ->active()
+                ->orderBy(['view_count' => SORT_DESC])
+                ->limit(36)
+                ->all();
         }
+
+        return $this->render('/new-best', [
+            'action' => $action,
+            'model' => $model,
+        ]);
     }
 
     public function actionBrands()
