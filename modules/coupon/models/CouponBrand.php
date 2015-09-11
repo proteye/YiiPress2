@@ -189,8 +189,11 @@ class CouponBrand extends \app\modules\core\models\CoreModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCoupons()
+    public function getCoupons($only_active = false)
     {
+        if ($only_active)
+            return $this->hasMany(Coupon::className(), ['brand_id' => 'id'])->where(['status' => Coupon::STATUS_ACTIVE])->all();
+
         return $this->hasMany(Coupon::className(), ['brand_id' => 'id']);
     }
 
