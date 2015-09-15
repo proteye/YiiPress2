@@ -81,7 +81,7 @@ class SitemapController extends Controller
                     $str .= '<loc>' . $host . '/coupon/cat-' . $row['slug'] . '</loc>' . PHP_EOL;
                     $str .= '<lastmod>' . date(DATE_W3C, $row['updated_at']) . '</lastmod>' . PHP_EOL;
                     $str .= '<changefreq>weekly</changefreq>' . PHP_EOL;
-                    $str .= '<changefreq>0.9</changefreq>' . PHP_EOL;
+                    $str .= '<priority>0.9</priority>' . PHP_EOL;
                     $str .= '</url>' . PHP_EOL;
                     fwrite($handle, $str);
                 }
@@ -95,7 +95,7 @@ class SitemapController extends Controller
                     $str .= '<loc>' . $host . '/coupon/' . $row['slug'] . '</loc>' . PHP_EOL;
                     $str .= '<lastmod>' . date(DATE_W3C, $row['updated_at']) . '</lastmod>' . PHP_EOL;
                     $str .= '<changefreq>weekly</changefreq>' . PHP_EOL;
-                    $str .= '<changefreq>0.9</changefreq>' . PHP_EOL;
+                    $str .= '<priority>0.9</priority>' . PHP_EOL;
                     $str .= '</url>' . PHP_EOL;
                     fwrite($handle, $str);
                 }
@@ -109,7 +109,7 @@ class SitemapController extends Controller
                     $str .= '<loc>' . $host . '/coupon/' . $row['brand'] . '/' . $row['slug'] . '</loc>' . PHP_EOL;
                     $str .= '<lastmod>' . date(DATE_W3C, $row['updated_at']) . '</lastmod>' . PHP_EOL;
                     $str .= '<changefreq>monthly</changefreq>' . PHP_EOL;
-                    $str .= '<changefreq>0.8</changefreq>' . PHP_EOL;
+                    $str .= '<priority>0.8</priority>' . PHP_EOL;
                     $str .= '</url>' . PHP_EOL;
                     fwrite($handle, $str);
                 }
