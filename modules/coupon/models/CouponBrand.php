@@ -275,4 +275,15 @@ class CouponBrand extends \app\modules\core\models\CoreModel
 
         $this->_categories = ArrayHelper::map($this->brandCategories, 'slug', 'id');
     }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        if ($this->slug != null)
+            return Yii::$app->request->baseUrl . '/coupon/' . $this->slug;
+
+        return false;
+    }
 }

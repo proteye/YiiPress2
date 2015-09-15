@@ -228,4 +228,15 @@ class Coupon extends \app\modules\core\models\CoreModel
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        if ($this->slug != null)
+            return Yii::$app->request->baseUrl . '/coupon/' . $this->brand->slug . '/' . $this->slug;
+
+        return false;
+    }
 }
