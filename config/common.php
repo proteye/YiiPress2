@@ -60,6 +60,9 @@ return [
         'log' => [
             'class' => 'yii\log\Dispatcher',
         ],
+        'mutex' => [
+            'class' => 'yii\mutex\FileMutex'
+        ],
         'urlManager' => [
             'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
@@ -67,7 +70,7 @@ return [
             'enableStrictParsing' => true,
             'rules' => [
                 ''                                                                                   => 'coupon/coupon-frontend/index',
-                'sitemap'                                                                            => 'core/sitemap/index',
+                'sitemap'                                                                            => 'coupon/sitemap/index',
                 'sitemap.xml'                                                                        => 'core/sitemap/sitemap-xml',
                 'contact'                                                                            => 'core/contact/index',
                 '<action:(search)>'                                                                  => 'core/core-frontend/<action>',

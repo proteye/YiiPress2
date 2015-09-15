@@ -1,6 +1,7 @@
 <?php
 
 Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
+Yii::setAlias('@webroot', dirname(__DIR__) . '/web');
 
 return [
     'id' => 'app-console',
