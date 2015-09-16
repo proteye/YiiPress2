@@ -24,7 +24,7 @@ class SitemapController extends FrontendController
         return true;
     }
 
-    public function actionIndex()
+    public function actionIndex($page = null)
     {
         /*
         $command = Yii::$app->db->createCommand(
