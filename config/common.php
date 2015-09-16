@@ -70,7 +70,8 @@ return [
             'enableStrictParsing' => true,
             'rules' => [
                 ''                                                                                   => 'coupon/coupon-frontend/index',
-                'sitemap'                                                                            => 'coupon/sitemap/index',
+                'karta-saita/<page:[\d+]>'                                                           => 'coupon/sitemap/index',
+                'karta-saita'                                                                        => 'coupon/sitemap/index',
                 'sitemap.xml'                                                                        => 'core/sitemap/sitemap-xml',
                 'contact'                                                                            => 'core/contact/index',
                 '<action:(search)>'                                                                  => 'core/core-frontend/<action>',
