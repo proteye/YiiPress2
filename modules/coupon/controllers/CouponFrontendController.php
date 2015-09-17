@@ -57,7 +57,16 @@ class CouponFrontendController extends FrontendController
 
     public function actionDefault($coupon)
     {
-        echo 'coupon #' . $coupon;
+        $model = Coupon::find()
+            ->where('slug = :slug', ['slug' => $coupon])
+            ->active()
+            ->one();
+        if (!$model) {
+            throw new \yii\web\NotFoundHttpException('Страница не найдена.');
+        }
+        return $this->render('/coupon', [
+            'model' => $model,
+        ]);
     }
 
     public function actionNewBest($action)

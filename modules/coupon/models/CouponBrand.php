@@ -19,6 +19,7 @@ use app\modules\core\components\behaviors\ImageUploadBehavior;
  * @property string $advcampaign_id
  * @property string $slug
  * @property string $name
+ * @property string $sec_name
  * @property string $short_description
  * @property string $description
  * @property string $image
@@ -27,6 +28,7 @@ use app\modules\core\components\behaviors\ImageUploadBehavior;
  * @property integer $updated_by
  * @property integer $created_at
  * @property integer $updated_at
+ * @property string $title
  * @property string $meta_title
  * @property string $meta_keywords
  * @property string $meta_description
@@ -46,6 +48,8 @@ class CouponBrand extends \app\modules\core\models\CoreModel
     const STATUS_BLOCKED = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_DELETED = 2;
+
+    const NAME_PREFIX = 'Промокоды';
 
     /**
      * @var
@@ -74,7 +78,7 @@ class CouponBrand extends \app\modules\core\models\CoreModel
             [['description'], 'string'],
             [['slug'], 'string', 'max' => 160],
             ['image', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'skipOnEmpty' => true],
-            [['name', 'image', 'image_alt', 'site', 'advlink'], 'string', 'max' => 255],
+            [['name', 'image', 'image_alt', 'site', 'advlink', 'sec_name', 'title'], 'string', 'max' => 255],
             [['short_description'], 'string', 'max' => 512],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
             [['advcampaign_id'], 'unique', 'targetAttribute' => ['advcampaign_id'], 'message' => 'Такой AdvСampaign ID уже существует..'],
@@ -93,6 +97,7 @@ class CouponBrand extends \app\modules\core\models\CoreModel
             'advcampaign_id' => 'AdvСampaign ID',
             'slug' => 'Алиас',
             'name' => 'Название',
+            'sec_name' => 'Название #2',
             'short_description' => 'Краткое описание',
             'description' => 'Описание',
             'image' => 'Логотип',
@@ -101,6 +106,7 @@ class CouponBrand extends \app\modules\core\models\CoreModel
             'updated_by' => 'Изменил',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата изменения',
+            'title' => 'Заголовок H1',
             'meta_title' => 'Meta Title',
             'meta_keywords' => 'Meta Keywords',
             'meta_description' => 'Meta Description',
@@ -285,5 +291,14 @@ class CouponBrand extends \app\modules\core\models\CoreModel
             return Yii::$app->request->baseUrl . '/coupon/' . $this->slug;
 
         return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPromoName()
+    {
+        $name = self::NAME_PREFIX . ' ' . $this->name . ' (' . $this->sec_name . ') на ' . strftime('%B', time()) . ' - ' . strftime('%B %Y', strtotime('now +1 month'));
+        return $name;
     }
 }

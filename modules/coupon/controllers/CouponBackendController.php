@@ -16,6 +16,7 @@ use yii\filters\VerbFilter;
 use app\modules\menu\models\Menu;
 use yii\web\UploadedFile;
 use yii\helpers\Inflector;
+use app\modules\core\helpers\TranslitHelper;
 
 /**
  * CouponBackendController implements the CRUD actions for Coupon model.
@@ -222,8 +223,6 @@ class CouponBackendController extends BackendController
      */
     private static function importCsv($csv_path, $fseek)
     {
-        $module = Yii::$app->getModule('core');
-        Inflector::$transliterator = $module->transliterator;
         if (($fr = fopen($csv_path, 'r')) !== FALSE) {
             /* Read header */
             $hdr = null;
@@ -255,10 +254,14 @@ class CouponBackendController extends BackendController
                 }
                 $brand->name = $data[$hdr['advcampaign_name']];
                 $brand->site = $data[$hdr['site']];
-                /* Download logo image */
-                $file_name = Inflector::slug($brand->name) . substr($data[$hdr['logo']], strrpos($data[$hdr['logo']], '.'));
-                $file_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $file_name;
-                if (!@is_file($file_path) && !isset($brand->id)) {
+                $brand->image_alt = 'Магазин ' . $brand->name;
+                if ($brand->sec_name == null) {
+                    $brand->sec_name = TranslitHelper::convert($brand->name);
+                }
+                /* If Brand is new then download logo image */
+                if (!isset($brand->id)) {
+                    $file_name = Inflector::slug($brand->name) . substr($data[$hdr['logo']], strrpos($data[$hdr['logo']], '.'));
+                    $file_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $file_name;
                     file_put_contents($file_path, file_get_contents($data[$hdr['logo']]));
                     UploadedFile::reset();
                     $_FILES['brand-logo'] = [
@@ -270,7 +273,6 @@ class CouponBackendController extends BackendController
                     ];
                     $brand->image = UploadedFile::getInstanceByName('brand-logo');
                 }
-                $brand->image_alt = 'Магазин ' . $brand->name;
                 if ($brand->save()) {
                     @unlink($file_path);
                     foreach ($category_arr as $name) {

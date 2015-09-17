@@ -40,6 +40,8 @@ use app\modules\core\widgets\FlashMessage;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'sec_name')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'site')->textInput(['maxlength' => true]) ?>
@@ -70,6 +72,8 @@ use app\modules\core\widgets\FlashMessage;
     <?= $form->field($model, 'image')->fileInput() ?>
 
     <?= $form->field($model, 'image_alt')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'meta_title')->textInput(['maxlength' => true]) ?>
 

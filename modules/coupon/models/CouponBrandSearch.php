@@ -19,7 +19,7 @@ class CouponBrandSearch extends CouponBrand
     {
         return [
             [['id', 'advcampaign_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'status'], 'integer'],
-            [['slug', 'name', 'short_description', 'description', 'image', 'image_alt', 'meta_title', 'meta_keywords', 'meta_description', 'site', 'advlink'], 'safe'],
+            [['slug', 'name', 'sec_name', 'short_description', 'description', 'image', 'image_alt', 'title', 'meta_title', 'meta_keywords', 'meta_description', 'site', 'advlink'], 'safe'],
         ];
     }
 
@@ -74,10 +74,12 @@ class CouponBrandSearch extends CouponBrand
 
         $query->andFilterWhere(['like', 'slug', $this->slug])
             ->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'sec_name', $this->sec_name])
             ->andFilterWhere(['like', 'short_description', $this->short_description])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'image', $this->image])
             ->andFilterWhere(['like', 'image_alt', $this->image_alt])
+            ->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'meta_title', $this->meta_title])
             ->andFilterWhere(['like', 'meta_keywords', $this->meta_keywords])
             ->andFilterWhere(['like', 'meta_description', $this->meta_description])

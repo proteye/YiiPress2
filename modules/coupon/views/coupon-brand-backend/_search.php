@@ -23,6 +23,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name') ?>
 
+    <?php // echo $form->field($model, 'sec_name') ?>
+
     <?php // echo $form->field($model, 'short_description') ?>
 
     <?php // echo $form->field($model, 'description') ?>
@@ -38,6 +40,8 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'created_at') ?>
 
     <?php // echo $form->field($model, 'updated_at') ?>
+
+    <?php // echo $form->field($model, 'title') ?>
 
     <?php // echo $form->field($model, 'meta_title') ?>
 
