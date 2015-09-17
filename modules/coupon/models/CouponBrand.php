@@ -298,7 +298,9 @@ class CouponBrand extends \app\modules\core\models\CoreModel
      */
     public function getPromoName()
     {
-        $name = self::NAME_PREFIX . ' ' . $this->name . ' (' . $this->sec_name . ') на ' . strftime('%B', time()) . ' - ' . strftime('%B %Y', strtotime('now +1 month'));
+        $name = self::NAME_PREFIX . ' ' . $this->name;
+        $name .= $this->sec_name ? ' (' . $this->sec_name . ')' : null;
+        $name .= ' на ' . strftime('%B', time()) . ' - ' . strftime('%B %Y', strtotime('now +1 month'));
         return $name;
     }
 }
