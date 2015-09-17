@@ -200,7 +200,6 @@ class Post extends \app\modules\core\models\CoreModel
                 'class' => SluggableBehavior::className(),
                 'attribute' => 'title',
                 'slugAttribute' => 'slug',
-                'transliterator' => Yii::$app->getModule('core')->transliterator,
                 'forceUpdate' => false,
             ],
             'cacheClear' => [
