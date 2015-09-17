@@ -4,6 +4,7 @@ namespace app\modules\core\components;
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\Application;
+use yii\helpers\Inflector;
 
 class CoreBootstrap implements BootstrapInterface
 {
@@ -18,7 +19,6 @@ class CoreBootstrap implements BootstrapInterface
     {
         /* Set current THEME */
         $theme = $this->theme;
-
         if (!$theme) {
             /*
             // Set cache
@@ -33,7 +33,6 @@ class CoreBootstrap implements BootstrapInterface
             if (!$theme)
                 return false;
         }
-
         if (file_exists(Yii::getAlias('@app/themes/') . $theme)) {
             Yii::setAlias('theme', '@app/themes/' . $theme);
             Yii::$app->view->theme = Yii::createObject([
@@ -49,14 +48,14 @@ class CoreBootstrap implements BootstrapInterface
 
         /* Add module url rules */
         $this->addUrlRules();
-
         /* Set default layouts for Mailer */
         Yii::$app->getMailer()->htmlLayout = '@core/mail/layouts/html';
         Yii::$app->getMailer()->textLayout = '@core/mail/layouts/text';
-
         /* Set current locale for Date */
         $lang = str_replace('-', '_', Yii::$app->language) . '.UTF-8';
         setlocale(LC_TIME, $lang);
+        /* Set transliterator */
+        Inflector::$transliterator = 'Russian-Latin/BGN; NFKD';
     }
 
     /**
