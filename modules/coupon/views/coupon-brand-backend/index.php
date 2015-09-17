@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'advcampaign_id',
             'name',
-            // 'sec_name',
+            'sec_name',
             'slug',
             'site:url',
             // 'short_description',
