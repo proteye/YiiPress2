@@ -59,6 +59,8 @@ class Post extends \app\modules\core\models\CoreModel
     const COMMENT_YES = 1;
     const COMMENT_NO = 0;
 
+    const DEFAULT_LANG = 'ru';
+
     /**
      * @var
      * @return array
@@ -80,6 +82,7 @@ class Post extends \app\modules\core\models\CoreModel
     {
         return [
             ['status', 'default', 'value' => self::STATUS_DRAFT],
+            ['lang', 'default', 'value' => self::DEFAULT_LANG],
             ['published_at', 'default', 'value' => null],
             ['comment_status', 'default', 'value' => self::COMMENT_YES],
             ['access_type', 'default', 'value' => self::ACCESS_PUBLIC],
@@ -95,7 +98,7 @@ class Post extends \app\modules\core\models\CoreModel
             [['quote'], 'string', 'max' => 512],
             [['user_ip'], 'string', 'max' => 20],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
-            [['slug', 'lang'], 'unique', 'targetAttribute' => ['slug', 'lang'], 'message' => 'Такая комбинация Языка и URL уже существует.'],
+            [['slug', 'lang'], 'unique', 'targetAttribute' => ['slug', 'lang'], 'message' => 'Такая комбинация Языка и Алиас уже существует.'],
             ['access_type', 'in', 'range' => array_keys(self::getAccessesArray())],
             ['comment_status', 'in', 'range' => array_keys(self::getCommentStatusesArray())],
             ['status', 'in', 'range' => array_keys(self::getStatusesArray())],
@@ -112,7 +115,7 @@ class Post extends \app\modules\core\models\CoreModel
             'id' => 'ID',
             'category_id' => 'Категория',
             'lang' => 'Язык',
-            'slug' => 'URL',
+            'slug' => 'Алиас',
             'title' => 'Заголовок',
             'quote' => 'Цитата',
             'content' => 'Текст',
