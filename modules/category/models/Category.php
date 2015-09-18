@@ -53,6 +53,8 @@ class Category extends \app\modules\core\models\CoreModel
     const STATUS_ACTIVE = 1;
     const STATUS_DELETED = 2;
 
+    const DEFAULT_LANG = 'ru';
+
     /**
      * @inheritdoc
      */
@@ -68,6 +70,7 @@ class Category extends \app\modules\core\models\CoreModel
     {
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['lang', 'default', 'value' => self::DEFAULT_LANG],
             ['view_count', 'default', 'value' => 0],
             [['parent_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'status'], 'integer'],
             [['slug', 'name'], 'required'],
