@@ -242,6 +242,7 @@ class CouponBackendController extends BackendController
                 foreach ($category_arr as $name) {
                     $category = new Category();
                     $category->name = $name;
+                    $category->lang = Category::DEFAULT_LANG;
                     $category->module = Yii::$app->controller->module->id;
                     if ($category->validate())
                         $category->save();

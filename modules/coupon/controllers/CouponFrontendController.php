@@ -152,8 +152,21 @@ class CouponFrontendController extends FrontendController
         ]);
     }
 
-    public function actionSearch()
+    public function actionSearch($q = null)
     {
-        echo 'search';
+        if ($q == null) {
+            $model = null;
+        } else {
+            $model = CouponBrand::find()
+                ->where('name LIKE :name', ['name' => '%' . $q . '%'])
+                ->orWhere('sec_name LIKE :name', ['name' => '%' . $q . '%'])
+                ->active()
+                ->all();
+        }
+
+        return $this->render('/search', [
+            'model' => $model,
+            'q' => $q,
+        ]);
     }
 }

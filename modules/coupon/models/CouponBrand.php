@@ -230,6 +230,19 @@ class CouponBrand extends \app\modules\core\models\CoreModel
     }
 
     /**
+     * @return array
+     */
+    public static function getSearchList()
+    {
+        $model = self::find()->where(['status' => self::STATUS_ACTIVE])->all();
+        foreach ($model as $brand) {
+            $result[] = ['title' => $brand->name, 'sec_name' => $brand->sec_name, 'image' => $brand->imageUrl, 'url' => $brand->url];
+        }
+
+        return $result;
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getBrandCategories()
