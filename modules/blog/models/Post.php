@@ -133,9 +133,9 @@ class Post extends \app\modules\core\models\CoreModel
             'meta_description' => 'SEO Description',
             'access_type' => 'Доступ',
             'comment_status' => 'Комментарии',
-            'status' => 'Статус',
             'tags' => 'Теги',
             'view_count' => 'Просмотров',
+            'status' => 'Статус',
         ];
     }
 
