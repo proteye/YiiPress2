@@ -44,10 +44,15 @@ use app\modules\core\components\behaviors\SluggableBehavior;
  * @property CouponType $type
  * @property User $createdBy
  * @property User $updatedBy
+ *
+ * @property string $filteredDescription
+ * @property string $metaDescription
+ * @property string $anchorName
  */
 class Coupon extends \app\modules\core\models\CoreModel
 {
     const SLUG_PREFIX = 'promokod';
+    const ANCHOR_PREFIX = 'code_';
     const CSV_FILE = 'file_csv.csv';
 
     const STATUS_BLOCKED = 0;
@@ -238,5 +243,40 @@ class Coupon extends \app\modules\core\models\CoreModel
             return Yii::$app->request->baseUrl . '/coupon/' . $this->brand->slug . '/' . $this->slug;
 
         return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilteredDescription()
+    {
+        $str = preg_replace('/\s?Ввод.+не требуется.*?[\.\!\?]/i', '', $this->description);
+        return preg_replace('/\s?Без.+кода.*?[\.\!\?]/i', '', $str);
+    }
+
+    /**
+     * @return string
+     */
+    public function getMetaDescription()
+    {
+        $filtered = $this->filteredDescription;
+        preg_match('/.{1,75}.+?\s/ius', $filtered, $descr);
+        $descr = isset($descr[0]) ? trim(trim($descr[0]), ' \t.,!?') : $filtered;
+        if ($descr != null && $descr != '') {
+            $str = $descr . '. В интернет магазине проходит акция - ' . $this->name;
+        } else {
+            $str = 'В интернет магазине проходит акция - ' . $this->name;
+        }
+        preg_match('/.{1,155}.+?[\s\%\!\?\.\,]/ius', $str, $result);
+        $result = isset($result[0]) ? trim($result[0], ' \t.,!?') . '.' : $str . '.';
+        return $result;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAnchorName()
+    {
+        return self::ANCHOR_PREFIX . $this->id;
     }
 }
