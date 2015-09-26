@@ -23,6 +23,8 @@ use app\modules\core\helpers\TranslitHelper;
  */
 class CouponBackendController extends BackendController
 {
+    const LOG_TEMP = 'log_temp.csv';
+
     public function behaviors()
     {
         return [
@@ -223,6 +225,17 @@ class CouponBackendController extends BackendController
      */
     public static function importCsv($csv_path, $fseek)
     {
+        $log_path = Yii::getAlias('@runtime') . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . Coupon::LOG_PATH;
+        $log_temp = sys_get_temp_dir() . DIRECTORY_SEPARATOR . self::LOG_TEMP;
+        $log_arr = [0,0,0]; // category, brand, coupon counts
+        if (@is_file($log_temp)) {
+            $ftemp = fopen($log_temp, 'r');
+            $data = fgetcsv($ftemp, 100, ';');
+            foreach ($data as $key => $val) {
+                $log_arr[$key] = $val;
+            }
+            fclose($ftemp);
+        }
         if (($fr = fopen($csv_path, 'r')) !== FALSE) {
             /* Read header */
             $hdr = null;
@@ -244,8 +257,10 @@ class CouponBackendController extends BackendController
                     $category->name = $name;
                     $category->lang = Category::DEFAULT_LANG;
                     $category->module = Yii::$app->controller->module->id;
-                    if ($category->validate())
+                    if ($category->validate()) {
                         $category->save();
+                        $log_arr[0]++;
+                    }
                 }
                 /* Brand */
                 $brand = CouponBrand::findOne(['advcampaign_id' => $data[$hdr['advcampaign_id']]]);
@@ -285,6 +300,7 @@ class CouponBackendController extends BackendController
                                     $brandCategory->save();
                             }
                         }
+                        $log_arr[1]++;
                     }
                 }
                 /* Coupon Type */
@@ -317,6 +333,7 @@ class CouponBackendController extends BackendController
                     $coupon->end_dt = $data[$hdr['date_end']];
                     if ($coupon->validate()) {
                         $coupon->save();
+                        $log_arr[2]++;
                     }
                 }
                 unset($coupon);
@@ -324,6 +341,9 @@ class CouponBackendController extends BackendController
                 unset($brand);
                 unset($category);
                 if ($i == 500) {
+                    $ftemp = fopen($log_temp, 'w');
+                    fputcsv($ftemp, $log_arr, ';');
+                    fclose($ftemp);
                     $fseek = ftell($fr);
                     fclose($fr);
                     return $fseek;
@@ -331,6 +351,13 @@ class CouponBackendController extends BackendController
             }
             fclose($fr);
             @unlink($csv_path);
+            @unlink($log_temp);
+            $log_content = 'Категорий добавлено - ' . $log_arr[0] . ';';
+            $log_content .= 'Магазинов добавлено - ' . $log_arr[1] . ';';
+            $log_content .= 'Купонов добавлено - ' . $log_arr[2];
+            $flog = fopen($log_path, 'w');
+            fwrite($flog, $log_content);
+            fclose($flog);
         }
         return true;
     }

@@ -54,6 +54,7 @@ class Coupon extends \app\modules\core\models\CoreModel
     const SLUG_PREFIX = 'promokod';
     const ANCHOR_PREFIX = 'code_';
     const CSV_FILE = 'file_csv.csv';
+    const LOG_PATH = 'coupon_import_csv.log';
 
     const STATUS_BLOCKED = 0;
     const STATUS_ACTIVE = 1;

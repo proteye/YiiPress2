@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'slug',
             'name',
             // 'short_name',
-            // 'description:ntext',
+            'description:ntext',
             'promocode',
             // 'promolink:url',
             'gotolink:url',
