@@ -221,7 +221,7 @@ class CouponBackendController extends BackendController
      * 20 columns
      * @param $file_csv
      */
-    private static function importCsv($csv_path, $fseek)
+    public static function importCsv($csv_path, $fseek)
     {
         if (($fr = fopen($csv_path, 'r')) !== FALSE) {
             /* Read header */
@@ -252,38 +252,38 @@ class CouponBackendController extends BackendController
                 if ($brand == null) {
                     $brand = new CouponBrand();
                     $brand->advcampaign_id = $data[$hdr['advcampaign_id']];
-                }
-                $brand->name = $data[$hdr['advcampaign_name']];
-                $brand->site = $data[$hdr['site']];
-                $brand->image_alt = 'Магазин ' . $brand->name;
-                if ($brand->sec_name == null) {
-                    $brand->sec_name = TranslitHelper::convert($brand->name);
-                }
-                /* If Brand is new then download logo image */
-                if (!isset($brand->id)) {
-                    $file_name = Inflector::slug($brand->name) . substr($data[$hdr['logo']], strrpos($data[$hdr['logo']], '.'));
-                    $file_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $file_name;
-                    file_put_contents($file_path, file_get_contents($data[$hdr['logo']]));
-                    UploadedFile::reset();
-                    $_FILES['brand-logo'] = [
-                        'name' => $file_name,
-                        'type' => mime_content_type($file_path),
-                        'tmp_name' => $file_path,
-                        'error' => 0,
-                        'size' => filesize($file_path),
-                    ];
-                    $brand->image = UploadedFile::getInstanceByName('brand-logo');
-                }
-                if ($brand->save()) {
-                    @unlink($file_path);
-                    foreach ($category_arr as $name) {
-                        $category = Category::findOne(['name' => $name]);
-                        if ($category != null) {
-                            $brandCategory = new CouponBrandCategory();
-                            $brandCategory->brand_id = $brand->id;
-                            $brandCategory->category_id = $category->id;
-                            if ($brandCategory->validate())
-                                $brandCategory->save();
+                    $brand->name = $data[$hdr['advcampaign_name']];
+                    $brand->site = $data[$hdr['site']];
+                    $brand->image_alt = 'Магазин ' . $brand->name;
+                    if ($brand->sec_name == null) {
+                        $brand->sec_name = TranslitHelper::convert($brand->name);
+                    }
+                    /* If Brand is new then download logo image */
+                    if (!isset($brand->id)) {
+                        $file_name = Inflector::slug($brand->name) . substr($data[$hdr['logo']], strrpos($data[$hdr['logo']], '.'));
+                        $file_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $file_name;
+                        file_put_contents($file_path, file_get_contents($data[$hdr['logo']]));
+                        UploadedFile::reset();
+                        $_FILES['brand-logo'] = [
+                            'name' => $file_name,
+                            'type' => mime_content_type($file_path),
+                            'tmp_name' => $file_path,
+                            'error' => 0,
+                            'size' => filesize($file_path),
+                        ];
+                        $brand->image = UploadedFile::getInstanceByName('brand-logo');
+                    }
+                    if ($brand->save()) {
+                        @unlink($file_path);
+                        foreach ($category_arr as $name) {
+                            $category = Category::findOne(['name' => $name]);
+                            if ($category != null) {
+                                $brandCategory = new CouponBrandCategory();
+                                $brandCategory->brand_id = $brand->id;
+                                $brandCategory->category_id = $category->id;
+                                if ($brandCategory->validate())
+                                    $brandCategory->save();
+                            }
                         }
                     }
                 }
@@ -300,24 +300,24 @@ class CouponBackendController extends BackendController
                 if ($coupon == null) {
                     $coupon = new Coupon();
                     $coupon->adv_id = $data[$hdr['id']];
-                }
-                $coupon->brand_id = $brand->id;
-                $coupon->name = $data[$hdr['name']];
-                $coupon->slug = Coupon::SLUG_PREFIX . '-' . $coupon->adv_id . '-' . Inflector::slug($coupon->name);
-                $coupon->short_name = $data[$hdr['short_name']];
-                $coupon->description = $data[$hdr['description']];
-                $coupon->promocode = ($data[$hdr['species']] == 'promocode') ? $data[$hdr['promocode']] : null;
-                $coupon->promolink = $data[$hdr['promolink']];
-                $coupon->gotolink = $data[$hdr['gotolink']];
-                $couponType = CouponType::findOne(['name' => $type_arr[count($type_arr)-1]]);
-                if ($couponType != null) {
-                    $coupon->type_id = $couponType->id;
-                    $coupon->discount = $data[$hdr['discount']];
-                }
-                $coupon->begin_dt = $data[$hdr['date_start']];
-                $coupon->end_dt = $data[$hdr['date_end']];
-                if ($coupon->validate()) {
-                    $coupon->save();
+                    $coupon->brand_id = $brand->id;
+                    $coupon->name = $data[$hdr['name']];
+                    $coupon->slug = Coupon::SLUG_PREFIX . '-' . $coupon->adv_id . '-' . Inflector::slug($coupon->name);
+                    $coupon->short_name = $data[$hdr['short_name']];
+                    $coupon->description = $data[$hdr['description']];
+                    $coupon->promocode = ($data[$hdr['species']] == 'promocode') ? $data[$hdr['promocode']] : null;
+                    $coupon->promolink = $data[$hdr['promolink']];
+                    $coupon->gotolink = $data[$hdr['gotolink']];
+                    $couponType = CouponType::findOne(['name' => $type_arr[count($type_arr)-1]]);
+                    if ($couponType != null) {
+                        $coupon->type_id = $couponType->id;
+                        $coupon->discount = $data[$hdr['discount']];
+                    }
+                    $coupon->begin_dt = $data[$hdr['date_start']];
+                    $coupon->end_dt = $data[$hdr['date_end']];
+                    if ($coupon->validate()) {
+                        $coupon->save();
+                    }
                 }
                 unset($coupon);
                 unset($couponType);

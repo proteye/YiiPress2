@@ -42,6 +42,8 @@ use app\modules\core\components\behaviors\ImageUploadBehavior;
  * @property User $updatedBy
  * @property CouponBrandCategory[] $brandCategories
  * @property Category[] $categories
+ * @property Coupon[] $activeCoupons
+ * @property Coupon[] $expiredCoupons
  */
 class CouponBrand extends \app\modules\core\models\CoreModel
 {
@@ -198,9 +200,35 @@ class CouponBrand extends \app\modules\core\models\CoreModel
     public function getCoupons($only_active = false)
     {
         if ($only_active)
-            return $this->hasMany(Coupon::className(), ['brand_id' => 'id'])->where(['status' => Coupon::STATUS_ACTIVE])->all();
+            return $this->hasMany(Coupon::className(), ['brand_id' => 'id'])
+                ->where(['status' => Coupon::STATUS_ACTIVE])
+                ->all();
 
         return $this->hasMany(Coupon::className(), ['brand_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getActiveCoupons()
+    {
+        return $this->hasMany(Coupon::className(), ['brand_id' => 'id'])
+            ->where(['>', 'end_dt', time()])
+            ->andWhere(['status' => Coupon::STATUS_ACTIVE])
+            ->orderBy('created_at DESC')
+            ->all();
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getExpiredCoupons()
+    {
+        return $this->hasMany(Coupon::className(), ['brand_id' => 'id'])
+            ->where(['<', 'end_dt', time()])
+            ->andWhere(['status' => Coupon::STATUS_ACTIVE])
+            ->orderBy('created_at DESC')
+            ->all();
     }
 
     /**

@@ -64,6 +64,8 @@ class CouponFrontendController extends FrontendController
         if (!$model) {
             throw new \yii\web\NotFoundHttpException('Страница не найдена.');
         }
+        $model->updateCounters(['view_count' => 1]);
+
         return $this->render('/coupon', [
             'model' => $model,
         ]);
@@ -112,6 +114,7 @@ class CouponFrontendController extends FrontendController
         if (!$model) {
             throw new \yii\web\NotFoundHttpException('Страница не найдена.');
         }
+        $model->updateCounters(['view_count' => 1]);
 
         return $this->render('/brand', [
             'model' => $model,
@@ -145,6 +148,7 @@ class CouponFrontendController extends FrontendController
             ->where(['category_id' => $model->id])
             ->active()
             ->all();
+        $model->updateCounters(['view_count' => 1]);
 
         return $this->render('/category', [
             'model' => $model,
