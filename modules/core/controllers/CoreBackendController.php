@@ -16,7 +16,8 @@ class CoreBackendController extends BackendController
             $fr = fopen($log_path, 'r');
             $log_arr = fgetcsv($fr, 500, ';');
             fclose($fr);
-            $fdate = date('d.m.Y H:i', filemtime($log_path));
+            date_default_timezone_set('UTC');
+            $fdate = date('d.m.Y H:i', filemtime($log_path) + 10800); // UTC+3
             array_push($log_arr, $fdate);
         }
 

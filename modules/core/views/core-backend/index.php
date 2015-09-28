@@ -7,8 +7,8 @@
 <h2>Импорт купонов</h2>
 <p>
     Дата: <?= $log_arr[3] ?><br/>
-    <?= $log_arr[0] ?><br/>
-    <?= $log_arr[1] ?><br/>
     <?= $log_arr[2] ?><br/>
+    <?= $log_arr[1] ?><br/>
+    <?= $log_arr[0] ?><br/>
 </p>
 <?php endif; ?>
