@@ -344,4 +344,60 @@ class CouponBrand extends \app\modules\core\models\CoreModel
         $name .= ' на ' . strftime('%B', time()) . ' - ' . strftime('%B %Y', strtotime('now +1 month'));
         return $name;
     }
+
+    /**
+     * @return int|string
+     */
+    public function getCouponsCount()
+    {
+        $count = Coupon::find()
+            ->where(['brand_id' => $this->id])
+            ->andWhere(['>', 'end_dt', time()])
+            ->active()
+            ->count();
+
+        return $count;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getGotoLink()
+    {
+        if ($this->advlink != null) {
+            $gotolink = $this->advlink;
+        } else {
+            $coupon = Coupon::find()
+                ->where(['brand_id' => $this->id])
+                ->andWhere(['>', 'end_dt', time()])
+                ->active()
+                ->one();
+            $gotolink = $coupon->gotolink;
+        }
+
+        return $gotolink;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getTopBrands($limit = 15, $brand_id = null)
+    {
+        if ($brand_id == null) {
+            $model = self::find()
+                ->active()
+                ->orderBy(['view_count' => SORT_DESC])
+                ->limit($limit)
+                ->all();
+        } else {
+            $model = self::find()
+                ->where(['!=', 'id', $brand_id])
+                ->active()
+                ->orderBy(['view_count' => SORT_DESC])
+                ->limit($limit)
+                ->all();
+        }
+
+        return $model;
+    }
 }

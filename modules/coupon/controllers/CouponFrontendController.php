@@ -29,11 +29,7 @@ class CouponFrontendController extends FrontendController
             ->active()
             ->one();
 
-        $brands = CouponBrand::find()
-            ->active()
-            ->orderBy(['view_count' => SORT_DESC])
-            ->limit(15)
-            ->all();
+        $brands = CouponBrand::getTopBrands();
 
         $best = Coupon::find()
             ->active()
