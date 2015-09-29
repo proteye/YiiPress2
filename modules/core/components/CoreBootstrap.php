@@ -90,6 +90,9 @@ class CoreBootstrap implements BootstrapInterface
         $route = Yii::$app->request->pathInfo;
         $domains = explode('/', $route);
         $moduleName = array_shift($domains);
+        if ($moduleName == 'backend') {
+            $moduleName = array_shift($domains);
+        }
         return $moduleName;
     }
 }
