@@ -21,6 +21,7 @@ class CouponsController extends Controller
         Inflector::$transliterator = 'Russian-Latin/BGN; NFKD';
         if (Yii::$app->mutex->acquire('coupon-import')) {
             $csv_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . Coupon::CSV_FILE;
+            $log_path = Yii::getAlias('@runtime') . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . Coupon::LOG_PATH;
             file_put_contents($csv_path, file_get_contents($url));
             $result = CouponBackendController::importCsv($csv_path, $fseek);
             if ($result !== true) {
@@ -30,6 +31,9 @@ class CouponsController extends Controller
             }
             if (@is_file($csv_path)) {
                 @unlink($csv_path);
+            }
+            if (@is_file($log_path)) {
+                chmod($log_path, 0666);
             }
             echo 'Coupons imported!' . PHP_EOL;
             $this->log(true);
