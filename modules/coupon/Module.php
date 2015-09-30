@@ -4,7 +4,7 @@ namespace app\modules\coupon;
 
 class Module extends \yii\base\Module
 {
-    const VERSION = '0.2.4';
+    const VERSION = '0.2.5';
 
     public $controllerNamespace = 'app\modules\coupon\controllers';
 
@@ -23,6 +23,7 @@ class Module extends \yii\base\Module
     {
         return [
             'coupon/search'                         => 'coupon/coupon-frontend/search',
+            'coupon/go/<id:[\w\d-]+>'               => 'coupon/coupon-frontend/go',
             'coupon/<action:(new|best)>'            => 'coupon/coupon-frontend/new-best',
             'coupon/shops'                          => 'coupon/coupon-frontend/brands',
             'coupon/categories'                     => 'coupon/coupon-frontend/categories',

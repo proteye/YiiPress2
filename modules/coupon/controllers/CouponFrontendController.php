@@ -8,6 +8,7 @@ use app\modules\core\components\controllers\FrontendController;
 use app\modules\page\models\Page;
 use app\modules\coupon\models\CouponBrand;
 use app\modules\coupon\models\Coupon;
+use yii\helpers\Url;
 
 class CouponFrontendController extends FrontendController
 {
@@ -168,5 +169,21 @@ class CouponFrontendController extends FrontendController
             'model' => $model,
             'q' => $q,
         ]);
+    }
+
+    public function actionGo($id)
+    {
+        if (is_numeric($id)) {
+            $model = Coupon::findOne((int)$id);
+        } else {
+            $model = CouponBrand::findOne(['slug' => $id]);
+        }
+
+        if ($model) {
+            Yii::$app->response->redirect(Url::to($model->gotolink), 301);
+        } else {
+            Yii::$app->getSession()->setFlash('error', 'К сожалению, такой купон не найден. Пожалуйста, выберите другой купон.');
+            $this->goBack(Yii::$app->request->referrer);
+        }
     }
 }

@@ -11,6 +11,7 @@ use app\modules\menu\models\MenuItem;
 use app\modules\coupon\models\Coupon;
 use app\modules\coupon\models\CouponSearch;
 use app\modules\core\components\controllers\BackendController;
+use yii\base\Exception;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\menu\models\Menu;

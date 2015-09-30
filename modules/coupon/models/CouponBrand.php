@@ -11,6 +11,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
 use app\modules\core\components\behaviors\SluggableBehavior;
 use app\modules\core\components\behaviors\ImageUploadBehavior;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "{{%coupon_brand}}".
@@ -44,6 +45,11 @@ use app\modules\core\components\behaviors\ImageUploadBehavior;
  * @property Category[] $categories
  * @property Coupon[] $activeCoupons
  * @property Coupon[] $expiredCoupons
+ * @property CouponBrand[] $topBrands
+ * @property CouponBrand[] $likeBrands
+ * @property integer $couponsCount
+ * @property string $gotolink
+ * @property string $golink
  */
 class CouponBrand extends \app\modules\core\models\CoreModel
 {
@@ -362,7 +368,7 @@ class CouponBrand extends \app\modules\core\models\CoreModel
     /**
      * @return string
      */
-    public function getGotoLink()
+    public function getGotolink()
     {
         if ($this->advlink != null) {
             $gotolink = $this->advlink;
@@ -381,6 +387,16 @@ class CouponBrand extends \app\modules\core\models\CoreModel
     /**
      * @return string
      */
+    public function getGolink()
+    {
+        return Url::to(['coupon-frontend/go', 'id' => $this->slug]);
+    }
+
+    /**
+     * @param int $limit
+     * @param null $brand_id
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function getTopBrands($limit = 15, $brand_id = null)
     {
         if ($brand_id == null) {
@@ -393,8 +409,37 @@ class CouponBrand extends \app\modules\core\models\CoreModel
             $model = self::find()
                 ->where(['!=', 'id', $brand_id])
                 ->active()
-                ->orderBy(['view_count' => SORT_DESC])
                 ->limit($limit)
+                ->orderBy(['view_count' => SORT_DESC])
+                ->all();
+        }
+
+        return $model;
+    }
+
+    /**
+     * @param $brand_id
+     * @param int $limit
+     * @return mixed
+     */
+    public static function getLikeBrands($brand_id, $limit = 15)
+    {
+        $model = null;
+        $brand = self::findOne($brand_id);
+
+        if ($brand->categories) {
+            $brandCategory = CouponBrandCategory::find()
+                ->select('brand_id')
+                ->distinct()
+                ->where(['category_id' => $brand->categories])
+                ->andWhere(['!=', 'brand_id', $brand_id])
+                ->all();
+            $brand_ids = ArrayHelper::map($brandCategory, 'brand_id', 'brand_id');
+            $model = self::find()
+                ->where(['id' => $brand_ids])
+                ->active()
+                ->limit($limit)
+                ->orderBy(['view_count' => SORT_DESC])
                 ->all();
         }
 

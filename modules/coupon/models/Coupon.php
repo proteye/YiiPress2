@@ -10,6 +10,8 @@ use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use app\modules\core\components\behaviors\SluggableBehavior;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "{{%coupon}}".
@@ -48,6 +50,9 @@ use app\modules\core\components\behaviors\SluggableBehavior;
  * @property string $filteredDescription
  * @property string $metaDescription
  * @property string $anchorName
+ * @property string $url
+ * @property string $golink
+ * @property Coupon[] $likeCoupons
  */
 class Coupon extends \app\modules\core\models\CoreModel
 {
@@ -249,6 +254,14 @@ class Coupon extends \app\modules\core\models\CoreModel
     /**
      * @return string
      */
+    public function getGolink()
+    {
+        return Url::to(['coupon-frontend/go', 'id' => $this->id]);
+    }
+
+    /**
+     * @return string
+     */
     public function getFilteredDescription()
     {
         $str = preg_replace('/\s?Ввод.+не требуется.*?[\.\!\?]/i', '', $this->description);
@@ -279,5 +292,29 @@ class Coupon extends \app\modules\core\models\CoreModel
     public function getAnchorName()
     {
         return self::ANCHOR_PREFIX . $this->id;
+    }
+
+    /**
+     * @param $brand_id
+     * @param int $limit
+     * @return null
+     */
+    public static function getLikeCoupons($brand_id, $limit = 15)
+    {
+        $model = null;
+        $brands = CouponBrand::getLikeBrands($brand_id, null);
+
+        if ($brands) {
+            $brand_ids = ArrayHelper::map($brands, 'id', 'id');
+            $model = self::find()
+                ->where(['brand_id' => $brand_ids])
+                ->andWhere(['>', 'end_dt', time()])
+                ->active()
+                ->limit($limit)
+                ->orderBy(['view_count' => SORT_DESC])
+                ->all();
+        }
+
+        return $model;
     }
 }
