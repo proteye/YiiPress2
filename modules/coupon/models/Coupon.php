@@ -47,12 +47,14 @@ use yii\helpers\Url;
  * @property User $createdBy
  * @property User $updatedBy
  *
- * @property string $filteredDescription
- * @property string $metaDescription
  * @property string $anchorName
  * @property string $url
  * @property string $golink
  * @property Coupon[] $likeCoupons
+ * @property string $filteredDescription
+ * @property string $metaTitle
+ * @property string $metaKeywords
+ * @property string $metaDescription
  */
 class Coupon extends \app\modules\core\models\CoreModel
 {
@@ -67,6 +69,10 @@ class Coupon extends \app\modules\core\models\CoreModel
 
     const RECOMMENDED_FALSE = 0;
     const RECOMMENDED_TRUE = 1;
+
+    const M_TITLE = 'все действующие промокоды, купоны и акции на сегодня';
+    const M_KEYWORDS = 'действующий промокод купон скидка сегодня акция код промо слово секретный';
+    const M_DESCRIPTION = 'В интернет магазине проходит акция';
 
     /**
      * @inheritdoc
@@ -262,33 +268,6 @@ class Coupon extends \app\modules\core\models\CoreModel
     /**
      * @return string
      */
-    public function getFilteredDescription()
-    {
-        $str = preg_replace('/\s?Ввод.+не требуется.*?[\.\!\?]/i', '', $this->description);
-        return preg_replace('/\s?Без.+кода.*?[\.\!\?]/i', '', $str);
-    }
-
-    /**
-     * @return string
-     */
-    public function getMetaDescription()
-    {
-        $filtered = $this->filteredDescription;
-        preg_match('/.{1,75}.+?\s/ius', $filtered, $descr);
-        $descr = isset($descr[0]) ? trim(trim($descr[0]), ' \t.,!?') : $filtered;
-        if ($descr != null && $descr != '') {
-            $str = $descr . '. В интернет магазине проходит акция - ' . $this->name;
-        } else {
-            $str = 'В интернет магазине проходит акция - ' . $this->name;
-        }
-        preg_match('/.{1,155}.+?[\s\%\!\?\.\,]/ius', $str, $result);
-        $result = isset($result[0]) ? trim($result[0], ' \t.,!?') . '.' : $str . '.';
-        return $result;
-    }
-
-    /**
-     * @return string
-     */
     public function getAnchorName()
     {
         return self::ANCHOR_PREFIX . $this->id;
@@ -316,5 +295,52 @@ class Coupon extends \app\modules\core\models\CoreModel
         }
 
         return $model;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilteredDescription()
+    {
+        $str = preg_replace('/\s?Ввод.+не требуется.*?[\.\!\?]/i', '', $this->description);
+        return preg_replace('/\s?Без.+кода.*?[\.\!\?]/i', '', $str);
+    }
+
+    /**
+     * @return string
+     */
+    public function getMetaTitle()
+    {
+        $title = $this->name . ' - ' . $this->brand->name . ' ' . self::M_TITLE;
+        return $this->meta_title ? $this->meta_title : $title;
+
+    }
+
+    /**
+     * @return string
+     */
+    public function getMetaKeywords()
+    {
+        $keywords = $this->brand->name . ' ' . $this->brand->sec_name . ' ' . self::M_KEYWORDS . ' ' . strftime('%B', time()) . ' ' . strftime('%B %Y', strtotime('now +1 month'));
+        return $this->meta_keywords ? $this->meta_keywords : mb_strtolower($keywords, 'UTF-8');
+    }
+
+    /**
+     * @return string
+     */
+    public function getMetaDescription()
+    {
+        $filtered = $this->filteredDescription;
+        preg_match('/.{1,75}.+?\s/ius', $filtered, $descr);
+        $descr = isset($descr[0]) ? trim(trim($descr[0]), ' \t.,!?') : $filtered;
+        if ($descr != null && $descr != '') {
+            $str = $descr . '. ' . self::M_DESCRIPTION . ' - ' . $this->name;
+        } else {
+            $str = self::M_DESCRIPTION . ' - ' . $this->name;
+        }
+        preg_match('/.{1,155}.+?[\s\%\!\?\.\,]/ius', $str, $result);
+        $description = isset($result[0]) ? trim($result[0], ' \t.,!?') . '.' : $str . '.';
+
+        return $this->meta_description ? $this->meta_description : $description;
     }
 }

@@ -50,6 +50,10 @@ use yii\helpers\Url;
  * @property integer $couponsCount
  * @property string $gotolink
  * @property string $golink
+ * @property string $filteredName
+ * @property string $metaTitle
+ * @property string $metaKeywords
+ * @property string $metaDescription
  */
 class CouponBrand extends \app\modules\core\models\CoreModel
 {
@@ -57,7 +61,11 @@ class CouponBrand extends \app\modules\core\models\CoreModel
     const STATUS_ACTIVE = 1;
     const STATUS_DELETED = 2;
 
-    const NAME_PREFIX = 'Промокоды';
+    const PROMONAME_PREFIX = 'Промокоды';
+    const M_TITLE = 'Промокод';
+    const M_KEYWORDS = 'промокод купон скидка акция дисконт бесплатно доставка';
+    const M_DESCRIPTION_BEG = 'Действующие промокоды';
+    const M_DESCRIPTION_END = '• Максимальные скидки на сегодня • Ежедневное обновление купонов, кодов и акций! ✓ 100% бесплатно!';
 
     /**
      * @var
@@ -345,7 +353,7 @@ class CouponBrand extends \app\modules\core\models\CoreModel
      */
     public function getPromoName()
     {
-        $name = self::NAME_PREFIX . ' ' . $this->name;
+        $name = self::PROMONAME_PREFIX . ' ' . $this->name;
         $name .= $this->sec_name ? ' (' . $this->sec_name . ')' : null;
         $name .= ' на ' . strftime('%B', time()) . ' - ' . strftime('%B %Y', strtotime('now +1 month'));
         return $name;
@@ -444,5 +452,42 @@ class CouponBrand extends \app\modules\core\models\CoreModel
         }
 
         return $model;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilteredName()
+    {
+        return strpos($this->name, '.') ? substr($this->name, 0, strpos($this->name, '.')) : $this->name;
+
+    }
+
+    /**
+     * @return string
+     */
+    public function getMetaTitle()
+    {
+        $title = self::M_TITLE . ' ' . $this->filteredName;
+        return $this->meta_title ? $this->meta_title : $title;
+
+    }
+
+    /**
+     * @return string
+     */
+    public function getMetaKeywords()
+    {
+        $keywords = $this->filteredName . ' ' . $this->sec_name . ' ' . self::M_KEYWORDS . ' ' . strftime('%B', time()) . ' ' . strftime('%B %Y', strtotime('now +1 month'));
+        return $this->meta_keywords ? $this->meta_keywords : mb_strtolower($keywords, 'UTF-8');
+    }
+
+    /**
+     * @return string
+     */
+    public function getMetaDescription()
+    {
+        $description = self::M_DESCRIPTION_BEG . ' ' . $this->filteredName . ' на ' . strftime('%B', time()) . '-' . strftime('%B %Y', strtotime('now +1 month')) . ' ' . self::M_DESCRIPTION_END;
+        return $this->meta_description ? $this->meta_description : $description;
     }
 }

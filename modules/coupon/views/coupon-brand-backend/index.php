@@ -31,16 +31,33 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'image',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return $model->image ? Html::img($model->thumbUrl, ['alt' => $model->image_alt]) : null;
+                    return $model->image ? Html::img($model->getThumbUrl(50, 30), ['alt' => $model->image_alt]) : null;
                 },
             ],
-            'advcampaign_id',
+            // 'advcampaign_id',
             'name',
             'sec_name',
             'slug',
             'site:url',
-            // 'short_description',
-            // 'description:ntext',
+            [
+                'attribute' => 'advlink',
+                'value' => function ($model) {
+                    return $model->advlink ? 'да' : 'нет';
+                },
+            ],
+            [
+                'attribute' => 'short_description',
+                'value' => function ($model) {
+                    return $model->short_description ? 'да' : 'нет';
+                },
+            ],
+            [
+                'attribute' => 'description',
+                'format' => 'ntext',
+                'value' => function ($model) {
+                    return $model->description ? 'да' : 'нет';
+                },
+            ],
             // 'image_alt',
             // 'created_by',
             // 'updated_by',
@@ -50,7 +67,6 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'meta_title',
             // 'meta_keywords',
             // 'meta_description',
-            'advlink:url',
             // 'view_count',
             [
                 'attribute' => 'status',
