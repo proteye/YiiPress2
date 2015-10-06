@@ -12,6 +12,8 @@ use yii\behaviors\BlameableBehavior;
 use app\modules\core\components\behaviors\SluggableBehavior;
 use app\modules\core\components\behaviors\ImageUploadBehavior;
 use yii\helpers\Url;
+use app\modules\core\helpers\TextHelper;
+use yii\db\Query;
 
 /**
  * This is the model class for table "{{%coupon_brand}}".
@@ -489,5 +491,26 @@ class CouponBrand extends \app\modules\core\models\CoreModel
     {
         $description = self::M_DESCRIPTION_BEG . ' ' . $this->filteredName . ' на ' . strftime('%B', time()) . '-' . strftime('%B %Y', strtotime('now +1 month')) . ' ' . self::M_DESCRIPTION_END;
         return $this->meta_description ? $this->meta_description : $description;
+    }
+
+    public static function getAlphabetBrands()
+    {
+        $result = [];
+        foreach (TextHelper::getAlphabetArray() as $chr) {
+            $rows = (new Query())
+                ->select(['name', 'sec_name', 'slug'])
+                ->from('{{%coupon_brand}}')
+                ->where(['like', 'name', $chr . '%', false])
+                ->all();
+            foreach ($rows as $row) {
+                if (is_numeric($chr)) {
+                    $result['0-9'][] = ['name' => $row['name'], 'sec_name' => $row['sec_name'], 'slug' => $row['slug']];
+                } else {
+                    $result[$chr][] = ['name' => $row['name'], 'sec_name' => $row['sec_name'], 'slug' => $row['slug']];
+                }
+            }
+        }
+
+        return $result;
     }
 }

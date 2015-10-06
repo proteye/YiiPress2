@@ -4,7 +4,7 @@ namespace app\modules\coupon;
 
 class Module extends \yii\base\Module
 {
-    const VERSION = '0.2.6';
+    const VERSION = '0.2.7';
 
     public $controllerNamespace = 'app\modules\coupon\controllers';
 
