@@ -67,7 +67,7 @@ class CouponBrand extends \app\modules\core\models\CoreModel
     const M_TITLE = 'Промокод';
     const M_KEYWORDS = 'промокод купон скидка акция дисконт бесплатно доставка';
     const M_DESCRIPTION_BEG = 'Действующие промокоды';
-    const M_DESCRIPTION_END = '• Максимальные скидки на сегодня • Ежедневное обновление купонов, кодов и акций! ✓ 100% бесплатно!';
+    const M_DESCRIPTION_END = '• Максимум скидки на сегодня • Ежедневное обновление купонов, кодов и акций! ✓ 100% бесплатно!';
 
     /**
      * @var
@@ -97,7 +97,7 @@ class CouponBrand extends \app\modules\core\models\CoreModel
             [['slug'], 'string', 'max' => 160],
             ['image', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'skipOnEmpty' => true],
             [['name', 'image', 'image_alt', 'site', 'advlink', 'sec_name', 'title'], 'string', 'max' => 255],
-            [['short_description'], 'string', 'max' => 512],
+            [['short_description'], 'string', 'max' => 1024],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
             [['advcampaign_id'], 'unique', 'targetAttribute' => ['advcampaign_id'], 'message' => 'Такой AdvСampaign ID уже существует..'],
             ['categories', 'safe'],
@@ -380,6 +380,7 @@ class CouponBrand extends \app\modules\core\models\CoreModel
      */
     public function getGotolink()
     {
+        $gotolink = null;
         if ($this->advlink != null) {
             $gotolink = $this->advlink;
         } else {
@@ -388,7 +389,9 @@ class CouponBrand extends \app\modules\core\models\CoreModel
                 ->andWhere(['>', 'end_dt', time()])
                 ->active()
                 ->one();
-            $gotolink = $coupon->gotolink;
+            if ($coupon) {
+                $gotolink = $coupon->gotolink;
+            }
         }
 
         return $gotolink;
@@ -399,7 +402,11 @@ class CouponBrand extends \app\modules\core\models\CoreModel
      */
     public function getGolink()
     {
-        return Url::to(['coupon-frontend/go', 'id' => $this->slug]);
+        $golink = null;
+        if ($this->gotolink != null) {
+            $golink = Url::to(['coupon-frontend/go', 'id' => $this->slug]);
+        }
+        return $golink;
     }
 
     /**
