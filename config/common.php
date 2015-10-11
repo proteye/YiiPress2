@@ -69,9 +69,12 @@ return [
             'showScriptName' => false,
             'enableStrictParsing' => true,
             'rules' => [
+                // ''                                                                                   => 'page/page-frontend/index',
+                // 'sitemap'                                                                            => 'core/sitemap/index',
                 ''                                                                                   => 'coupon/coupon-frontend/index',
                 'karta-saita/<page:[\d+]>'                                                           => 'coupon/sitemap/index',
                 'karta-saita'                                                                        => 'coupon/sitemap/index',
+
                 'sitemap.xml'                                                                        => 'core/sitemap/sitemap-xml',
                 'contact'                                                                            => 'core/contact/index',
                 '<action:(search)>'                                                                  => 'core/core-frontend/<action>',
