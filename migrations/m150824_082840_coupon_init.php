@@ -16,7 +16,7 @@ class m150824_082840_coupon_init extends Migration
             'slug' => Schema::TYPE_STRING . '(160) NOT NULL',
             'name' => Schema::TYPE_STRING . '(255) NOT NULL',
             'sec_name' => Schema::TYPE_STRING . '(255)',
-            'short_description' => Schema::TYPE_STRING . '(512)',
+            'short_description' => Schema::TYPE_STRING . '(2048)',
             'description' => Schema::TYPE_TEXT,
             'image' => Schema::TYPE_STRING . '(255)',
             'image_alt' => Schema::TYPE_STRING . '(255)',
