@@ -14,18 +14,6 @@ use yii\filters\VerbFilter;
  */
 class CouponTypeBackendController extends BackendController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all CouponType models.
      * @return mixed

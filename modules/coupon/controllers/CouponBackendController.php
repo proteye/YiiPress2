@@ -26,18 +26,6 @@ class CouponBackendController extends BackendController
 {
     const LOG_TEMP = 'log_temp.csv';
 
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all Coupon models.
      * @return mixed
