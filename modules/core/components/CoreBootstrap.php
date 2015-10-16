@@ -70,8 +70,8 @@ class CoreBootstrap implements BootstrapInterface
 
         if ($moduleName == 'backend') {
             $class = self::DEFAULT_CLASS;
-            if (method_exists($class, 'rules')) {
-                $urlManager->addRules(call_user_func($class . '::rules'), false);
+            if (method_exists($class, 'backendRules')) {
+                $urlManager->addRules(call_user_func($class . '::backendRules'), false);
                 return;
             }
         }
