@@ -6,7 +6,7 @@ use Yii;
 
 class Module extends \yii\base\Module
 {
-    const VERSION = '0.3.6';
+    const VERSION = '0.3.7';
 
     public $controllerNamespace = 'app\modules\core\controllers';
 
@@ -69,5 +69,16 @@ class Module extends \yii\base\Module
         }
 
         return $modules;
+    }
+
+    public static function rules()
+    {
+        return [
+            'backend'                                                                            => 'core/core-backend/index',
+            'backend/<module:\w+>/<controller:[\w\-]+>/<id:\d+>'                                 => '<module>/<controller>/view',
+            'backend/<module:\w+>/<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>'                => '<module>/<controller>/<action>',
+            'backend/<module:\w+>/<controller:[\w\-]+>/<action:[\w\-]+>'                         => '<module>/<controller>/<action>',
+            'backend/<module:\w+>/<controller:[\w\-]+>'                                          => '<module>/<controller>',
+        ];
     }
 }

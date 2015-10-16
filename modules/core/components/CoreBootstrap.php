@@ -8,6 +8,8 @@ use yii\helpers\Inflector;
 
 class CoreBootstrap implements BootstrapInterface
 {
+    const DEFAULT_CLASS = 'app\modules\core\Module';
+
     public $theme;
 
     /**
@@ -64,6 +66,15 @@ class CoreBootstrap implements BootstrapInterface
     public function addUrlRules()
     {
         $moduleName = $this->_getModuleName();
+        $urlManager = Yii::$app->getUrlManager();
+
+        if ($moduleName == 'backend') {
+            $class = self::DEFAULT_CLASS;
+            if (method_exists($class, 'rules')) {
+                $urlManager->addRules(call_user_func($class . '::rules'), false);
+                return;
+            }
+        }
 
         if (Yii::$app->hasModule($moduleName))
         {
@@ -76,7 +87,6 @@ class CoreBootstrap implements BootstrapInterface
             }
             if(method_exists($class, 'rules'))
             {
-                $urlManager = Yii::$app->getUrlManager();
                 $urlManager->addRules(call_user_func($class . '::rules'), false);
             }
         }
@@ -90,9 +100,7 @@ class CoreBootstrap implements BootstrapInterface
         $route = Yii::$app->request->pathInfo;
         $domains = explode('/', $route);
         $moduleName = array_shift($domains);
-        if ($moduleName == 'backend') {
-            $moduleName = array_shift($domains);
-        }
+
         return $moduleName;
     }
 }
