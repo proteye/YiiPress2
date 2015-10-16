@@ -6,7 +6,7 @@ use Yii;
 
 class Module extends \yii\base\Module
 {
-    const VERSION = '0.0.7';
+    const VERSION = '0.0.8';
 
     public $controllerNamespace = 'app\modules\page\controllers';
 
@@ -44,5 +44,13 @@ class Module extends \yii\base\Module
         }
 
         return $items;
+    }
+
+    public static function rules()
+    {
+        return [
+            'page/<action:(index)>'                 => 'page/page-frontend/<action>',
+            'page/<url:[\w\-\/]+>'                  => 'page/page-frontend/route',
+        ];
     }
 }

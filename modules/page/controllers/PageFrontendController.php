@@ -12,6 +12,8 @@ class PageFrontendController extends FrontendController
 {
     public function actionIndex()
     {
+        Yii::$app->urlManager->addRules(\app\modules\user\Module::rules(), false);
+
         $model = Page::find()
             ->where(['slug' => 'index'])
             ->active()
