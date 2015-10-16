@@ -14,18 +14,6 @@ use yii\filters\VerbFilter;
  */
 class CatalogBackendController extends BackendController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all Company models.
      * @return mixed
