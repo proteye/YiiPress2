@@ -4,7 +4,7 @@ namespace app\modules\user;
 
 class Module extends \yii\base\Module
 {
-    const VERSION = '0.1.0';
+    const VERSION = '0.1.1';
 
     public $controllerNamespace = 'app\modules\user\controllers';
 
@@ -13,8 +13,6 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-
-        // custom initialization code goes here
     }
 
     /**
@@ -27,5 +25,12 @@ class Module extends \yii\base\Module
             $this->_mail->viewPath = '@theme/modules/user/mail';
         }
         return $this->_mail;
+    }
+
+    public static function rules()
+    {
+        return [
+            'user/<action>' => 'user/user-frontend/<action>', // login|logout|signup|email-confirm|request-password-reset|password-reset
+        ];
     }
 }
