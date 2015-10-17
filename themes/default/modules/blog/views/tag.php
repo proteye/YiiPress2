@@ -2,7 +2,6 @@
 use yii\helpers\Html;
 use app\modules\core\components\YpLinkPager;
 use app\modules\blog\widgets\RecentPost;
-use app\modules\blog\widgets\RecentDisqus;
 use app\modules\blog\widgets\TagCloud;
 use app\modules\core\widgets\SearchPost;
 /**
@@ -20,7 +19,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => 'найденные �
         <div class="row">
             <div class="col-md-12">
                 <h1><?= $model->title ?></h1>
-                <div class="h4">архив тега</div>
+                <div>архив тега</div>
             </div>
         </div>
     </div>
@@ -30,40 +29,16 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => 'найденные �
 
 <!-- Page content starts -->
 
-<div class="content blog">
+<div class="content">
     <div class="container">
         <div class="row">
             <div class="col-md-8">
             <?php if ($posts): ?>
-                <div class="posts">
+                <div>
                 <?php foreach ($posts as $key => $post): ?>
                     <!-- Post <?= $key + 1 ?> -->
-                    <div class="entry">
+                    <div>
                         <h2><?= Html::a($post->title, $post->url) ?></h2>
-
-                        <!-- Meta details -->
-                        <div class="meta">
-                            <i class="fa fa-user"></i> <?= $post->user->userProfile->nick_nm ?> <i class="fa fa-eye"></i> <?= $post->view_count ?>
-                            <span class="pull-right">
-                                <i class="fa fa-folder-open"></i>
-                                <noindex>
-                                    <?= Html::a($post->category->name, $post->category->url, ['rel' => 'nofollow']) ?>
-                                </noindex>
-                                <?php /*
-                                <i class="fa fa-comment"></i>
-                                <?= Html::a('Комментировать', $post->url . '#disqus_thread', ['data-disqus-identifier' => $post->id]) ?>
-                                */ ?>
-                            </span>
-                        </div>
-                    <?php if ($post->image): ?>
-                        <!-- Thumbnail -->
-                        <div class="bthumb3">
-                            <?= Html::beginTag('a', ['href' => $post->url]) ?>
-                            <?= Html::img($post->thumbUrl, ['class' => 'img-responsive', 'alt' => $post->image_alt]) ?>
-                            <?= Html::endTag('a') ?>
-                        </div>
-                    <?php endif; ?>
-                        <!-- Para -->
                         <p><?= $post->quote ?></p>
                         <div class="clearfix"></div>
                     </div>
@@ -103,9 +78,6 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => 'найденные �
 
                     <!-- Tag cloud widget -->
                     <?= TagCloud::widget() ?>
-
-                    <!-- Recent Comments widget -->
-                    <?= RecentDisqus::widget() ?>
                 </div>
             </div>
         </div>

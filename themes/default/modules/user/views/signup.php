@@ -4,7 +4,6 @@ use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \frontend\models\SignupForm */
 
 $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;

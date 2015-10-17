@@ -9,9 +9,7 @@ use yii\helpers\Html;
         <ul>
             <?php foreach ($model as $category): ?>
                 <li>
-                    <noindex>
-                    <?= Html::a($category->name, $category->url, ['rel' => 'nofollow']) ?>
-                    </noindex>
+                    <?= Html::a($category->name, $category->url) ?>
                 </li>
             <?php endforeach; ?>
         </ul>

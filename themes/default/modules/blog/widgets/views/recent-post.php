@@ -8,22 +8,18 @@ use yii\helpers\Html;
     <ul>
         <?php foreach ($model as $post): ?>
             <li>
+                <!-- Title -->
+                <div><?= Html::a($post->title, $post->url) ?></div>
                 <?php if ($post->image): ?>
                     <!-- Thumbnail -->
-                    <div class="bthumb4">
+                    <div>
                         <noindex>
-                        <?= Html::beginTag('a', ['href' => $post->url, 'rel' => 'nofollow']) ?>
-                        <?= Html::img($post->thumbUrl, ['class' => 'img-responsive', 'alt' => $post->image_alt]) ?>
-                        <?= Html::endTag('a') ?>
+                            <?= Html::beginTag('a', ['href' => $post->url, 'rel' => 'nofollow']) ?>
+                            <?= Html::img($post->thumbUrl, ['class' => 'img-responsive', 'alt' => $post->image_alt]) ?>
+                            <?= Html::endTag('a') ?>
                         </noindex>
                     </div>
                 <?php endif; ?>
-                <!-- Title -->
-                <h3><?= Html::a($post->title, $post->url) ?></h3>
-                <!-- Meta Date -->
-                <span class="date">
-                    <i class="fa fa-calendar"></i> <?= strftime('%B %e, %Y', $post->published_at) ?>
-                </span>
             </li>
         <?php endforeach; ?>
     </ul>

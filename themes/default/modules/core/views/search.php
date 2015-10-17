@@ -3,16 +3,14 @@ use yii\helpers\Html;
 use app\modules\core\components\YpLinkPager;
 use app\modules\blog\widgets\RecentPost;
 use app\modules\blog\widgets\TagCloud;
-use app\modules\blog\widgets\RecentDisqus;
 use app\modules\core\widgets\SearchPost;
-use app\modules\core\widgets\VkGroup;
 
 /**
  * @var yii\web\View $this
  */
-$this->title = $model->meta_title ? $model->meta_title . ' | ' . Yii::$app->name : $model->title . ' | ' . Yii::$app->name;
-$this->registerMetaTag(['name' => 'description', 'content' => $model->meta_description], 'meta-description');
-$this->registerMetaTag(['name' => 'keywords', 'content' => $model->meta_keywords], 'meta-keywords');
+$this->title = 'Вы искали - ' . $query . ' | ' . Yii::$app->name;
+$this->registerMetaTag(['name' => 'description', 'content' => 'Найденные записи по запросу - ' . $query], 'meta-description');
+$this->registerMetaTag(['name' => 'keywords', 'content' => 'найденные записи запрос ' . $query], 'meta-keywords');
 ?>
 
 <!-- Page heading starts -->
@@ -21,7 +19,8 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $model->meta_keywords
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1><?= $model->name ?></h1>
+                <h1>Поиск</h1>
+                <div>Результаты поиска для: <?= $query ?></div>
             </div>
         </div>
     </div>
@@ -29,44 +28,18 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $model->meta_keywords
 
 <!-- Page Heading ends -->
 
-<?php if ($model->description): ?>
-<!-- Category content starts -->
-
-<div class="content category">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <?= $model->content ?>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Category content ends -->
-<?php endif; ?>
-
-<?php if ($posts): ?>
 <!-- Page content starts -->
 
-<div class="content blog">
+<div class="content">
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <div class="posts">
-                <?php foreach ($posts as $key => $post): ?>
+            <?php if ($model): ?>
+                <div>
+                <?php foreach ($model as $key => $post): ?>
                     <!-- Post <?= $key + 1 ?> -->
                     <div>
                         <h2><?= Html::a($post->title, $post->url) ?></h2>
-
-                        <?php if ($post->image): ?>
-                            <!-- Thumbnail -->
-                            <div>
-                                <?= Html::beginTag('a', ['href' => $post->url]) ?>
-                                <?= Html::img($post->thumbUrl, ['class' => 'img-responsive', 'alt' => $post->image_alt]) ?>
-                                <?= Html::endTag('a') ?>
-                            </div>
-                        <?php endif; ?>
-                        <!-- Para -->
                         <p><?= $post->quote ?></p>
                         <div class="clearfix"></div>
                     </div>
@@ -91,6 +64,9 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $model->meta_keywords
 
                     <div class="clearfix"></div>
                 </div>
+            <?php else: ?>
+                <p>Сожалеем, но по Вашему запросу ничего не найдено. Пожалуйста уточните поиск с использованием других запросов.</p>
+            <?php endif; ?>
             </div>
             <div class="col-md-4">
                 <!-- Sidebar -->
@@ -101,14 +77,8 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $model->meta_keywords
                     <!-- Recent Posts widget -->
                     <?= RecentPost::widget() ?>
 
-                    <!-- Vk.com Group widget -->
-                    <?= VkGroup::widget() ?>
-
                     <!-- Tag cloud widget -->
                     <?= TagCloud::widget() ?>
-
-                    <!-- Recent Comments widget -->
-                    <?= RecentDisqus::widget() ?>
                 </div>
             </div>
         </div>
@@ -116,4 +86,3 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $model->meta_keywords
 </div>
 
 <!-- Page content ends -->
-<?php endif; ?>

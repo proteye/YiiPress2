@@ -30,16 +30,6 @@ AppAsset::register($this);
         <?php
             $menu_id = 'top-menu';
             $static = [
-                ['label' => 'About', 'url' => ['/core/core-frontend/about']],
-                ['label' => 'Contact', 'url' => ['/core/contact/index']],
-                Yii::$app->user->isGuest ?
-                    ['label' => 'Войти', 'url' => ['/user/user-frontend/login']] :
-                    ['label' => 'Выйти (' . Yii::$app->user->identity->username . ')',
-                        'url' => ['/user/user-frontend/logout'],
-                        'linkOptions' => ['data-method' => 'post']],
-                Yii::$app->user->can('admin') ?
-                    ['label' => 'Администрирование', 'url' => ['/core/core-backend']] :
-                    ['label' => '']
             ];
             NavBar::begin([
                 'brandLabel' => Yii::$app->name,
@@ -68,8 +58,8 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-            <p class="pull-right"><?= Yii::powered() ?></p>
+            <p class="pull-left">&copy; <?= Yii::$app->name ?> <?= date('Y') ?> <?= Html::a('Карта сайта', '/sitemap') ?></p>
+            <p class="pull-right">Powered by <?= Html::a('YiiPress2', 'http://yiipress.ru', ['target' => 'blank']) ?></p>
         </div>
     </footer>
 
