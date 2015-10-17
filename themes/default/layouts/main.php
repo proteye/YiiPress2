@@ -24,8 +24,8 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-
 <?php $this->beginBody() ?>
+
     <div class="wrap">
         <?php
             $menu_id = 'top-menu';
