@@ -22,7 +22,7 @@ class RecentDisqus extends Widget
         ]
         ;
         // Get recent comments
-        $data = file_get_contents("http://landscapeportal.disqus.com/recent_comments_widget.js?num_items={$params['num_items']}&hide_avatars={$params['hide_avatars']}&avatar_size={$params['avatar_size']}&excerpt_length={$params['excerpt_length']}");
+        $data = file_get_contents("http://<disqus_name>.disqus.com/recent_comments_widget.js?num_items={$params['num_items']}&hide_avatars={$params['hide_avatars']}&avatar_size={$params['avatar_size']}&excerpt_length={$params['excerpt_length']}");
 
         // Images
         preg_match_all('/src=\"(.+?)\"/si', $data, $matches);
