@@ -3,7 +3,6 @@ use yii\helpers\Html;
 use app\modules\core\components\YpLinkPager;
 use app\modules\blog\widgets\RecentPost;
 use app\modules\blog\widgets\TagCloud;
-use app\modules\blog\widgets\RecentDisqus;
 use app\modules\core\widgets\SearchPost;
 use app\modules\core\widgets\VkGroup;
 
@@ -106,9 +105,6 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $model->meta_keywords
 
                     <!-- Tag cloud widget -->
                     <?= TagCloud::widget() ?>
-
-                    <!-- Recent Comments widget -->
-                    <?= RecentDisqus::widget() ?>
                 </div>
             </div>
         </div>
