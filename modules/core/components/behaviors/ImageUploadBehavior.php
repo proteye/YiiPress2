@@ -107,8 +107,8 @@ class ImageUploadBehavior extends FileUploadBehavior
         if (@is_file($this->getFilePath($old_filename))) {
             @unlink($this->getFilePath($old_filename));
             /* Delete all thumbs of this image */
-            $arr_filename = explode('.', $old_filename);
-            array_map('unlink', glob($this->thumbDirPath . D_S . $arr_filename[0] . '*'));
+            $filename = substr($old_filename, 0, strrpos($old_filename, '.'));
+            array_map('unlink', glob($this->thumbDirPath . D_S . $filename . '*'));
         }
     }
 
@@ -134,8 +134,10 @@ class ImageUploadBehavior extends FileUploadBehavior
     public function getThumbUrl($width = 160, $height = 120, $quality = 75)
     {
         /* Thumb filename (ex. image_160_120.jpg) */
-        $arr_filename = explode('.', $this->owner->{$this->attributeName});
-        $filename = $arr_filename[0] . "_{$width}_{$height}." . $arr_filename[1];
+        $file = $this->owner->{$this->attributeName};
+        $arr_filename[0] = substr($file, 0, strrpos($file, '.'));
+        $arr_filename[1] = substr($file, strrpos($file, '.'));
+        $filename = $arr_filename[0] . "_{$width}_{$height}" . $arr_filename[1];
 
         if (!@is_file($this->thumbDirPath . D_S . $filename)) {
             /* Check and create target directory */

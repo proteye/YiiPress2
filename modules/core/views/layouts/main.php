@@ -61,6 +61,8 @@ BackendAsset::register($this);
                     [
                         'label' => 'Модули',
                         'items' => [
+                            ['label' => 'Каталог', 'url' => ['/catalog/catalog-backend']],
+                            ['label' => 'Купонатор', 'url' => ['/coupon/coupon-backend']],
                             ['label' => 'Комментарии', 'url' => ['/comment/comment-backend']],
                             ['label' => 'Изображения', 'url' => ['/image/image-backend']],
                         ],
