@@ -108,7 +108,7 @@ class ImageUploadBehavior extends FileUploadBehavior
             @unlink($this->getFilePath($old_filename));
             /* Delete all thumbs of this image */
             $arr_filename = explode('.', $old_filename);
-            array_map('unlink', glob($this->thumbDirPath . DIRECTORY_SEPARATOR . $arr_filename[0] . '*'));
+            array_map('unlink', glob($this->thumbDirPath . D_S . $arr_filename[0] . '*'));
         }
     }
 
@@ -117,7 +117,7 @@ class ImageUploadBehavior extends FileUploadBehavior
      */
     protected function getThumbDirPath()
     {
-        return $this->getUploadPath() . DIRECTORY_SEPARATOR . $this->thumb_path;
+        return $this->getUploadPath() . D_S . $this->thumb_path;
     }
 
     /**
@@ -137,7 +137,7 @@ class ImageUploadBehavior extends FileUploadBehavior
         $arr_filename = explode('.', $this->owner->{$this->attributeName});
         $filename = $arr_filename[0] . "_{$width}_{$height}." . $arr_filename[1];
 
-        if (!@is_file($this->thumbDirPath . DIRECTORY_SEPARATOR . $filename)) {
+        if (!@is_file($this->thumbDirPath . D_S . $filename)) {
             /* Check and create target directory */
             if (!is_dir($this->thumbDirPath)) {
                 mkdir($this->thumbDirPath, 0755, true);
@@ -145,7 +145,7 @@ class ImageUploadBehavior extends FileUploadBehavior
             /* Create thumb */
             if (@is_file($this->filepath)) {
                 Imagine::thumbnail($this->filePath, $width, $height)
-                    ->save($this->thumbDirPath . DIRECTORY_SEPARATOR . $filename, ['quality' => $quality]);
+                    ->save($this->thumbDirPath . D_S . $filename, ['quality' => $quality]);
             }
         }
 

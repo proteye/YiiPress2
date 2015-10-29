@@ -10,7 +10,7 @@ class CoreBackendController extends BackendController
 {
     public function actionIndex()
     {
-        $log_path = Yii::getAlias('@runtime') . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . Coupon::LOG_PATH;
+        $log_path = Yii::getAlias('@runtime') . D_S . 'logs' . D_S . Coupon::LOG_PATH;
         $log_arr = null;
         if (@is_file($log_path)) {
             $fr = fopen($log_path, 'r');
