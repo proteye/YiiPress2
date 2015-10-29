@@ -35,3 +35,5 @@ phpunit.phar
 !/assets/App*
 !/assets/Backend*
 
+# upload folder
+/web/uploads/*
