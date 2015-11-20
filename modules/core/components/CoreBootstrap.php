@@ -32,10 +32,8 @@ class CoreBootstrap implements BootstrapInterface
             */
             $result = Yii::$app->db->createCommand("SELECT param_value FROM {{%setting}} WHERE module_id='core' AND param_key = 'theme'")->queryOne();
             $theme = $result['param_value'];
-            if (!$theme)
-                return false;
         }
-        if (file_exists(Yii::getAlias('@app/themes/') . $theme)) {
+        if ($theme != null && file_exists(Yii::getAlias('@app/themes/') . $theme)) {
             Yii::setAlias('theme', '@app/themes/' . $theme);
             Yii::$app->view->theme = Yii::createObject([
                 'class' => '\yii\base\Theme',
