@@ -1,2 +1,7 @@
 User-agent: *
-Disallow:
+Disallow: /user/login
+Disallow: /user/logout
+Disallow: /user/signup
+Disallow: /search
+Sitemap: http://localhost/sitemap.xml
+Host: localhost
