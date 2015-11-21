@@ -40,6 +40,28 @@ class PageFrontendController extends FrontendController
         ]);
     }
 
+    public function actionIndex2()
+    {
+        Yii::$app->urlManager->addRules(\app\modules\user\Module::rules(), false);
+
+        $model = Page::find()
+            ->where(['slug' => 'index'])
+            ->active()
+            ->one();
+
+        $posts = Post::find()
+            ->active()
+            ->orderBy(['published_at' => SORT_DESC])
+            ->limit(15)
+            ->with('category')
+            ->all();
+
+        return $this->render('/index', [
+            'model' => $model,
+            'posts' => $posts,
+        ]);
+    }
+
     public function actionRoute($url)
     {
         $id = false;
