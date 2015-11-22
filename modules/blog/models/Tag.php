@@ -4,6 +4,7 @@ namespace app\modules\blog\models;
 
 use Yii;
 use app\modules\core\components\behaviors\SluggableBehavior;
+use yii\db\Query;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -97,5 +98,25 @@ class Tag extends \app\modules\core\models\CoreModel
         $tagUrl = Yii::$app->getModule('blog')->tagUrl;
 
         return Yii::$app->request->baseUrl . '/' . $tagUrl . '/' . $this->slug;
+    }
+
+    public function getCount()
+    {
+        $count = (new Query())->from('{{%post_tag}}')->where(['tag_id' => $this->id])->count();
+        return $count;
+    }
+
+    public function getFontSize()
+    {
+        $query = (new Query())->select('(select count(*) from {{%post_tag}} pt1 where pt1.tag_id = pt.tag_id) count')
+            ->from('{{%post_tag}} pt')
+            ->orderBy('count DESC')
+            ->limit(1)
+            ->one();
+        $max = $query['count'];
+        $percent = ($this->count / $max) * 100;
+        $ratio = (22 - 8) / 100;
+        $size = round($percent * $ratio + 8, 2);
+        return $size;
     }
 }
