@@ -166,8 +166,12 @@ class User extends CoreModel implements IdentityInterface
      */
     public function afterLogin($event)
     {
-        $this->userProfile->last_visit = time();
-        return $this->userProfile->save();
+        if ($this->userProfile) {
+            $this->userProfile->last_visit = time();
+            return $this->userProfile->save();
+        }
+
+        return true;
     }
 
     /**
