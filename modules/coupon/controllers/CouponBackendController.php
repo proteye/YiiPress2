@@ -320,10 +320,13 @@ class CouponBackendController extends BackendController
                     }
                     $coupon->begin_dt = $data[$hdr['date_start']];
                     $coupon->end_dt = $data[$hdr['date_end']];
-                    if ($coupon->validate()) {
-                        $coupon->save();
-                        $log_arr[2]++;
-                    }
+                } else {
+                    $coupon->begin_dt = $data[$hdr['date_start']];
+                    $coupon->end_dt = $data[$hdr['date_end']];
+                }
+                if ($coupon->validate()) {
+                    $coupon->save();
+                    $log_arr[2]++;
                 }
                 unset($coupon);
                 unset($couponType);
