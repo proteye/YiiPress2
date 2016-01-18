@@ -4,7 +4,6 @@ namespace app\commands;
 use Yii;
 use yii\console\Controller;
 use yii\helpers\Console;
-use yii\console\Exception;
 use app\modules\coupon\models\Coupon;
 use app\modules\coupon\controllers\CouponBackendController;
 use yii\helpers\Inflector;
