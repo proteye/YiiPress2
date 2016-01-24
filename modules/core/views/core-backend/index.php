@@ -24,3 +24,5 @@
         <?= $log_actionpay[0] ?><br/>
     </p>
 <?php endif; ?>
+
+Ваш IP адрес - <?= Yii::$app->request->userIP ?>
