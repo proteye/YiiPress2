@@ -15,14 +15,14 @@ class CouponsController extends Controller
         echo 'yii coupons/import' . PHP_EOL;
     }
  
-    public function actionImport($url, $folder, $fseek = 0)
+    public function actionImport($url, $folder, $fseek = 0, $offer = 'admitad')
     {
         Inflector::$transliterator = 'Russian-Latin/BGN; NFKD';
         if (Yii::$app->mutex->acquire('coupon-import')) {
             $csv_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . Coupon::CSV_FILE;
             $log_path = Yii::getAlias('@runtime') . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . Coupon::LOG_PATH;
             file_put_contents($csv_path, file_get_contents($url));
-            $result = CouponBackendController::importCsv($csv_path, $fseek);
+            $result = CouponBackendController::importCsv($csv_path, $fseek, $offer);
             if ($result !== true) {
                 Yii::$app->mutex->release('coupon-import');
                 exec('/var/www/' . $folder . '/yii coupons/import \'' . $url . '\' \'' . $folder . '\' ' . $result);
