@@ -39,6 +39,7 @@ use yii\db\Query;
  * @property string $advlink
  * @property string $view_count
  * @property integer $status
+ * @property integer $offer_id
  *
  * @property Coupon[] $coupons
  * @property User $createdBy
@@ -91,7 +92,7 @@ class CouponBrand extends \app\modules\core\models\CoreModel
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['categories', 'default', 'value' => []],
-            [['advcampaign_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'status'], 'integer'],
+            [['advcampaign_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'status', 'offer_id'], 'integer'],
             [['slug', 'name'], 'required'],
             [['description'], 'string'],
             [['slug'], 'string', 'max' => 160],
@@ -99,7 +100,8 @@ class CouponBrand extends \app\modules\core\models\CoreModel
             [['name', 'image', 'image_alt', 'site', 'advlink', 'sec_name', 'title'], 'string', 'max' => 255],
             [['short_description'], 'string', 'max' => 1024],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
-            [['advcampaign_id'], 'unique', 'targetAttribute' => ['advcampaign_id'], 'message' => 'Такой AdvСampaign ID уже существует..'],
+            // [['advcampaign_id'], 'unique', 'targetAttribute' => ['advcampaign_id'], 'message' => 'Такой AdvСampaign ID уже существует..'],
+            // [['offer_id'], 'unique', 'targetAttribute' => ['offer_id'], 'message' => 'Такой Offer ID уже существует..'],
             ['categories', 'safe'],
         ];
     }
@@ -132,6 +134,7 @@ class CouponBrand extends \app\modules\core\models\CoreModel
             'advlink' => 'Партнерская ссылка',
             'view_count' => 'Просмотров',
             'status' => 'Статус',
+            'offer_id' => 'Offer ID',
         ];
     }
 

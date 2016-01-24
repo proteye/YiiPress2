@@ -209,10 +209,13 @@ class CouponBackendController extends BackendController
 
     /**
      * Import CSV file with promocodes
-     * 20 columns
-     * @param $file_csv
+     *
+     * @param $csv_path
+     * @param $fseek
+     * @param string $offer
+     * @return bool|int
      */
-    public static function importCsv($csv_path, $fseek)
+    public static function importCsv($csv_path, $fseek, $offer = 'admitad')
     {
         $log_path = Yii::getAlias('@runtime') . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . Coupon::LOG_PATH;
         $log_temp = sys_get_temp_dir() . DIRECTORY_SEPARATOR . self::LOG_TEMP;
@@ -225,137 +228,295 @@ class CouponBackendController extends BackendController
             }
             fclose($ftemp);
         }
-        if (($fr = fopen($csv_path, 'r')) !== FALSE) {
-            /* Read header */
-            $hdr = null;
-            $data = fgetcsv($fr, 2000, ';');
-            foreach ($data as $key => $val) {
-                $hdr[$val] = $key;
-            }
-            /* Read data */
-            $i = 0;
-            if ($fseek != 0) {
-                fseek($fr, $fseek);
-            }
-            while (($data = fgetcsv($fr, 2000, ';')) !== FALSE) {
-                $i++;
-                /* Category */
-                $category_arr = explode(',', $data[$hdr['categories']]);
-                foreach ($category_arr as $name) {
-                    $category = new Category();
-                    $category->name = $name;
-                    $category->lang = Category::DEFAULT_LANG;
-                    $category->module = Yii::$app->controller->module->id;
-                    if ($category->validate()) {
-                        $category->save();
-                        $log_arr[0]++;
-                    }
+        if ($offer == 'admitad') {
+            /* Admitad */
+            if (($fr = fopen($csv_path, 'r')) !== FALSE) {
+                /* Read header */
+                $hdr = null;
+                $data = fgetcsv($fr, 2000, ';');
+                foreach ($data as $key => $val) {
+                    $hdr[$val] = $key;
                 }
-                /* Brand */
-                $brand = CouponBrand::findOne(['advcampaign_id' => $data[$hdr['advcampaign_id']]]);
-                if ($brand == null) {
-                    $brand = new CouponBrand();
-                    $brand->advcampaign_id = $data[$hdr['advcampaign_id']];
-                    $brand->name = $data[$hdr['advcampaign_name']];
-                    $brand->site = $data[$hdr['site']];
-                    $brand->image_alt = 'Магазин ' . $brand->name;
-                    if ($brand->sec_name == null) {
-                        $brand->sec_name = TranslitHelper::convert($brand->name);
-                    }
-                    /* If Brand is new then download logo image */
-                    if (!isset($brand->id)) {
-                        $file_name = Inflector::slug($brand->name) . substr($data[$hdr['logo']], strrpos($data[$hdr['logo']], '.'));
-                        $file_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $file_name;
-                        file_put_contents($file_path, file_get_contents($data[$hdr['logo']]));
-                        UploadedFile::reset();
-                        $_FILES['brand-logo'] = [
-                            'name' => $file_name,
-                            'type' => mime_content_type($file_path),
-                            'tmp_name' => $file_path,
-                            'error' => 0,
-                            'size' => filesize($file_path),
-                        ];
-                        $brand->image = UploadedFile::getInstanceByName('brand-logo');
-                    }
-                    if ($brand->save()) {
-                        @unlink($file_path);
-                        foreach ($category_arr as $name) {
-                            $category = Category::findOne(['name' => $name]);
-                            if ($category != null) {
-                                $brandCategory = new CouponBrandCategory();
-                                $brandCategory->brand_id = $brand->id;
-                                $brandCategory->category_id = $category->id;
-                                if ($brandCategory->validate())
-                                    $brandCategory->save();
-                            }
+                /* Read data */
+                $i = 0;
+                if ($fseek != 0) {
+                    fseek($fr, $fseek);
+                }
+                while (($data = fgetcsv($fr, 2000, ';')) !== FALSE) {
+                    $i++;
+                    /* Category */
+                    $category_arr = explode(',', $data[$hdr['categories']]);
+                    foreach ($category_arr as $name) {
+                        $category = new Category();
+                        $category->name = $name;
+                        $category->lang = Category::DEFAULT_LANG;
+                        $category->module = Yii::$app->controller->module->id;
+                        if ($category->validate()) {
+                            $category->save();
+                            $log_arr[0]++;
                         }
-                        $log_arr[1]++;
                     }
-                }
-                /* Coupon Type */
-                $type_arr = explode(',', $data[$hdr['types']]);
-                foreach ($type_arr as $name) {
-                    $couponType = new CouponType();
-                    $couponType->name = $name;
-                    if ($couponType->validate())
-                        $couponType->save();
-                }
-                /* Coupon */
-                $coupon = Coupon::findOne(['adv_id' => $data[$hdr['id']]]);
-                if ($coupon == null) {
-                    $coupon = new Coupon();
-                    $coupon->adv_id = $data[$hdr['id']];
-                    $coupon->brand_id = $brand->id;
-                    $coupon->name = $data[$hdr['name']];
-                    $coupon->slug = Coupon::SLUG_PREFIX . '-' . $coupon->adv_id . '-' . Inflector::slug($coupon->name);
-                    $coupon->short_name = $data[$hdr['short_name']];
-                    $coupon->description = $data[$hdr['description']];
-                    $coupon->promocode = ($data[$hdr['species']] == 'promocode') ? $data[$hdr['promocode']] : null;
-                    $coupon->promolink = $data[$hdr['promolink']];
-                    $coupon->gotolink = $data[$hdr['gotolink']];
-                    $couponType = CouponType::findOne(['name' => $type_arr[count($type_arr)-1]]);
-                    if ($couponType != null) {
-                        $coupon->type_id = $couponType->id;
-                        $coupon->discount = $data[$hdr['discount']];
+                    /* Brand */
+                    $brand = CouponBrand::findOne(['advcampaign_id' => $data[$hdr['advcampaign_id']]]);
+                    if ($brand == null) {
+                        $brand = new CouponBrand();
+                        $brand->advcampaign_id = $data[$hdr['advcampaign_id']];
+                        $brand->name = $data[$hdr['advcampaign_name']];
+                        $brand->site = $data[$hdr['site']];
+                        $brand->image_alt = 'Магазин ' . $brand->name;
+                        if ($brand->sec_name == null) {
+                            $brand->sec_name = TranslitHelper::convert($brand->name);
+                        }
+                        /* If Brand is new then download logo image */
+                        if (!isset($brand->id)) {
+                            $file_name = Inflector::slug($brand->name) . substr($data[$hdr['logo']], strrpos($data[$hdr['logo']], '.'));
+                            $file_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $file_name;
+                            file_put_contents($file_path, file_get_contents($data[$hdr['logo']]));
+                            UploadedFile::reset();
+                            $_FILES['brand-logo'] = [
+                                'name' => $file_name,
+                                'type' => mime_content_type($file_path),
+                                'tmp_name' => $file_path,
+                                'error' => 0,
+                                'size' => filesize($file_path),
+                            ];
+                            $brand->image = UploadedFile::getInstanceByName('brand-logo');
+                        }
+                        if ($brand->save()) {
+                            @unlink($file_path);
+                            foreach ($category_arr as $name) {
+                                $category = Category::findOne(['name' => $name]);
+                                if ($category != null) {
+                                    $brandCategory = new CouponBrandCategory();
+                                    $brandCategory->brand_id = $brand->id;
+                                    $brandCategory->category_id = $category->id;
+                                    if ($brandCategory->validate())
+                                        $brandCategory->save();
+                                }
+                            }
+                            $log_arr[1]++;
+                        }
                     }
-                    $coupon->begin_dt = $data[$hdr['date_start']];
-                    $coupon->end_dt = $data[$hdr['date_end']];
-                    if ($coupon->validate()) {
-                        $coupon->save();
-                        $log_arr[2]++;
+                    /* Coupon Type */
+                    $type_arr = explode(',', $data[$hdr['types']]);
+                    foreach ($type_arr as $name) {
+                        $couponType = new CouponType();
+                        $couponType->name = $name;
+                        if ($couponType->validate())
+                            $couponType->save();
                     }
-                } else {
-                    if ($coupon->begin_dt != $data[$hdr['date_start']] || $coupon->end_dt != $data[$hdr['date_end']]) {
+                    /* Coupon */
+                    $coupon = Coupon::findOne(['adv_id' => $data[$hdr['id']]]);
+                    if ($coupon == null) {
+                        $coupon = new Coupon();
+                        $coupon->adv_id = $data[$hdr['id']];
+                        $coupon->brand_id = $brand->id;
+                        $coupon->name = $data[$hdr['name']];
+                        $coupon->slug = Coupon::SLUG_PREFIX . '-' . $coupon->adv_id . '-' . Inflector::slug($coupon->name);
+                        $coupon->short_name = $data[$hdr['short_name']];
+                        $coupon->description = $data[$hdr['description']];
+                        $coupon->promocode = ($data[$hdr['species']] == 'promocode') ? $data[$hdr['promocode']] : null;
+                        $coupon->promolink = $data[$hdr['promolink']];
+                        $coupon->gotolink = $data[$hdr['gotolink']];
+                        $couponType = CouponType::findOne(['name' => $type_arr[count($type_arr) - 1]]);
+                        if ($couponType != null) {
+                            $coupon->type_id = $couponType->id;
+                            $coupon->discount = $data[$hdr['discount']];
+                        }
                         $coupon->begin_dt = $data[$hdr['date_start']];
                         $coupon->end_dt = $data[$hdr['date_end']];
                         if ($coupon->validate()) {
                             $coupon->save();
                             $log_arr[2]++;
                         }
+                    } else {
+                        if ($coupon->begin_dt != $data[$hdr['date_start']] || $coupon->end_dt != $data[$hdr['date_end']]) {
+                            $coupon->begin_dt = $data[$hdr['date_start']];
+                            $coupon->end_dt = $data[$hdr['date_end']];
+                            if ($coupon->validate()) {
+                                $coupon->save();
+                                $log_arr[2]++;
+                            }
+                        }
+                    }
+                    unset($coupon);
+                    unset($couponType);
+                    unset($brand);
+                    unset($category);
+                    if ($i == 500) {
+                        $ftemp = fopen($log_temp, 'w');
+                        fputcsv($ftemp, $log_arr, ';');
+                        fclose($ftemp);
+                        $fseek = ftell($fr);
+                        fclose($fr);
+                        return $fseek;
                     }
                 }
-                unset($coupon);
-                unset($couponType);
-                unset($brand);
-                unset($category);
-                if ($i == 500) {
-                    $ftemp = fopen($log_temp, 'w');
-                    fputcsv($ftemp, $log_arr, ';');
-                    fclose($ftemp);
-                    $fseek = ftell($fr);
-                    fclose($fr);
-                    return $fseek;
-                }
+                fclose($fr);
+                @unlink($csv_path);
+                @unlink($log_temp);
+                $log_content = 'Категорий добавлено - ' . $log_arr[0] . ';';
+                $log_content .= 'Магазинов добавлено - ' . $log_arr[1] . ';';
+                $log_content .= 'Купонов добавлено - ' . $log_arr[2];
+                $flog = fopen($log_path, 'w');
+                fwrite($flog, $log_content);
+                fclose($flog);
             }
-            fclose($fr);
-            @unlink($csv_path);
-            @unlink($log_temp);
-            $log_content = 'Категорий добавлено - ' . $log_arr[0] . ';';
-            $log_content .= 'Магазинов добавлено - ' . $log_arr[1] . ';';
-            $log_content .= 'Купонов добавлено - ' . $log_arr[2];
-            $flog = fopen($log_path, 'w');
-            fwrite($flog, $log_content);
-            fclose($flog);
+        } elseif ($offer == 'actionpay') {
+            /* ActionPay */
+            if (($fr = fopen($csv_path, 'r')) !== FALSE) {
+                /* Read header */
+                $hdr = null;
+                $data = fgetcsv($fr, 2000, ';');
+                foreach ($data as $key => $val) {
+                    $hdr[$val] = $key;
+                }
+                /* Read data */
+                $i = 0;
+                if ($fseek != 0) {
+                    fseek($fr, $fseek);
+                }
+                while (($data = fgetcsv($fr, 2000, ';')) !== FALSE) {
+                    $i++;
+                    /* Category */
+                    $category_arr = explode(',', $data[$hdr['categories']]);
+                    /* Brand */
+                    $offer_link = $data[$hdr['offer_link']];
+                    $pattern = '/http.?:\/\/(.+)[\/]?/i';
+                    preg_match($pattern, $offer_link, $matches);
+                    $site = isset($matches[1]) ? $matches[1] : $offer_link;
+                    $brand = CouponBrand::find()
+                        ->where(['offer_id' => $data[$hdr['offer_id']]])
+                        ->orWhere(['like', 'site', $site])
+                        ->one();
+                    if ($brand == null) {
+                        $brand = new CouponBrand();
+                        $brand->offer_id = $data[$hdr['offer_id']];
+                        $brand->name = $data[$hdr['offer_name']];
+                        $brand->site = $data[$hdr['offer_link']];
+                        $brand->image_alt = 'Магазин ' . $brand->name;
+                        if ($brand->sec_name == null) {
+                            $brand->sec_name = TranslitHelper::convert($brand->name);
+                        }
+                        /* If Brand is new then download logo image */
+                        if (!isset($brand->id)) {
+                            $file_name = Inflector::slug($brand->name) . substr($data[$hdr['logo']], strrpos($data[$hdr['logo']], '.'));
+                            $file_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $file_name;
+                            file_put_contents($file_path, file_get_contents($data[$hdr['logo']]));
+                            UploadedFile::reset();
+                            $_FILES['brand-logo'] = [
+                                'name' => $file_name,
+                                'type' => mime_content_type($file_path),
+                                'tmp_name' => $file_path,
+                                'error' => 0,
+                                'size' => filesize($file_path),
+                            ];
+                            $brand->image = UploadedFile::getInstanceByName('brand-logo');
+                        }
+                        if ($brand->save()) {
+                            @unlink($file_path);
+                            $categories = Category::find()->asArray()->all();
+                            foreach ($category_arr as $name) {
+                                $category_id = null;
+                                $name_arr = explode(' ', $name);
+                                foreach ($name_arr as $nm) {
+                                    if (strlen($nm) > 1) {
+                                        foreach ($categories as $cat) {
+                                            $pattern = '/' . $nm . '/i';
+                                            if (preg_match($pattern, $cat['name'], $matches)) {
+                                                $category_id = $cat['id'];
+                                                break;
+                                            }
+                                        }
+                                        if ($category_id != null) {
+                                            break;
+                                        }
+                                    }
+                                }
+                                if ($category_id != null) {
+                                    $brandCategory = new CouponBrandCategory();
+                                    $brandCategory->brand_id = $brand->id;
+                                    $brandCategory->category_id = $category_id;
+                                    if ($brandCategory->validate()) {
+                                        $brandCategory->save(false);
+                                    }
+                                }
+                            }
+                            $log_arr[1]++;
+                        }
+                    } else {
+                        if ($brand->offer_id == null) {
+                            $brand->offer_id = $data[$hdr['offer_id']];
+                            if ($brand->validate()) {
+                                $brand->save(false);
+                            }
+                        }
+                    }
+                    /* Coupon Type */
+                    $type_arr = explode(',', $data[$hdr['types']]);
+                    foreach ($type_arr as $name) {
+                        $couponType = new CouponType();
+                        $couponType->name = $name;
+                        if ($couponType->validate()) {
+                            $couponType->save(false);
+                        }
+                    }
+                    /* Coupon */
+                    $coupon = Coupon::findOne(['actionpay_id' => $data[$hdr['id']]]);
+                    if ($coupon == null) {
+                        $coupon = new Coupon();
+                        $coupon->actionpay_id = $data[$hdr['id']];
+                        $coupon->brand_id = $brand->id;
+                        $coupon->name = $data[$hdr['title']];
+                        $coupon->slug = Coupon::SLUG_PREFIX . '-' . $coupon->actionpay_id . '-' . Inflector::slug($coupon->name);
+                        $coupon->short_name = $data[$hdr['type_name']];
+                        $coupon->description = $data[$hdr['description']];
+                        $coupon->promocode = $data[$hdr['code']] ? $data[$hdr['code']] : null;
+                        $coupon->promolink = $data[$hdr['link']];
+                        $coupon->gotolink = $data[$hdr['link']];
+                        $couponType = CouponType::findOne(['name' => $type_arr[count($type_arr) - 1]]);
+                        if ($couponType != null) {
+                            $coupon->type_id = $couponType->id;
+                        }
+                        $coupon->begin_dt = $data[$hdr['begin_date']];
+                        $coupon->end_dt = $data[$hdr['end_date']];
+                        if ($coupon->validate()) {
+                            $coupon->save(false);
+                            $log_arr[2]++;
+                        }
+                    } else {
+                        if ($coupon->begin_dt != $data[$hdr['begin_date']] || $coupon->end_dt != $data[$hdr['end_date']]) {
+                            $coupon->begin_dt = $data[$hdr['begin_date']];
+                            $coupon->end_dt = $data[$hdr['end_date']];
+                            if ($coupon->validate()) {
+                                $coupon->save(false);
+                                $log_arr[2]++;
+                            }
+                        }
+                    }
+                    unset($coupon);
+                    unset($couponType);
+                    unset($brand);
+                    unset($category);
+                    if ($i == 500) {
+                        $ftemp = fopen($log_temp, 'w');
+                        fputcsv($ftemp, $log_arr, ';');
+                        fclose($ftemp);
+                        $fseek = ftell($fr);
+                        fclose($fr);
+                        return $fseek;
+                    }
+                }
+                fclose($fr);
+                @unlink($csv_path);
+                @unlink($log_temp);
+                $log_content = 'Категорий добавлено - ' . $log_arr[0] . ';';
+                $log_content .= 'Магазинов добавлено - ' . $log_arr[1] . ';';
+                $log_content .= 'Купонов добавлено - ' . $log_arr[2];
+                $flog = fopen($log_path, 'w');
+                fwrite($flog, $log_content);
+                fclose($flog);
+            }
         }
         return true;
     }

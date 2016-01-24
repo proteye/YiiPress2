@@ -41,6 +41,7 @@ use yii\helpers\Url;
  * @property integer $recommended
  * @property string $view_count
  * @property integer $status
+ * @property integer $actionpay_id
  *
  * @property CouponBrand $brand
  * @property CouponType $type
@@ -92,7 +93,7 @@ class Coupon extends \app\modules\core\models\CoreModel
             ['recommended', 'default', 'value' => self::RECOMMENDED_FALSE],
             ['view_count', 'default', 'value' => 0],
             [['begin_dt', 'end_dt'], 'default', 'value' => null],
-            [['brand_id', 'adv_id', 'type_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'recommended', 'status'], 'integer'],
+            [['brand_id', 'adv_id', 'type_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'view_count', 'recommended', 'status', 'actionpay_id'], 'integer'],
             [['slug', 'name'], 'required'],
             [['slug'], 'string', 'max' => 160],
             [['description'], 'string'],
@@ -101,7 +102,8 @@ class Coupon extends \app\modules\core\models\CoreModel
             [['promocode', 'discount'], 'string', 'max' => 64],
             [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 250],
             [['user_ip'], 'string', 'max' => 20],
-            [['adv_id'], 'unique', 'targetAttribute' => ['adv_id'], 'message' => 'Такой Admitad ID уже существует..'],
+            // [['adv_id'], 'unique', 'targetAttribute' => ['adv_id'], 'message' => 'Такой Admitad ID уже существует..'],
+            // [['actionpay_id'], 'unique', 'targetAttribute' => ['actionpay_id'], 'message' => 'Такой Actionpay ID уже существует..'],
             [['slug'], 'unique', 'targetAttribute' => ['slug'], 'message' => 'Такой Алиас уже существует..'],
         ];
     }
@@ -137,6 +139,7 @@ class Coupon extends \app\modules\core\models\CoreModel
             'recommended' => 'Рекомендуем',
             'view_count' => 'Просмотров',
             'status' => 'Статус',
+            'actionpay_id' => 'Actionpay ID',
         ];
     }
 
