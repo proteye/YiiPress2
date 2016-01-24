@@ -244,6 +244,7 @@ class CouponBackendController extends BackendController
                 }
                 while (($data = fgetcsv($fr, 2000, ';')) !== FALSE) {
                     $i++;
+                    $is_coupon_add = false;
                     /* Category */
                     $category_arr = explode(',', $data[$hdr['categories']]);
                     foreach ($category_arr as $name) {
@@ -259,6 +260,7 @@ class CouponBackendController extends BackendController
                     /* Brand */
                     $brand = CouponBrand::findOne(['advcampaign_id' => $data[$hdr['advcampaign_id']]]);
                     if ($brand == null) {
+                        $is_coupon_add = true;
                         $brand = new CouponBrand();
                         $brand->advcampaign_id = $data[$hdr['advcampaign_id']];
                         $brand->name = $data[$hdr['advcampaign_name']];
@@ -296,47 +298,53 @@ class CouponBackendController extends BackendController
                             }
                             $log_arr[1]++;
                         }
-                    }
-                    /* Coupon Type */
-                    $type_arr = explode(',', $data[$hdr['types']]);
-                    foreach ($type_arr as $name) {
-                        $couponType = new CouponType();
-                        $couponType->name = $name;
-                        if ($couponType->validate())
-                            $couponType->save();
-                    }
-                    /* Coupon */
-                    $coupon = Coupon::findOne(['adv_id' => $data[$hdr['id']]]);
-                    $log_arr[3]++;
-                    if ($coupon == null) {
-                        $coupon = new Coupon();
-                        $coupon->adv_id = $data[$hdr['id']];
-                        $coupon->brand_id = $brand->id;
-                        $coupon->name = $data[$hdr['name']];
-                        $coupon->slug = Coupon::SLUG_PREFIX . '-' . $coupon->adv_id . '-' . Inflector::slug($coupon->name);
-                        $coupon->short_name = $data[$hdr['short_name']];
-                        $coupon->description = $data[$hdr['description']];
-                        $coupon->promocode = ($data[$hdr['species']] == 'promocode') ? $data[$hdr['promocode']] : null;
-                        $coupon->promolink = $data[$hdr['promolink']];
-                        $coupon->gotolink = $data[$hdr['gotolink']];
-                        $couponType = CouponType::findOne(['name' => $type_arr[count($type_arr) - 1]]);
-                        if ($couponType != null) {
-                            $coupon->type_id = $couponType->id;
-                            $coupon->discount = $data[$hdr['discount']];
-                        }
-                        $coupon->begin_dt = $data[$hdr['date_start']];
-                        $coupon->end_dt = $data[$hdr['date_end']];
-                        if ($coupon->validate()) {
-                            $coupon->save();
-                            $log_arr[2]++;
-                        }
                     } else {
-                        if ($coupon->begin_dt != Coupon::getDateToTime($data[$hdr['date_start']]) || $coupon->end_dt != Coupon::getDateToTime($data[$hdr['date_end']])) {
+                        if ($brand->advcampaign_id != null) {
+                            $is_coupon_add = true;
+                        }
+                    }
+                    if ($is_coupon_add === true) {
+                        /* Coupon Type */
+                        $type_arr = explode(',', $data[$hdr['types']]);
+                        foreach ($type_arr as $name) {
+                            $couponType = new CouponType();
+                            $couponType->name = $name;
+                            if ($couponType->validate())
+                                $couponType->save();
+                        }
+                        /* Coupon */
+                        $coupon = Coupon::findOne(['adv_id' => $data[$hdr['id']]]);
+                        $log_arr[3]++;
+                        if ($coupon == null) {
+                            $coupon = new Coupon();
+                            $coupon->adv_id = $data[$hdr['id']];
+                            $coupon->brand_id = $brand->id;
+                            $coupon->name = $data[$hdr['name']];
+                            $coupon->slug = Coupon::SLUG_PREFIX . '-' . $coupon->adv_id . '-' . Inflector::slug($coupon->name);
+                            $coupon->short_name = $data[$hdr['short_name']];
+                            $coupon->description = $data[$hdr['description']];
+                            $coupon->promocode = ($data[$hdr['species']] == 'promocode') ? $data[$hdr['promocode']] : null;
+                            $coupon->promolink = $data[$hdr['promolink']];
+                            $coupon->gotolink = $data[$hdr['gotolink']];
+                            $couponType = CouponType::findOne(['name' => $type_arr[count($type_arr) - 1]]);
+                            if ($couponType != null) {
+                                $coupon->type_id = $couponType->id;
+                                $coupon->discount = $data[$hdr['discount']];
+                            }
                             $coupon->begin_dt = $data[$hdr['date_start']];
                             $coupon->end_dt = $data[$hdr['date_end']];
                             if ($coupon->validate()) {
                                 $coupon->save();
                                 $log_arr[2]++;
+                            }
+                        } else {
+                            if ($coupon->begin_dt != Coupon::getDateToTime($data[$hdr['date_start']]) || $coupon->end_dt != Coupon::getDateToTime($data[$hdr['date_end']])) {
+                                $coupon->begin_dt = $data[$hdr['date_start']];
+                                $coupon->end_dt = $data[$hdr['date_end']];
+                                if ($coupon->validate()) {
+                                    $coupon->save();
+                                    $log_arr[2]++;
+                                }
                             }
                         }
                     }
@@ -380,6 +388,8 @@ class CouponBackendController extends BackendController
                 }
                 while (($data = fgetcsv($fr, 2000, ';')) !== FALSE) {
                     $i++;
+                    $is_coupon_add = false;
+                    $log_arr[3]++;
                     /* Category */
                     $category_arr = explode(',', $data[$hdr['categories']]);
                     /* Brand */
@@ -392,6 +402,7 @@ class CouponBackendController extends BackendController
                         ->orWhere(['like', 'site', $site])
                         ->one();
                     if ($brand == null) {
+                        $is_coupon_add = true;
                         $brand = new CouponBrand();
                         $brand->offer_id = $data[$hdr['offer_id']];
                         $brand->name = $data[$hdr['offer_name']];
@@ -444,56 +455,71 @@ class CouponBackendController extends BackendController
                                     }
                                 }
                             }
+                            if (!isset($brandCategory) && $category_id == null) {
+                                $category = new Category();
+                                $category->name = $category_arr[0];
+                                $category->lang = Category::DEFAULT_LANG;
+                                $category->module = Yii::$app->controller->module->id;
+                                if ($category->validate()) {
+                                    $category->save();
+                                    $log_arr[0]++;
+                                    $brandCategory = new CouponBrandCategory();
+                                    $brandCategory->brand_id = $brand->id;
+                                    $brandCategory->category_id = $category->id;
+                                    if ($brandCategory->validate()) {
+                                        $brandCategory->save(false);
+                                    }
+                                }
+                            }
                             $log_arr[1]++;
                         }
                     } else {
-                        if ($brand->offer_id == null) {
-                            $brand->offer_id = $data[$hdr['offer_id']];
-                            if ($brand->validate()) {
-                                $brand->save(false);
+                        if ($brand->offer_id != null) {
+                            $is_coupon_add = true;
+                        }
+                    }
+                    /* Add coupon when brand is not Admitad */
+                    if ($is_coupon_add === true) {
+                        /* Coupon Type */
+                        $type_arr = explode(',', $data[$hdr['types']]);
+                        foreach ($type_arr as $name) {
+                            $couponType = new CouponType();
+                            $couponType->name = $name;
+                            if ($couponType->validate()) {
+                                $couponType->save(false);
                             }
                         }
-                    }
-                    /* Coupon Type */
-                    $type_arr = explode(',', $data[$hdr['types']]);
-                    foreach ($type_arr as $name) {
-                        $couponType = new CouponType();
-                        $couponType->name = $name;
-                        if ($couponType->validate()) {
-                            $couponType->save(false);
-                        }
-                    }
-                    /* Coupon */
-                    $coupon = Coupon::findOne(['actionpay_id' => $data[$hdr['id']]]);
-                    $log_arr[3]++;
-                    if ($coupon == null) {
-                        $coupon = new Coupon();
-                        $coupon->actionpay_id = $data[$hdr['id']];
-                        $coupon->brand_id = $brand->id;
-                        $coupon->name = $data[$hdr['title']];
-                        $coupon->slug = Coupon::SLUG_PREFIX . '-' . $coupon->actionpay_id . '-' . Inflector::slug($coupon->name);
-                        $coupon->short_name = $data[$hdr['type_name']];
-                        $coupon->description = $data[$hdr['description']];
-                        $coupon->promocode = $data[$hdr['code']] ? $data[$hdr['code']] : null;
-                        $coupon->promolink = $data[$hdr['link']];
-                        $coupon->gotolink = $data[$hdr['link']];
-                        $couponType = CouponType::findOne(['name' => $type_arr[count($type_arr) - 1]]);
-                        if ($couponType != null) {
-                            $coupon->type_id = $couponType->id;
-                        }
-                        $coupon->begin_dt = $data[$hdr['begin_date']];
-                        $coupon->end_dt = $data[$hdr['end_date']];
-                        if ($coupon->validate()) {
-                            $coupon->save(false);
-                            $log_arr[2]++;
-                        }
-                    } else {
-                        if ($coupon->begin_dt != Coupon::getDateToTime($data[$hdr['begin_date']]) || $coupon->end_dt != Coupon::getDateToTime($data[$hdr['end_date']])) {
+                        /* Coupon */
+                        $coupon = Coupon::findOne(['actionpay_id' => $data[$hdr['id']]]);
+                        if ($coupon == null) {
+                            $coupon = new Coupon();
+                            $coupon->actionpay_id = $data[$hdr['id']];
+                            $coupon->brand_id = $brand->id;
+                            $coupon->name = $data[$hdr['title']];
+                            $coupon->slug = Coupon::SLUG_PREFIX . '-' . $coupon->actionpay_id . '-' . Inflector::slug($coupon->name);
+                            $coupon->short_name = $data[$hdr['type_name']];
+                            $coupon->description = $data[$hdr['description']];
+                            $coupon->promocode = $data[$hdr['code']] ? $data[$hdr['code']] : null;
+                            $coupon->promolink = $data[$hdr['link']];
+                            $coupon->gotolink = $data[$hdr['link']];
+                            $couponType = CouponType::findOne(['name' => $type_arr[count($type_arr) - 1]]);
+                            if ($couponType != null) {
+                                $coupon->type_id = $couponType->id;
+                            }
                             $coupon->begin_dt = $data[$hdr['begin_date']];
                             $coupon->end_dt = $data[$hdr['end_date']];
                             if ($coupon->validate()) {
                                 $coupon->save(false);
                                 $log_arr[2]++;
+                            }
+                        } else {
+                            if ($coupon->begin_dt != Coupon::getDateToTime($data[$hdr['begin_date']]) || $coupon->end_dt != Coupon::getDateToTime($data[$hdr['end_date']])) {
+                                $coupon->begin_dt = $data[$hdr['begin_date']];
+                                $coupon->end_dt = $data[$hdr['end_date']];
+                                if ($coupon->validate()) {
+                                    $coupon->save(false);
+                                    $log_arr[2]++;
+                                }
                             }
                         }
                     }
