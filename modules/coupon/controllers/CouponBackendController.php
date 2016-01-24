@@ -215,11 +215,11 @@ class CouponBackendController extends BackendController
      * @param string $offer
      * @return bool|int
      */
-    public static function importCsv($csv_path, $fseek, $offer = 'admitad')
+    public static function importCsv($csv_path, $fseek, $offer = Coupon::OFFER_ADMITAD)
     {
-        $log_path = Yii::getAlias('@runtime') . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . Coupon::LOG_PATH;
+        $log_path = Yii::getAlias('@runtime') . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . $offer . '_' . Coupon::LOG_PATH;
         $log_temp = sys_get_temp_dir() . DIRECTORY_SEPARATOR . self::LOG_TEMP;
-        $log_arr = [0,0,0]; // category, brand, coupon counts
+        $log_arr = [0,0,0,0]; // category, brand, coupons added, coupons count
         if (@is_file($log_temp)) {
             $ftemp = fopen($log_temp, 'r');
             $data = fgetcsv($ftemp, 100, ';');
@@ -228,7 +228,7 @@ class CouponBackendController extends BackendController
             }
             fclose($ftemp);
         }
-        if ($offer == 'admitad') {
+        if ($offer == Coupon::OFFER_ADMITAD) {
             /* Admitad */
             if (($fr = fopen($csv_path, 'r')) !== FALSE) {
                 /* Read header */
@@ -307,6 +307,7 @@ class CouponBackendController extends BackendController
                     }
                     /* Coupon */
                     $coupon = Coupon::findOne(['adv_id' => $data[$hdr['id']]]);
+                    $log_arr[3]++;
                     if ($coupon == null) {
                         $coupon = new Coupon();
                         $coupon->adv_id = $data[$hdr['id']];
@@ -330,7 +331,7 @@ class CouponBackendController extends BackendController
                             $log_arr[2]++;
                         }
                     } else {
-                        if ($coupon->begin_dt != $data[$hdr['date_start']] || $coupon->end_dt != $data[$hdr['date_end']]) {
+                        if ($coupon->begin_dt != Coupon::getDateToTime($data[$hdr['date_start']]) || $coupon->end_dt != Coupon::getDateToTime($data[$hdr['date_end']])) {
                             $coupon->begin_dt = $data[$hdr['date_start']];
                             $coupon->end_dt = $data[$hdr['date_end']];
                             if ($coupon->validate()) {
@@ -357,12 +358,13 @@ class CouponBackendController extends BackendController
                 @unlink($log_temp);
                 $log_content = 'Категорий добавлено - ' . $log_arr[0] . ';';
                 $log_content .= 'Магазинов добавлено - ' . $log_arr[1] . ';';
-                $log_content .= 'Купонов добавлено - ' . $log_arr[2];
+                $log_content .= 'Купонов добавлено - ' . $log_arr[2] . ';';
+                $log_content .= 'Купонов обработано - ' . $log_arr[3];
                 $flog = fopen($log_path, 'w');
                 fwrite($flog, $log_content);
                 fclose($flog);
             }
-        } elseif ($offer == 'actionpay') {
+        } elseif ($offer == Coupon::OFFER_ACTIONPAY) {
             /* ActionPay */
             if (($fr = fopen($csv_path, 'r')) !== FALSE) {
                 /* Read header */
@@ -463,6 +465,7 @@ class CouponBackendController extends BackendController
                     }
                     /* Coupon */
                     $coupon = Coupon::findOne(['actionpay_id' => $data[$hdr['id']]]);
+                    $log_arr[3]++;
                     if ($coupon == null) {
                         $coupon = new Coupon();
                         $coupon->actionpay_id = $data[$hdr['id']];
@@ -485,7 +488,7 @@ class CouponBackendController extends BackendController
                             $log_arr[2]++;
                         }
                     } else {
-                        if ($coupon->begin_dt != $data[$hdr['begin_date']] || $coupon->end_dt != $data[$hdr['end_date']]) {
+                        if ($coupon->begin_dt != Coupon::getDateToTime($data[$hdr['begin_date']]) || $coupon->end_dt != Coupon::getDateToTime($data[$hdr['end_date']])) {
                             $coupon->begin_dt = $data[$hdr['begin_date']];
                             $coupon->end_dt = $data[$hdr['end_date']];
                             if ($coupon->validate()) {
@@ -512,7 +515,8 @@ class CouponBackendController extends BackendController
                 @unlink($log_temp);
                 $log_content = 'Категорий добавлено - ' . $log_arr[0] . ';';
                 $log_content .= 'Магазинов добавлено - ' . $log_arr[1] . ';';
-                $log_content .= 'Купонов добавлено - ' . $log_arr[2];
+                $log_content .= 'Купонов добавлено - ' . $log_arr[2] . ';';
+                $log_content .= 'Купонов обработано - ' . $log_arr[3];
                 $flog = fopen($log_path, 'w');
                 fwrite($flog, $log_content);
                 fclose($flog);

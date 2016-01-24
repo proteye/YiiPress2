@@ -64,6 +64,9 @@ class Coupon extends \app\modules\core\models\CoreModel
     const CSV_FILE = 'file_csv.csv';
     const LOG_PATH = 'coupon_import_csv.log';
 
+    const OFFER_ADMITAD = 'admitad';
+    const OFFER_ACTIONPAY = 'actionpay';
+
     const STATUS_BLOCKED = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_DELETED = 2;
@@ -345,5 +348,14 @@ class Coupon extends \app\modules\core\models\CoreModel
         $description = isset($result[0]) ? trim($result[0], ' \t.,!?') . '.' : $str . '.';
 
         return $this->meta_description ? $this->meta_description : $description;
+    }
+
+    /**
+     * @param $date
+     * @return float|int
+     */
+    public static function getDateToTime($date)
+    {
+        return (is_int($date) || is_float($date)) ? $date : strtotime($date);
     }
 }
