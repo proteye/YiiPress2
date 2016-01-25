@@ -25,7 +25,7 @@ class CouponsController extends Controller
             $result = CouponBackendController::importCsv($csv_path, $fseek, $offer);
             if ($result !== true) {
                 Yii::$app->mutex->release('coupon-import');
-                exec('/var/www/' . $folder . '/yii coupons/import \'' . $url . '\' \'' . $folder . '\' ' . $result);
+                exec('/var/www/' . $folder . '/yii coupons/import \'' . $url . '\' \'' . $folder . '\' ' . $result . ' \'' . $offer . '\'');
                 die();
             }
             if (@is_file($csv_path)) {
