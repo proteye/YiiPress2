@@ -394,9 +394,9 @@ class CouponBackendController extends BackendController
                     $category_arr = explode(',', $data[$hdr['categories']]);
                     /* Brand */
                     $offer_link = $data[$hdr['offer_link']];
-                    $pattern = '/http.?:\/\/(.+)[\/]?/i';
+                    $pattern = '/^https?:\/\/(www\.)?([a-zA-Z0-9\-\.]+)\/?$/i';
                     preg_match($pattern, $offer_link, $matches);
-                    $site = isset($matches[1]) ? $matches[1] : $offer_link;
+                    $site = isset($matches[2]) ? $matches[2] : $offer_link;
                     $brand = CouponBrand::find()
                         ->where(['offer_id' => $data[$hdr['offer_id']]])
                         ->orWhere(['like', 'site', $site])
