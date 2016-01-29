@@ -74,12 +74,14 @@ class CouponFrontendController extends FrontendController
     {
         if ($action === 'new') {
             $model = Coupon::find()
+                ->where(['end_dt' < time()])
                 ->active()
                 ->orderBy(['created_at' => SORT_DESC])
                 ->limit(36)
                 ->all();
         } elseif ($action === 'best') {
             $model = Coupon::find()
+                ->where(['end_dt' < time()])
                 ->active()
                 ->orderBy(['view_count' => SORT_DESC])
                 ->limit(36)
