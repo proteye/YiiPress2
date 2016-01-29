@@ -31,25 +31,25 @@ class CouponFrontendController extends FrontendController
             ->one();
 
         $brands = CouponBrand::getTopBrands();
-
+        /*
         $best = Coupon::find()
             ->where(['>', 'end_dt', time()])
             ->active()
             ->orderBy(['view_count' => SORT_DESC])
             ->limit(9)
             ->all();
-
+        */
         $new = Coupon::find()
             ->where(['>', 'end_dt', time()])
             ->active()
             ->orderBy(['created_at' => SORT_DESC])
-            ->limit(9)
+            ->limit(18)
             ->all();
 
         return $this->render('/index', [
             'page' => $page,
             'brands' => $brands,
-            'best' => $best,
+            // 'best' => $best,
             'new' => $new,
         ]);
     }
