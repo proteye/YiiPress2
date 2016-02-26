@@ -420,9 +420,14 @@ class CouponBrand extends \app\modules\core\models\CoreModel
     public static function getTopBrands($limit = 15, $brand_id = null)
     {
         if ($brand_id == null) {
-            $model = self::find()
-                ->active()
-                ->orderBy(['view_count' => SORT_DESC])
+            $model = (new Query())
+                ->select(['b.*', 'SUM(IF(c.end_dt > unix_timestamp(), 1, 0)) cnt'])
+                ->from('{{%coupon_brand}} b')
+                ->leftJoin('{{%coupon}} c', 'c.brand_id = b.id')
+                ->where(['b.status' => self::STATUS_ACTIVE])
+                ->groupBy('b.id')
+                ->having('cnt > 0')
+                ->orderBy(['b.view_count' => SORT_DESC])
                 ->limit($limit)
                 ->all();
         } else {
