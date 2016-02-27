@@ -53,7 +53,7 @@ class CoreModel extends ActiveRecord
         if (!$filename) {
             return null;
         }
-        return self::getUploadDirUrl($module_id) . '/' . $filename;
+        return self::uploadDirUrl($module_id) . '/' . $filename;
     }
 
     /**
@@ -68,7 +68,7 @@ class CoreModel extends ActiveRecord
         $arr_filename[1] = substr($filename, strrpos($filename, '.'));
         $thumb_filename = $arr_filename[0] . '_' . static::THUMB_WIDTH . '_' . static::THUMB_HEIGHT . $arr_filename[1];
 
-        return self::getThumbDirUrl($module_id) . '/' . $thumb_filename;
+        return self::thumbDirUrl($module_id) . '/' . $thumb_filename;
     }
 }
 
