@@ -443,6 +443,36 @@ class CouponBrand extends \app\modules\core\models\CoreModel
     }
 
     /**
+     * @param int $limit
+     * @param null $brand_id
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function getLastBrands($limit = 10, $brand_id = null)
+    {
+        if ($brand_id == null) {
+            $model = (new Query())
+                ->select(['b.*', 'SUM(IF(c.end_dt > unix_timestamp(), 1, 0)) cnt'])
+                ->from('{{%coupon_brand}} b')
+                ->leftJoin('{{%coupon}} c', 'c.brand_id = b.id')
+                ->where(['b.status' => self::STATUS_ACTIVE])
+                ->groupBy('b.id')
+                ->having('cnt > 0')
+                ->orderBy(['b.created_at' => SORT_DESC])
+                ->limit($limit)
+                ->all();
+        } else {
+            $model = self::find()
+                ->where(['!=', 'id', $brand_id])
+                ->active()
+                ->limit($limit)
+                ->orderBy(['created_at' => SORT_DESC])
+                ->all();
+        }
+
+        return $model;
+    }
+
+    /**
      * @param $brand_id
      * @param int $limit
      * @return mixed
@@ -508,6 +538,9 @@ class CouponBrand extends \app\modules\core\models\CoreModel
         return $this->meta_description ? $this->meta_description : $description;
     }
 
+    /**
+     * @return array
+     */
     public static function getAlphabetBrands()
     {
         $result = [];
