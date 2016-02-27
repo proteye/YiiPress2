@@ -20,7 +20,7 @@ class CoreModel extends ActiveRecord
     /**
      * @return string
      */
-    public static function getUploadDirUrl($module_id, $withHost = true)
+    public static function uploadDirUrl($module_id, $withHost = true)
     {
         $core = Yii::$app->getModule('core');
         $module = Yii::$app->getModule($module_id);
@@ -34,7 +34,7 @@ class CoreModel extends ActiveRecord
     /**
      * @return string
      */
-    public static function getThumbDirUrl($module_id, $withHost = true)
+    public static function thumbDirUrl($module_id, $withHost = true)
     {
         $core = Yii::$app->getModule('core');
         $module = Yii::$app->getModule($module_id);
@@ -48,7 +48,7 @@ class CoreModel extends ActiveRecord
     /**
      * @return string
      */
-    public static function getPhotoUrl($module_id, $filename)
+    public static function photoUrl($module_id, $filename)
     {
         if (!$filename) {
             return null;
@@ -59,7 +59,7 @@ class CoreModel extends ActiveRecord
     /**
      * @return string
      */
-    public static function getThumbUrl($module_id, $filename)
+    public static function thumbUrl($module_id, $filename)
     {
         if (!$filename) {
             return null;
