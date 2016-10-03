@@ -386,9 +386,9 @@ class Post extends \app\modules\core\models\CoreModel
     {
         $adsenseScript = Yii::$app->params['adsenseScripts']['content'];
         $old_content = $this->content;
-        $length = mb_strlen($old_content);
-        $hpos = mb_strrpos($old_content, '<h2>');
-        $lpos = mb_strpos($old_content, '<h2>', ceil($length / 2));
+        $length = mb_strlen($old_content, 'utf-8');
+        $hpos = mb_strrpos($old_content, '<h2>', 'utf-8');
+        $lpos = mb_strpos($old_content, '<h2>', ceil($length / 2),'utf-8');
         if ($hpos !== false || $lpos !== false) {
             if ($hpos === false && $lpos !== false) {
                 $pos = $lpos;
@@ -397,11 +397,21 @@ class Post extends \app\modules\core\models\CoreModel
             } else {
                 $pos = ($hpos < $lpos) ? $hpos : $lpos;
             }
-            $content = substr_replace($old_content, $adsenseScript, $pos, 0);
+            $content = static::mbSubstrReplace($old_content, $adsenseScript, $pos, 0);
         } else {
             $content = $old_content;
         }
 
         return $content;
+    }
+
+    public static function mbSubstrReplace($original, $replacement, $position, $length = 0)
+    {
+        $startString = mb_substr($original, 0, $position, "UTF-8");
+        $endString = mb_substr($original, $position + $length, mb_strlen($original), "UTF-8");
+
+        $out = $startString . $replacement . $endString;
+
+        return $out;
     }
 }
